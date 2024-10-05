@@ -3,6 +3,8 @@ package lando.systems.ld56.assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,6 +21,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.I18NBundle;
 import lando.systems.ld56.Config;
+import lando.systems.ld56.audio.AudioManager;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Assets implements Disposable {
@@ -53,6 +56,11 @@ public class Assets implements Disposable {
         public Animation<TextureRegion> guyJump;
     }
     public Animations animations = new Animations();
+
+    public Sound coin;
+
+    public Music mainTheme;
+    public Music introMusic;
 
     public Assets() {
         this(Load.SYNC);
@@ -91,6 +99,10 @@ public class Assets implements Disposable {
 
             mgr.load("images/pixel.png", Texture.class);
             mgr.load("images/libgdx.png", Texture.class);
+
+            mgr.load("audio/music/intro-music.ogg", Music.class);
+
+            mgr.load("audio/sounds/coin.ogg", Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -137,6 +149,11 @@ public class Assets implements Disposable {
         animations.guyIdle = new Animation<>(0.2f, guyIdle, Animation.PlayMode.LOOP);
         animations.guyRun = new Animation<>(0.1f, guyRun, Animation.PlayMode.LOOP);
         animations.guyJump = new Animation<>(0.1f, guyJump, Animation.PlayMode.NORMAL);
+
+        // Audio
+        introMusic = mgr.get("audio/music/intro-music.ogg", Music.class);
+
+        coin = mgr.get("audio/sounds/coin.ogg", Sound.class);
 
         // initialize static asset classes
         Transition.init();

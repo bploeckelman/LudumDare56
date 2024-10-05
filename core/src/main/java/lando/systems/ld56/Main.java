@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Transition;
+import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.EntityData;
 import lando.systems.ld56.screens.BaseScreen;
 import lando.systems.ld56.screens.GameScreen;
@@ -37,6 +38,7 @@ public class Main extends ApplicationAdapter {
     public static Main game;
 
     public Assets assets;
+    public AudioManager audioManager;
     public TweenManager tween;
     public FrameBuffer frameBuffer;
     public TextureRegion frameBufferRegion;
@@ -64,6 +66,8 @@ public class Main extends ApplicationAdapter {
         Tween.registerAccessor(Vector2.class, new Vector2Accessor());
         Tween.registerAccessor(Vector3.class, new Vector3Accessor());
         Tween.registerAccessor(OrthographicCamera.class, new CameraAccessor());
+
+        audioManager = new AudioManager(assets, tween);
 
         var format = Pixmap.Format.RGBA8888;
         int width = Config.Screen.framebuffer_width;

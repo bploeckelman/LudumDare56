@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
+import lando.systems.ld56.Main;
+import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
 
@@ -27,6 +29,9 @@ public class GameScreen extends BaseScreen {
 
         var inputMux = new InputMultiplexer(input);
         Gdx.input.setInputProcessor(inputMux);
+
+//        audioManager.playMusic(AudioManager.Musics.introMusic);
+
     }
 
     @Override
@@ -113,6 +118,7 @@ public class GameScreen extends BaseScreen {
 
             if (leftMouseDown) {
                 scene.paintGridAt(mouseGridPos.x, mouseGridPos.y);
+//                audioManager.playSound(AudioManager.Sounds.coin, .02f);
                 return true;
             }
             if (rightMouseDown) {
