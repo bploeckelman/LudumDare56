@@ -7,10 +7,14 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
 import lando.systems.ld56.assets.Patches;
+import lando.systems.ld56.particles.ParticleManager;
+import lando.systems.ld56.particles.effects.ParticleEffectParams;
+import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
 import text.formic.Stringf;
@@ -19,8 +23,10 @@ public class GameScreen extends BaseScreen {
 
     Scene scene;
     GridPoint2 mouseGridPos;
+    ParticleManager particles;
 
     public GameScreen() {
+        particles = new ParticleManager(assets);
         int tileSize = 16;
         int initialWidth  = (int) Calc.ceiling(worldCamera.viewportWidth  / tileSize);
         int initialHeight = (int) Calc.ceiling(worldCamera.viewportHeight / tileSize);
@@ -37,6 +43,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void update(float delta) {
         super.update(delta);
+        particles.update(delta);
 
         // update the grid coords that the mouse is currently positioned at
         vec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -47,6 +54,9 @@ public class GameScreen extends BaseScreen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
+        }
+        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            particles.effects.get(ParticleEffectType.LEVEL_UP).spawn(new ParticleEffectParams(new Vector2(Gdx.input.getX(), Gdx.input.getY()), assets.animations.dog.getKeyFrame(0)));
         }
 
         // debug toggles
@@ -83,12 +93,12 @@ public class GameScreen extends BaseScreen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         {
+            particles.draw(batch, ParticleManager.Layer.BACKGROUND);
             scene.render(batch);
-
+            particles.draw(batch, ParticleManager.Layer.FOREGROUND);
             if (Config.Debug.render) {
                 scene.renderDebug(batch, assets.shapes);
             }
-
             assets.font.getData().setScale(1f);
             assets.layout.setText(assets.font, "Game", Color.WHITE, camera.viewportWidth, Align.center, false);
             assets.font.draw(batch, assets.layout, 0, camera.viewportHeight - assets.layout.height);

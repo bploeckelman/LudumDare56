@@ -303,6 +303,18 @@ public class Particle implements Pool.Poolable {
             return this;
         }
 
+        Initializer startPos(Vector2 startPos) {
+            this.xStart = startPos.x;
+            this.yStart = startPos.y;
+            return this;
+        }
+
+        Initializer endPos(Vector2 endPos) {
+            this.xStart = endPos.x;
+            this.yStart = endPos.y;
+            return this;
+        }
+
         Initializer targetPos(float x, float y) {
             this.xTarget = x;
             this.yTarget = y;

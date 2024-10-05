@@ -11,7 +11,7 @@ import lando.systems.ld56.Config;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Transition;
 import lando.systems.ld56.audio.AudioManager;
-import lando.systems.ld56.particles.Particles;
+import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.utils.typinglabel.TypingLabel;
 
 public class IntroScreen extends BaseScreen {
@@ -19,7 +19,7 @@ public class IntroScreen extends BaseScreen {
     Texture backgroundTexture;
     Texture parchmentTexture;
     BitmapFont font;
-    Particles particles;
+    ParticleManager particles;
     String page1 =
         "{COLOR=black}" +
             "Many consider a{GRADIENT=black;gray} King{ENDGRADIENT} the embodiment of{GRADIENT=black;gold} power{ENDGRADIENT}.\n\n" +
@@ -51,7 +51,7 @@ public class IntroScreen extends BaseScreen {
 
         Main.game.audioManager.playMusic(AudioManager.Musics.introMusic);
 
-        particles = new Particles(Main.game.assets);
+        particles = new ParticleManager(Main.game.assets);
 
         typingLabel = new TypingLabel(font, page1, worldCamera.viewportWidth * .2f, worldCamera.viewportHeight * .8f);
         typingLabel.setWidth(Config.Screen.window_width * .7f);
@@ -112,14 +112,14 @@ public class IntroScreen extends BaseScreen {
         batch.setProjectionMatrix(windowCamera.combined);
         batch.begin();
         batch.setColor(1f, 1f, 1f, transitionAlpha);
-        batch.draw(backgroundTexture, 0, 0, windowCamera.viewportWidth, windowCamera.viewportHeight);
+        //batch.draw(backgroundTexture, 0, 0, windowCamera.viewportWidth, windowCamera.viewportHeight);
 
         // Center parchment calculation (adjust offsets if needed)
-        batch.draw(parchmentTexture, windowCamera.viewportWidth * .1f, windowCamera.viewportHeight * .1f, windowCamera.viewportWidth * .9f, windowCamera.viewportHeight * .9f * transitionAlpha);
+        //batch.draw(parchmentTexture, windowCamera.viewportWidth * .1f, windowCamera.viewportHeight * .1f, windowCamera.viewportWidth * .9f, windowCamera.viewportHeight * .9f * transitionAlpha);
 
         typingLabel.render(batch);
 
-        particles.draw(batch, Particles.Layer.FOREGROUND);
+        particles.draw(batch, ParticleManager.Layer.FOREGROUND);
         batch.end();
     }
 
