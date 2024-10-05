@@ -10,10 +10,10 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
-import lando.systems.ld56.Main;
-import lando.systems.ld56.audio.AudioManager;
+import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
+import text.formic.Stringf;
 
 public class GameScreen extends BaseScreen {
 
@@ -38,25 +38,35 @@ public class GameScreen extends BaseScreen {
     public void update(float delta) {
         super.update(delta);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
-        }
-
-        // debug toggles
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) { Config.Debug.general = !Config.Debug.general; }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) { Config.Debug.render = !Config.Debug.render; }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) { Config.Debug.ui = !Config.Debug.ui; }
-
-        var goToEndScreen = false; // TODO: set true based on 'completing' the game, whatever that will mean
-        if (!exitingScreen && goToEndScreen) {
-            exitingScreen = game.setScreen(new EndingScreen());
-        }
-
+        // update the grid coords that the mouse is currently positioned at
         vec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         worldCamera.unproject(vec3);
         var worldGridX = (int) Calc.floor(vec3.x) / scene.grid.tileSize();
         var worldGridY = (int) Calc.floor(vec3.y) / scene.grid.tileSize();
         mouseGridPos.set(worldGridX, worldGridY);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
+
+        // debug toggles
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) { Config.Debug.frame_by_frame = !Config.Debug.frame_by_frame; }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) { Config.Debug.general = !Config.Debug.general; }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) { Config.Debug.render = !Config.Debug.render; }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) { Config.Debug.ui = !Config.Debug.ui; }
+
+        // early out if we're in 'frame by frame' mode, so we can step a frame at a time via keypress
+        // NOTE: the position of this block in this method is important!!!
+        //  ***don't move this*** (and most update code should go below it)
+        var stepFrame = Gdx.input.isKeyJustPressed(Input.Keys.NUM_9);
+        if (Config.Debug.frame_by_frame && !stepFrame) {
+            return;
+        }
+
+        var goToEndScreen = false; // TODO: set true based on 'completing' the game, whatever that will mean
+        if (!exitingScreen && goToEndScreen) {
+            exitingScreen = game.setScreen(new EndingScreen());
+        }
 
         scene.update(delta);
 
@@ -83,6 +93,75 @@ public class GameScreen extends BaseScreen {
             assets.layout.setText(assets.font, "Game", Color.WHITE, camera.viewportWidth, Align.center, false);
             assets.font.draw(batch, assets.layout, 0, camera.viewportHeight - assets.layout.height);
             assets.font.getData().setScale(1f);
+        }
+        batch.end();
+
+        batch.setProjectionMatrix(windowCamera.combined);
+        batch.begin();
+        {
+            if (Config.Debug.shouldShowDebugUi()) {
+                var lines = 0;
+                if (Config.Debug.general) lines++;
+                if (Config.Debug.render) lines++;
+                if (Config.Debug.ui) lines++;
+                if (Config.Debug.logging) lines++;
+                if (Config.Debug.frame_by_frame) lines++;
+
+                var layout = assets.layout;
+                var font = assets.fontChrustySm;
+
+                int margin = 5;
+                int width = (int) windowCamera.viewportWidth / 3;
+                int targetWidth = width - (2 * margin);
+                layout.setText(font, "Debug:", Color.WHITE, targetWidth, Align.left, false);
+                int lineHeight = (int) layout.height;
+                int height = (lineHeight * lines) + (2 * margin);
+
+                int dialogX = margin;
+                int dialogY = (int) worldCamera.viewportHeight - margin - height;
+                int textX = dialogX + margin;
+                int textY = dialogY + lineHeight + margin;
+
+                var patch = Patches.get(Patches.Type.PLAIN_DIM);
+                patch.draw(batch, dialogX, dialogY, width, height);
+
+                String str;
+
+                if (Config.Debug.general) {
+                    str = Stringf.format("General - %s", Config.Debug.general);
+                    layout.setText(font, str, Color.WHITE, targetWidth, Align.left, false);
+                    font.draw(batch, layout, textX, textY);
+                    textY += lineHeight;
+                }
+
+                if (Config.Debug.render) {
+                    str = Stringf.format("Render: %s", Config.Debug.render);
+                    layout.setText(font, str, Color.WHITE, targetWidth, Align.left, false);
+                    font.draw(batch, layout, textX, textY);
+                    textY += lineHeight;
+                }
+
+                if (Config.Debug.ui) {
+                    str = Stringf.format("UI: %s", Config.Debug.ui);
+                    layout.setText(font, str, Color.WHITE, targetWidth, Align.left, false);
+                    font.draw(batch, layout, textX, textY);
+                    textY += lineHeight;
+                }
+
+                if (Config.Debug.logging) {
+                    str = Stringf.format("Logging: %s", Config.Debug.logging);
+                    layout.setText(font, str, Color.WHITE, targetWidth, Align.left, false);
+                    font.draw(batch, layout, textX, textY);
+                    textY += lineHeight;
+                }
+
+                if (Config.Debug.frame_by_frame) {
+                    str = Stringf.format("FrameStep: %s", Config.Debug.frame_by_frame);
+                    layout.setText(font, str, Color.WHITE, targetWidth, Align.left, false);
+                    font.draw(batch, layout, textX, textY);
+                    textY += lineHeight;
+                }
+            }
         }
         batch.end();
     }

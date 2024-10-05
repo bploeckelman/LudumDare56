@@ -156,6 +156,8 @@ public class Assets implements Disposable {
         coin = mgr.get("audio/sounds/coin.ogg", Sound.class);
 
         // initialize static asset classes
+        Icons.init(this);
+        Patches.init(this);
         Transition.init();
 
         initialized = true;
@@ -182,7 +184,7 @@ public class Assets implements Disposable {
         if (!shaderProgram.isCompiled()) {
             Gdx.app.error("LoadShader", "compilation failed:\n" + log);
             throw new GdxRuntimeException("LoadShader: compilation failed:\n" + log);
-        } else if (Config.Debug.shaders) {
+        } else if (Config.Debug.logging) {
             Gdx.app.debug("LoadShader", "ShaderProgram compilation log: " + log);
         }
 
