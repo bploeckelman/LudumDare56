@@ -1,7 +1,6 @@
 package lando.systems.ld56.entities;
 
 import com.badlogic.gdx.utils.Array;
-import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.entities.components.Component;
 
 import java.util.HashMap;
