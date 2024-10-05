@@ -1,14 +1,8 @@
 package lando.systems.ld56.particles;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
-import lando.systems.ld56.Config;
 import lando.systems.ld56.assets.Assets;
-import lando.systems.ld56.utils.Time;
-import lando.systems.ld56.utils.Util;
 
 public class Particles implements Disposable {
 

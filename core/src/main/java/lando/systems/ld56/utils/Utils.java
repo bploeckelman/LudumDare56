@@ -7,7 +7,7 @@ import lando.systems.ld56.Config;
 
 import java.util.List;
 
-public class Util {
+public class Utils {
     public static void log(String tag, String msg) {
         if (!Config.Debug.logging) return;
         Gdx.app.log(tag, msg);
@@ -25,5 +25,28 @@ public class Util {
         }
         var index = MathUtils.random(colors.size() - 1);
         return colors.get(index);
+    }
+
+    public static Color hsvToRgb(float hue, float saturation, float value, Color outColor) {
+        if (outColor == null) outColor = new Color();
+        while (hue < 0) hue += 10f;
+        hue = hue % 1f;
+        int h = (int) (hue * 6);
+        h = h % 6;
+        float f = hue * 6 - h;
+        float p = value * (1 - saturation);
+        float q = value * (1 - f * saturation);
+        float t = value * (1 - (1 - f) * saturation);
+
+        switch (h) {
+            case 0: outColor.set(value, t, p, 1f); break;
+            case 1: outColor.set(q, value, p, 1f); break;
+            case 2: outColor.set(p, value, t, 1f); break;
+            case 3: outColor.set(p, q, value, 1f); break;
+            case 4: outColor.set(t, p, value, 1f); break;
+            case 5: outColor.set(value, p, q, 1f); break;
+            default: Utils.log("HSV->RGB", "Something went wrong when converting from HSV to RGB. Input was " + hue + ", " + saturation + ", " + value);
+        }
+        return outColor;
     }
 }

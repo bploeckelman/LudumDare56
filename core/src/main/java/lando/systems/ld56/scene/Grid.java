@@ -6,7 +6,7 @@ import lando.systems.ld56.Main;
 import lando.systems.ld56.entities.Entity;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.utils.RectangleI;
-import lando.systems.ld56.utils.Util;
+import lando.systems.ld56.utils.Utils;
 import text.formic.Stringf;
 
 public class Grid {
@@ -74,7 +74,7 @@ public class Grid {
 
     public Tile tileAtGridPos(int x, int y) {
         if (x < 0 || y < 0 || x >= width || y >= height) {
-            Util.log("Grid", Stringf.format("tileAtGridPos(%d, %d) coords out of bounds (%d, %d)", x, y, width, height));
+            Utils.log("Grid", Stringf.format("tileAtGridPos(%d, %d) coords out of bounds (%d, %d)", x, y, width, height));
             return null;
         }
 
@@ -86,7 +86,7 @@ public class Grid {
         var right = width * tileSize;
         var top = height * tileSize;
         if (x < 0 || y < 0 || x >= right || y >= top) {
-            Util.log("Grid", Stringf.format("tileAtWorldPos(%d, %d) coords out of bounds (%d, %d)", x, y, right, top));
+            Utils.log("Grid", Stringf.format("tileAtWorldPos(%d, %d) coords out of bounds (%d, %d)", x, y, right, top));
             return null;
         }
 
@@ -98,7 +98,7 @@ public class Grid {
 
     public void set(boolean solid, int x, int y) {
         if (x < 0 || y < 0 || x >= width || y >= height) {
-            Util.log("Grid", Stringf.format("set(%d, %d) coords out of bounds (%d, %d)", x, y, width, height));
+            Utils.log("Grid", Stringf.format("set(%d, %d) coords out of bounds (%d, %d)", x, y, width, height));
             return;
         }
 
@@ -109,7 +109,7 @@ public class Grid {
 
     public void set(boolean solid, int x, int y, int w, int h) {
         if (x < 0 || y < 0 || x + w > width || y + h > height) {
-            Util.log("Grid", Stringf.format("set(%d, %d : %d, %d) coords out of bounds (%d, %d)", x, y, w, h, width, height));
+            Utils.log("Grid", Stringf.format("set(%d, %d : %d, %d) coords out of bounds (%d, %d)", x, y, w, h, width, height));
             return;
         }
 

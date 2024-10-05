@@ -30,6 +30,8 @@
   <!-- NOTE - add things to the reflection cache as needed -->
   <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.entities"/>
   <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.entities.components"/>
+  <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld55.utils.typinglabel.effects" />
+  <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld55.utils.typinglabel.TypingGlyph" />
 
   <!-- You must change this if you rename packages later, or rename GwtLauncher. -->
   <entry-point class="lando.systems.ld56.gwt.GwtLauncher" />
