@@ -37,4 +37,8 @@ public class ParticleEffectParams {
     public ParticleEffectParams(Vector2 startPos, TextureRegion textureRegion) {
         this(ParticleManager.Layer.FOREGROUND, startPos, startPos, textureRegion, 0, 0, Color.WHITE, Color.WHITE, 1, 1, 1, 1);
     }
+
+    public ParticleEffectParams(Vector2 startPos, Vector2 endPos, TextureRegion textureRegion) {
+        this(ParticleManager.Layer.FOREGROUND, startPos, endPos, textureRegion, 0, 0, Color.WHITE, Color.WHITE, 1, 1, 1, 1);
+    }
 }

@@ -56,7 +56,7 @@ public class GameScreen extends BaseScreen {
             Gdx.app.exit();
         }
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            particles.effects.get(ParticleEffectType.LEVEL_UP).spawn(new ParticleEffectParams(new Vector2(Gdx.input.getX(), Gdx.input.getY()), assets.animations.dog.getKeyFrame(0)));
+            particles.effects.get(ParticleEffectType.LEVEL_UP).spawn(new ParticleEffectParams(new Vector2(vec3.x, vec3.y), assets.animations.dog.getKeyFrame(0)));
         }
 
         // debug toggles
