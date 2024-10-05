@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.I18NBundle;
 import lando.systems.ld56.Config;
-import lando.systems.ld56.audio.AudioManager;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Assets implements Disposable {
@@ -54,6 +53,9 @@ public class Assets implements Disposable {
         public Animation<TextureRegion> guyIdle;
         public Animation<TextureRegion> guyRun;
         public Animation<TextureRegion> guyJump;
+        public Animation<TextureRegion> ratIdle;
+        public Animation<TextureRegion> ratWalk;
+        public Animation<TextureRegion> ratBite;
     }
     public Animations animations = new Animations();
 
@@ -149,6 +151,9 @@ public class Assets implements Disposable {
         animations.guyIdle = new Animation<>(0.2f, guyIdle, Animation.PlayMode.LOOP);
         animations.guyRun = new Animation<>(0.1f, guyRun, Animation.PlayMode.LOOP);
         animations.guyJump = new Animation<>(0.1f, guyJump, Animation.PlayMode.NORMAL);
+        animations.ratIdle = new Animation<>(0.2f, atlas.findRegions("creatures/rat/player-rat-idle"), Animation.PlayMode.LOOP);
+        animations.ratWalk = new Animation<>(0.1f, atlas.findRegions("creatures/rat/player-rat-walk"), Animation.PlayMode.LOOP);
+        animations.ratBite = new Animation<>(0.1f, atlas.findRegions("creatures/rat/player-rat-bite"), Animation.PlayMode.NORMAL);
 
         // Audio
         introMusic = mgr.get("audio/music/intro-music.ogg", Music.class);

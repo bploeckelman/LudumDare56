@@ -21,7 +21,7 @@ public class Player extends Entity {
 
     public Player(Assets assets, float x, float y) {
         this.position = new Position(this, x, y);
-        this.animator = new Animator(this, position, assets.animations.guyIdle);
+        this.animator = new Animator(this, position, assets.animations.ratIdle);
         this.animator.defaultScale.scl(2);
         this.collider = new Collider(this, Collider.Type.player, -4, 0, 12, 24);
         this.collider.origin.set(0, 0);

@@ -1,22 +1,31 @@
 package lando.systems.ld56.scene;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.entities.Player;
+import lando.systems.ld56.entities.Structure;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Scene {
 
     public Assets assets;
     public Player player;
+    public Structure structure;
     public Grid grid;
     public Grid.Tile highlightedTile;
+    public TextureRegion background;
+    public OrthographicCamera camera;
 
-    public Scene(Assets assets, int tileSize, int initialWidth, int initialHeight) {
+    public Scene(Assets assets, OrthographicCamera camera, int tileSize, int initialWidth, int initialHeight) {
         this.assets = assets;
+        this.camera = camera;
         this.player = new Player(assets, (initialWidth * tileSize) / 2f, (initialHeight * tileSize) / 2f);
+        this.structure = new Structure(assets, (int) camera.viewportWidth / 2, 0);
         this.grid = new Grid(tileSize, initialWidth, initialHeight);
+        this.background = assets.atlas.findRegions("backgrounds/background-level-1").first();
         this.highlightedTile = null;
 
         var solid = true;
@@ -32,8 +41,20 @@ public class Scene {
         player.update(dt);
     }
 
-    private final Color solidColor = new Color(1, 0, 0, 0.5f);
-    private final Color defaultColor = new Color(1, 1, 1, 0.5f);
+    private final Color solidColor = new Color(1, 0, 0, 0.2f);
+    private final Color defaultColor = new Color(1, 1, 1, 0.2f);
+
+    public void render(SpriteBatch batch) {
+        batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
+        structure.render(batch);
+        gridRender(batch);
+        player.render(batch);
+        highlightedTileRender(batch);
+    }
+
+    public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
+        player.renderDebug(batch, shapes);
+    }
 
     private void gridRender(SpriteBatch batch) {
         var pixel = assets.pixelRegion;
@@ -56,15 +77,6 @@ public class Scene {
         batch.setColor(Color.WHITE);
     }
 
-    public void render(SpriteBatch batch) {
-        gridRender(batch);
-        player.render(batch);
-        highlightedTileRender(batch);
-    }
-
-    public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
-        player.renderDebug(batch, shapes);
-    }
 
     public void paintGridAt(int x, int y) {
         var tile = grid.tileAtGridPos(x, y);

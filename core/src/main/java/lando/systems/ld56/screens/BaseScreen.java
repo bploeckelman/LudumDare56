@@ -34,7 +34,6 @@ public abstract class BaseScreen implements Disposable {
         this.worldCamera = new OrthographicCamera();
         worldCamera.setToOrtho(false, Config.Screen.framebuffer_width, Config.Screen.framebuffer_height);
         worldCamera.update();
-
     }
 
     @Override

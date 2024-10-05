@@ -30,14 +30,13 @@ public class GameScreen extends BaseScreen {
         int tileSize = 16;
         int initialWidth  = (int) Calc.ceiling(worldCamera.viewportWidth  / tileSize);
         int initialHeight = (int) Calc.ceiling(worldCamera.viewportHeight / tileSize);
-        this.scene = new Scene(assets, tileSize, initialWidth, initialHeight);
+        this.scene = new Scene(assets, worldCamera, tileSize, initialWidth, initialHeight);
         this.mouseGridPos = new GridPoint2();
 
         var inputMux = new InputMultiplexer(input);
         Gdx.input.setInputProcessor(inputMux);
 
 //        audioManager.playMusic(AudioManager.Musics.introMusic);
-
     }
 
     @Override
@@ -96,9 +95,11 @@ public class GameScreen extends BaseScreen {
             particles.draw(batch, ParticleManager.Layer.BACKGROUND);
             scene.render(batch);
             particles.draw(batch, ParticleManager.Layer.FOREGROUND);
+
             if (Config.Debug.render) {
                 scene.renderDebug(batch, assets.shapes);
             }
+
             assets.font.getData().setScale(1f);
             assets.layout.setText(assets.font, "Game", Color.WHITE, camera.viewportWidth, Align.center, false);
             assets.font.draw(batch, assets.layout, 0, camera.viewportHeight - assets.layout.height);

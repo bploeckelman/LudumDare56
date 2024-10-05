@@ -86,7 +86,6 @@ public class Main extends ApplicationAdapter {
         if (Config.Debug.start_on_game_screen) {
             startingScreen = new GameScreen();
         }
-        startingScreen = new CreditsScreen();
         setScreen(startingScreen);
     }
 
