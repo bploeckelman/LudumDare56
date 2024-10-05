@@ -21,10 +21,7 @@ import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Transition;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.EntityData;
-import lando.systems.ld56.screens.BaseScreen;
-import lando.systems.ld56.screens.GameScreen;
-import lando.systems.ld56.screens.LaunchScreen;
-import lando.systems.ld56.screens.TitleScreen;
+import lando.systems.ld56.screens.*;
 import lando.systems.ld56.utils.Time;
 import lando.systems.ld56.utils.accessors.CameraAccessor;
 import lando.systems.ld56.utils.accessors.ColorAccessor;
@@ -89,6 +86,7 @@ public class Main extends ApplicationAdapter {
         if (Config.Debug.start_on_game_screen) {
             startingScreen = new GameScreen();
         }
+        startingScreen = new CreditsScreen();
         setScreen(startingScreen);
     }
 
