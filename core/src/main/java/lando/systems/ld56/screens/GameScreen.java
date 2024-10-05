@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
+import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.ParticleEffectParams;
@@ -54,10 +55,6 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            particles.effects.get(ParticleEffectType.LEVEL_UP).spawn(new ParticleEffectParams(new Vector2(vec3.x, vec3.y), assets.animations.dog.getKeyFrame(0)));
-        }
-
         // debug toggles
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) { Config.Debug.frame_by_frame = !Config.Debug.frame_by_frame; }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) { Config.Debug.general = !Config.Debug.general; }
@@ -70,6 +67,12 @@ public class GameScreen extends BaseScreen {
         var stepFrame = Gdx.input.isKeyJustPressed(Input.Keys.NUM_9);
         if (Config.Debug.frame_by_frame && !stepFrame) {
             return;
+        }
+
+        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            var particleEffect = particles.effects.get(ParticleEffectType.LEVEL_UP);
+            var textureRegion = Anims.get(Anims.Type.DOG).getKeyFrame(0);
+            particleEffect.spawn(new ParticleEffectParams(new Vector2(vec3.x, vec3.y), textureRegion));
         }
 
         var goToEndScreen = false; // TODO: set true based on 'completing' the game, whatever that will mean

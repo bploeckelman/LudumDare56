@@ -18,8 +18,9 @@ public class Mover extends Component {
     public float airAccel = 500f;
     public float groundAccel = 200f;
     public float jumpImpulse = 500f;
-    public float maxSpeedX = 200f;
-    public float maxFallSpeed = -300f;
+    public float maxFallSpeedY = -300f;
+    public float maxAirSpeedX = 500f;
+    public float maxGroundSpeedX = 200f;
 
     private final Vector2 remainder = new Vector2();
 
@@ -42,12 +43,8 @@ public class Mover extends Component {
             speed.y += gravity * dt;
         }
 
-        if (Calc.abs(speed.x) > maxSpeedX) {
-            speed.x = Calc.approach(speed.x, Calc.sign(speed.x) * maxSpeedX, dt * 2000);
-        }
-
-        if (speed.y < maxFallSpeed) {
-            speed.y = Calc.approach(speed.y, maxFallSpeed, dt * 2000);
+        if (speed.y < maxFallSpeedY) {
+            speed.y = Calc.approach(speed.y, maxFallSpeedY, dt * 2000);
         }
 
         // calculate how many pixels to move this frame,

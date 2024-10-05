@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.entities.Entity;
 import lando.systems.ld56.utils.Calc;
 
@@ -36,6 +37,12 @@ public class Animator extends Component {
         this.tint = Color.WHITE.cpy();
         this.rotation = 0;
         this.stateTime = 0;
+    }
+
+    public void play(Anims.Type type) {
+        var anim = Anims.get(type);
+        if (anim == null) return;
+        this.animation = anim;
     }
 
     public void update(float dt) {

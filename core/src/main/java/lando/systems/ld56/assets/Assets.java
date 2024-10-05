@@ -8,7 +8,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -47,17 +46,6 @@ public class Assets implements Disposable {
     public Texture gdx;
 
     public TextureRegion pixelRegion;
-
-    public static class Animations {
-        public Animation<TextureRegion> dog;
-        public Animation<TextureRegion> guyIdle;
-        public Animation<TextureRegion> guyRun;
-        public Animation<TextureRegion> guyJump;
-        public Animation<TextureRegion> ratIdle;
-        public Animation<TextureRegion> ratWalk;
-        public Animation<TextureRegion> ratBite;
-    }
-    public Animations animations = new Animations();
 
     public Sound coin;
 
@@ -146,15 +134,6 @@ public class Assets implements Disposable {
             else if (i < 16) guyJump.add(guyFrames[0][i]);
         }
 
-        // build animations
-        animations.dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);
-        animations.guyIdle = new Animation<>(0.2f, guyIdle, Animation.PlayMode.LOOP);
-        animations.guyRun = new Animation<>(0.1f, guyRun, Animation.PlayMode.LOOP);
-        animations.guyJump = new Animation<>(0.1f, guyJump, Animation.PlayMode.NORMAL);
-        animations.ratIdle = new Animation<>(0.2f, atlas.findRegions("creatures/rat/player-rat-idle"), Animation.PlayMode.LOOP);
-        animations.ratWalk = new Animation<>(0.1f, atlas.findRegions("creatures/rat/player-rat-walk"), Animation.PlayMode.LOOP);
-        animations.ratBite = new Animation<>(0.1f, atlas.findRegions("creatures/rat/player-rat-bite"), Animation.PlayMode.NORMAL);
-
         // Audio
         introMusic = mgr.get("audio/music/intro-music.ogg", Music.class);
 
@@ -163,6 +142,7 @@ public class Assets implements Disposable {
         // initialize static asset classes
         Icons.init(this);
         Patches.init(this);
+        Anims.init(this);
         Transition.init();
 
         initialized = true;
