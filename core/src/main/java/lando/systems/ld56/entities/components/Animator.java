@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import lando.systems.ld56.Main;
 import lando.systems.ld56.entities.Entity;
 import lando.systems.ld56.utils.Calc;
 
@@ -28,7 +27,7 @@ public class Animator extends Component {
     }
 
     public Animator(Entity entity, Position position, TextureRegion keyframe) {
-        super(entity);
+        super(entity, Animator.class);
         this.position = position;
         this.animation = null;
         this.keyframe = keyframe;
@@ -37,7 +36,6 @@ public class Animator extends Component {
         this.tint = Color.WHITE.cpy();
         this.rotation = 0;
         this.stateTime = 0;
-        Main.game.entityData.add(this, Animator.class);
     }
 
     public void update(float dt) {

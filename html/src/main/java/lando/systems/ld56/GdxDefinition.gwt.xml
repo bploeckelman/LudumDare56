@@ -7,9 +7,9 @@
   <!-- Reflection includes may be needed for your code or library code. Each value is separated by periods ('.'). -->
   <!-- You can include a full package by not including the name of a type at the end. -->
   <!-- <extend-configuration-property name="gdx.reflect.include" value="fully.qualified.TypeName" /> -->
-  <!-- TODO - add things to the reflection cache as needed
-  <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.???"/>
-  -->
+  <!-- NOTE - add things to the reflection cache as needed -->
+  <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.entities.*"/>
+  <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.entities.components.*"/>
 
   <!-- Rarely, projects may need to include files but do not have access to the complete assets. -->
   <!-- This happens for libraries and shared projects, typically, and the configuration goes in that project. -->

@@ -10,6 +10,7 @@ import lando.systems.ld56.entities.components.Mover;
 import lando.systems.ld56.entities.components.Position;
 import lando.systems.ld56.utils.Calc;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+import text.formic.Stringf;
 
 public class Player extends Entity {
 
@@ -25,6 +26,7 @@ public class Player extends Entity {
         this.collider = new Collider(this, Collider.Type.player, -4, 0, 12, 24);
         this.collider.origin.set(0, 0);
         this.mover = new Mover(this, position, collider);
+        this.mover.speed.y = this.mover.gravity;
     }
 
     public void update(float dt) {
@@ -36,10 +38,6 @@ public class Player extends Entity {
             animator.facing = input;
         }
 
-        var airAccel = 300;
-        var groundAccel = 200;
-        var accel = mover.isOnGround() ? groundAccel : airAccel;
-
         if (input != 0) {
             var inputSign = Calc.sign(input);
             var speedSign = Calc.sign(mover.speed.x);
@@ -49,6 +47,7 @@ public class Player extends Entity {
             }
         }
 
+        var accel = mover.isOnGround() ? mover.groundAccel : mover.airAccel;
         mover.speed.x += input * accel * dt;
 
         mover.update(dt);
@@ -61,5 +60,9 @@ public class Player extends Entity {
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
         collider.render(shapes);
+    }
+
+    public String debugString() {
+        return Stringf.format("Player: pos(%.1f, %.1f) spd(%.1f, %.1f)", position.x(), position.y(), mover.speed.x, mover.speed.y);
     }
 }

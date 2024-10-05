@@ -1,7 +1,6 @@
 package lando.systems.ld56.entities.components;
 
 import com.badlogic.gdx.math.Vector2;
-import lando.systems.ld56.Main;
 import lando.systems.ld56.entities.Entity;
 
 public class Position extends Component {
@@ -9,9 +8,8 @@ public class Position extends Component {
     public final Vector2 value = new Vector2();
 
     public Position(Entity entity, float x, float y) {
-        super(entity);
+        super(entity, Position.class);
         this.value.set(x, y);
-        Main.game.entityData.add(this, Position.class);
     }
 
     public float x() {

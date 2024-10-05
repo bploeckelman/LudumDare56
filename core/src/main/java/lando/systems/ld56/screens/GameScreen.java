@@ -37,7 +37,12 @@ public class GameScreen extends BaseScreen {
             Gdx.app.exit();
         }
 
-        var goToEndScreen = false;
+        // debug toggles
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) { Config.Debug.general = !Config.Debug.general; }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) { Config.Debug.render = !Config.Debug.render; }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) { Config.Debug.ui = !Config.Debug.ui; }
+
+        var goToEndScreen = false; // TODO: set true based on 'completing' the game, whatever that will mean
         if (!exitingScreen && goToEndScreen) {
             exitingScreen = game.setScreen(new EndingScreen());
         }
@@ -50,7 +55,9 @@ public class GameScreen extends BaseScreen {
 
         scene.update(delta);
 
-//        Gdx.app.log("player speed", "" + scene.player.mover.speed.x);
+        if (Config.Debug.general) {
+            Gdx.app.log("debug", scene.player.debugString());
+        }
     }
 
     @Override

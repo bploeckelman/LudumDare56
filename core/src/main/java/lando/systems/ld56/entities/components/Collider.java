@@ -19,11 +19,10 @@ public class Collider extends Component {
     private final RectangleI rect2 = new RectangleI();
 
     public Collider(Entity entity, Type type, int x, int y, int width, int height) {
-        super(entity);
+        super(entity, Collider.class);
         this.type = type;
         this.rect = new RectangleI(x, y, width, height);
         this.origin = new GridPoint2(0, 0);
-        Main.game.entityData.add(this, Collider.class);
     }
 
     public void render(ShapeDrawer shapes) {

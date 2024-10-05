@@ -2,7 +2,6 @@ package lando.systems.ld56.entities.components;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import lando.systems.ld56.Main;
 import lando.systems.ld56.entities.Entity;
 import lando.systems.ld56.utils.Calc;
 
@@ -12,8 +11,15 @@ public class Mover extends Component {
     public Collider collider;
 
     public Vector2 speed = new Vector2();
-    public float gravity = -20;
-    public float friction = 0.8f;
+
+    // constants
+    public float friction = 50f;
+    public float gravity = -100f;
+    public float airAccel = 500f;
+    public float groundAccel = 200f;
+    public float jumpImpulse = 500f;
+    public float maxSpeedX = 200f;
+    public float maxFallSpeed = -300f;
 
     private final Vector2 remainder = new Vector2();
 
@@ -22,14 +28,12 @@ public class Mover extends Component {
     }
 
     public Mover(Entity entity, Position position, Collider collider) {
-        super(entity);
+        super(entity, Mover.class);
         this.position = position;
         this.collider = collider;
-        Main.game.entityData.add(this, Mover.class);
     }
 
     public void update(float dt) {
-        // TODO: check for ground contact
         if (friction > 0 && isOnGround()) {
             speed.x = Calc.approach(speed.x, 0, friction * dt);
         }
@@ -38,9 +42,12 @@ public class Mover extends Component {
             speed.y += gravity * dt;
         }
 
-        var maxSpeed = 180;
-        if (Calc.abs(speed.x) > maxSpeed) {
-            speed.x = Calc.approach(speed.x, Calc.sign(speed.x) * maxSpeed, dt * 2000);
+        if (Calc.abs(speed.x) > maxSpeedX) {
+            speed.x = Calc.approach(speed.x, Calc.sign(speed.x) * maxSpeedX, dt * 2000);
+        }
+
+        if (speed.y < maxFallSpeed) {
+            speed.y = Calc.approach(speed.y, maxFallSpeed, dt * 2000);
         }
 
         // calculate how many pixels to move this frame,
