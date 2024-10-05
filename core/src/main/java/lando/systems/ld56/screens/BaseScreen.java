@@ -3,6 +3,7 @@ package lando.systems.ld56.screens;
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import lando.systems.ld56.Config;
 import lando.systems.ld56.Main;
@@ -18,6 +19,7 @@ public abstract class BaseScreen implements Disposable {
 
     public OrthographicCamera worldCamera;
     public boolean exitingScreen = false;
+    public Vector3 vec3 = new Vector3();
 
     public BaseScreen() {
         this.game = Main.game;

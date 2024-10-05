@@ -7,8 +7,11 @@ public class Config {
     public static class Debug {
         public static boolean general = false;
         public static boolean shaders = false;
+        public static boolean logging = false;
+        public static boolean render = true;
         public static boolean ui = false;
-        public static boolean show_launch_screen = true;
+        public static boolean show_launch_screen = false;
+        public static boolean start_on_game_screen = true;
     }
 
     public static class Screen {

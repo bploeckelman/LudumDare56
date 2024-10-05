@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.I18NBundle;
@@ -43,6 +45,14 @@ public class Assets implements Disposable {
     public Texture gdx;
 
     public TextureRegion pixelRegion;
+
+    public static class Animations {
+        public Animation<TextureRegion> dog;
+        public Animation<TextureRegion> guyIdle;
+        public Animation<TextureRegion> guyRun;
+        public Animation<TextureRegion> guyJump;
+    }
+    public Animations animations = new Animations();
 
     public Assets() {
         this(Load.SYNC);
@@ -111,6 +121,22 @@ public class Assets implements Disposable {
         font.setUseIntegerPositions(false);
 
         // get texture regions from atlas...
+        var guy = atlas.findRegion("misc/guy");
+        var guyFrames = guy.split(16, 16);
+        var guyIdle = new Array<TextureRegion>(); // 3
+        var guyRun = new Array<TextureRegion>(); // 7
+        var guyJump = new Array<TextureRegion>(); // 6
+        for (int i = 0; i < guyFrames[0].length; i++) {
+            if      (i < 3)  guyIdle.add(guyFrames[0][i]);
+            else if (i < 10) guyRun.add(guyFrames[0][i]);
+            else if (i < 16) guyJump.add(guyFrames[0][i]);
+        }
+
+        // build animations
+        animations.dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);
+        animations.guyIdle = new Animation<>(0.2f, guyIdle, Animation.PlayMode.LOOP);
+        animations.guyRun = new Animation<>(0.1f, guyRun, Animation.PlayMode.LOOP);
+        animations.guyJump = new Animation<>(0.1f, guyJump, Animation.PlayMode.NORMAL);
 
         // initialize static asset classes
         Transition.init();

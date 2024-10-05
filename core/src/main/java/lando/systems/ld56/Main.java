@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -18,7 +19,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Transition;
+import lando.systems.ld56.entities.EntityData;
 import lando.systems.ld56.screens.BaseScreen;
+import lando.systems.ld56.screens.GameScreen;
 import lando.systems.ld56.screens.LaunchScreen;
 import lando.systems.ld56.screens.TitleScreen;
 import lando.systems.ld56.utils.Time;
@@ -38,6 +41,7 @@ public class Main extends ApplicationAdapter {
     public FrameBuffer frameBuffer;
     public TextureRegion frameBufferRegion;
     public OrthographicCamera windowCamera;
+    public EntityData entityData;
 
     public BaseScreen currentScreen;
 
@@ -50,6 +54,7 @@ public class Main extends ApplicationAdapter {
         Time.init();
 
         assets = new Assets();
+        entityData = new EntityData();
 
         tween = new TweenManager();
         Tween.setWaypointsLimit(4);
@@ -77,6 +82,9 @@ public class Main extends ApplicationAdapter {
 
         var showLaunchScreen = (Gdx.app.getType() == Application.ApplicationType.WebGL || Config.Debug.show_launch_screen);
         var startingScreen = showLaunchScreen ? new LaunchScreen() : new TitleScreen();
+        if (Config.Debug.start_on_game_screen) {
+            startingScreen = new GameScreen();
+        }
         setScreen(startingScreen);
     }
 
