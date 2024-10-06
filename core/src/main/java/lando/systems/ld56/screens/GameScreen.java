@@ -47,8 +47,8 @@ public class GameScreen extends BaseScreen {
         // update the grid coords that the mouse is currently positioned at
         vec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         worldCamera.unproject(vec3);
-        var worldGridX = (int) Calc.floor(vec3.x) / scene.levelMap.collider.grid.tileSize;
-        var worldGridY = (int) Calc.floor(vec3.y) / scene.levelMap.collider.grid.tileSize;
+        var worldGridX = (int) Calc.floor(vec3.x) / scene.levelMap.solidCollider.grid.tileSize;
+        var worldGridY = (int) Calc.floor(vec3.y) / scene.levelMap.solidCollider.grid.tileSize;
         mouseGridPos.set(worldGridX, worldGridY);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {

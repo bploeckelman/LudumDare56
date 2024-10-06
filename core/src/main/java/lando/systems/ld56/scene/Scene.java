@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import lando.systems.ld56.assets.Anims;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.entities.LevelMap;
 import lando.systems.ld56.entities.Npc;
@@ -37,18 +37,12 @@ public class Scene {
         this.structure = new Structure(assets, (int) camera.viewportWidth / 2, 0);
         this.background = assets.atlas.findRegions("backgrounds/background-level-1").first();
 
-        var solid = true;
-        int w = levelMap.collider.grid.cols - 1;
-        int h = levelMap.collider.grid.rows - 1;
-        levelMap.collider.setGridTilesSolid(0, 0, w, 1, solid);
-        levelMap.collider.setGridTilesSolid(0, 0, 1, h, solid);
-        levelMap.collider.setGridTilesSolid(0, h, w, 1, solid);
-        levelMap.collider.setGridTilesSolid(w, 0, 1, h, solid);
+        levelMap.setBorderSolid();
+        levelMap.setClimbable(structure);
 
         testXRays = new Array<>();
         testXRays.add(new TestXRay(new Rectangle(200, 30, 300, 300), camera));
         testXRays.add(new TestXRay(new Rectangle(800, 30, 400, 400), camera));
-
     }
 
     public void update(float dt) {
@@ -85,7 +79,7 @@ public class Scene {
 
     public void paintGridAt(int x, int y) {
         var solid = true;
-        levelMap.collider.setGridTileSolid(x, y, solid);
+        levelMap.solidCollider.setGridTileSolid(x, y, solid);
 
         // temp
         structure.damage(player, Gdx.input.getX(), (int)camera.viewportHeight - Gdx.input.getY());
@@ -93,6 +87,6 @@ public class Scene {
 
     public void eraseGridAt(int x, int y) {
         var solid = false;
-        levelMap.collider.setGridTileSolid(x, y, solid);
+        levelMap.solidCollider.setGridTileSolid(x, y, solid);
     }
 }

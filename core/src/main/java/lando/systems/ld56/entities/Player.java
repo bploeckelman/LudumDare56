@@ -3,6 +3,7 @@ package lando.systems.ld56.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.GridPoint2;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.entities.components.Animator;
@@ -24,9 +25,11 @@ public class Player extends Entity {
 
     private State state = State.NORMAL;
     private boolean wasOnGround = false;
+    private boolean climbing = false;
     private float jumpHoldTimer = 0;
 
     private final float jumpHoldDuration = 0.15f;
+    private final GridPoint2 offset = new GridPoint2(0, 0);
 
     // the amount of damage this player does
     public float damage = 0.4f;
@@ -84,8 +87,12 @@ public class Player extends Entity {
                 // horizontal movement
                 {
                     // apply acceleration based on input
-                    var accel = isOnGround ? mover.groundAccel : mover.airAccel;
-                    mover.speed.x += inputMoveDirX * accel * dt;
+                    if (!climbing) {
+                        var accel = (isOnGround && !climbing) ? mover.groundAccel : mover.airAccel;
+                        mover.speed.x += inputMoveDirX * accel * dt;
+                    } else {
+                        mover.stopX();
+                    }
 
                     // cap movement speed at a maximum by lerping hard towards the max if we're over it
                     if (Calc.abs(mover.speed.x) > mover.maxGroundSpeedX) {
@@ -93,7 +100,7 @@ public class Player extends Entity {
                     }
 
                     // apply friction
-                    if (inputMoveDirX == 0 && isOnGround) {
+                    if (inputMoveDirX == 0 && isOnGround && !climbing) {
                         mover.speed.x  = Calc.approach(mover.speed.x, 0, mover.friction * dt);
                     }
 
@@ -105,6 +112,12 @@ public class Player extends Entity {
 
                 // vertical movement
                 {
+                    // stop climbing
+                    if (climbing && jumpJustPressed) {
+                        climbing = false;
+                        mover.gravity = mover.gravityDefault;
+                    }
+
                     // trigger a jump
                     if (jumpJustPressed && isOnGround) {
                         // start jumping
@@ -118,7 +131,13 @@ public class Player extends Entity {
                         mover.speed.x = inputMoveDirX * mover.maxAirSpeedX;
                     }
 
-                    // TODO(brian): trigger a climb
+                    // trigger a climb
+                    var canClimb = collider.check(offset.set(-1, 0), Collider.Type.climbable)
+                                || collider.check(offset.set(+1, 0), Collider.Type.climbable);
+                    if (climbHeld && canClimb) {
+                        climbing = true;
+                        mover.gravity = 0;
+                    }
                 }
 
                 // TODO(brian): handle attack input... other input handling?
@@ -136,6 +155,16 @@ public class Player extends Entity {
             mover.speed.y = mover.jumpImpulse;
             if (!jumpHeld) {
                 jumpHoldTimer = 0;
+            }
+        }
+
+        // climbing movement
+        if (climbing) {
+            // TODO(brian): check for reached top
+            if (climbHeld) {
+                mover.speed.y = mover.climbSpeed;
+            } else {
+                mover.stopY();
             }
         }
 

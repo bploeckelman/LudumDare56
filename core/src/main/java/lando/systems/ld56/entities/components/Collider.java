@@ -12,7 +12,7 @@ import text.formic.Stringf;
 
 public class Collider extends Component {
 
-    public enum Type {solid, player}
+    public enum Type {solid, climbable, player}
     public enum Shape {rect, grid}
 
     public final GridPoint2 origin;
@@ -127,8 +127,8 @@ public class Collider extends Component {
     }
 
     public Collider setGridTilesClimbable(int x, int y, int w, int h, boolean climbable) {
-        for (int iy = y; iy <= y + h; iy++) {
-            for (int ix = x; ix <= x + w; ix++) {
+        for (int iy = y; iy < y + h; iy++) {
+            for (int ix = x; ix < x + w; ix++) {
                 var tile = getGridTile(ix, iy);
                 if (tile == null) continue;
                 tile.climbable = climbable;
@@ -137,12 +137,12 @@ public class Collider extends Component {
         return this;
     }
 
-    public boolean check(Type type, GridPoint2 offset) {
+    public boolean check(GridPoint2 offset, Type type) {
         var colliders = Main.game.entityData.getComponents(Collider.class);
         for (var collider : colliders) {
             if (collider == this) continue;
             if (collider.type != type) continue;
-            var isOverlapping = overlaps(collider, offset);
+            var isOverlapping = overlaps(collider, offset, type);
             if (isOverlapping) {
                 return true;
             }
@@ -150,16 +150,16 @@ public class Collider extends Component {
         return false;
     }
 
-    public boolean overlaps(Collider other, GridPoint2 offset) {
+    public boolean overlaps(Collider other, GridPoint2 offset, Type type) {
         if (shape == Shape.rect) {
             if (other.shape == Shape.rect) {
                 return overlapsRectRect(this, other, offset);
             } else if (other.shape == Shape.grid) {
-                return overlapsRectGrid(this, other, offset);
+                return overlapsRectGrid(this, other, offset, type);
             }
         } else if (shape == Shape.grid) {
             if (other.shape == Shape.rect) {
-                return overlapsRectGrid(other, this, offset);
+                return overlapsRectGrid(other, this, offset, type);
             } else if (other.shape == Shape.grid) {
                 Utils.log("Collider", "Grid/Grid overlap check unsupported");
             }
@@ -189,7 +189,7 @@ public class Collider extends Component {
         return rectA.overlaps(rectB);
     }
 
-    public boolean overlapsRectGrid(Collider a, Collider b, GridPoint2 offset) {
+    public boolean overlapsRectGrid(Collider a, Collider b, GridPoint2 offset, Type type) {
         var entityData = Main.game.entityData;
 
         pointA.set(0, 0);
@@ -215,7 +215,10 @@ public class Collider extends Component {
             for (int y = bottom; y <= top; y++) {
                 var tile = b.getGridTile(x, y);
                 if (tile == null) continue;
-                if (tile.solid) {
+                if (tile.solid && type == Type.solid) {
+                    return true;
+                }
+                if (tile.climbable && type == Type.climbable) {
                     return true;
                 }
             }

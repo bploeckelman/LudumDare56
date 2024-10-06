@@ -15,8 +15,10 @@ public class Mover extends Component {
     // constants
     public float friction = 500f;
     public float gravity = -200f;
+    public float gravityDefault = -200f;
     public float airAccel = 500f;
     public float groundAccel = 1000f;
+    public float climbSpeed = 100f;
     public float jumpImpulse = 300f;
     public float maxFallSpeedY = -600f;
     public float maxAirSpeedX = 500f;
@@ -70,7 +72,7 @@ public class Mover extends Component {
 
             while (amount != 0) {
                 offset.set(sign, 0);
-                var isSolid = collider.check(Collider.Type.solid, offset);
+                var isSolid = collider.check(offset, Collider.Type.solid);
                 if (isSolid) {
                     stopX();
                     return true;
@@ -92,7 +94,7 @@ public class Mover extends Component {
 
             while (amount != 0) {
                 offset.set(0, sign);
-                var isSolid = collider.check(Collider.Type.solid, offset);
+                var isSolid = collider.check(offset, Collider.Type.solid);
                 if (isSolid) {
                     stopY();
                     return true;
@@ -121,6 +123,6 @@ public class Mover extends Component {
         }
 
         // look one pixel below, if it's solid then we're on the ground
-        return collider.check(Collider.Type.solid, offset.set(0, -1));
+        return collider.check(offset.set(0, -1), Collider.Type.solid);
     }
 }
