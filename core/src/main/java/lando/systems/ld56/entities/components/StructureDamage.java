@@ -58,16 +58,23 @@ public class StructureDamage {
         return true;
     }
 
+    private Color damageColor = new Color(Color.RED);
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
         float dy = (float)bounds.getY();
         for (int y = 0; y < rows; y++) {
             float dx = (float)bounds.getX();
             for (int x = 0; x < columns; x++) {
-                int thickness = (int)this.damage[x][y];
-                shapes.rectangle(dx, dy, tileWidth, tileHeight, Color.GOLD, thickness);
+                float tileDamage = this.damage[x][y];
+                if (tileDamage > 0f) {
+                    shapes.rectangle(dx, dy, tileWidth, tileHeight, Color.GOLD, 1);
+                    batch.setColor(damageColor.set(1, 0, 0, Calc.clampf(tileDamage, 0, 1)));
+                    batch.draw(Main.game.assets.pixel, dx, dy, tileWidth, tileHeight);
+                }
                 dx += tileWidth;
             }
             dy += tileHeight;
         }
+
+        batch.setColor(Color.WHITE);
     }
 }
