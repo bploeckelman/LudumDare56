@@ -21,16 +21,17 @@ public class IntroScreen extends BaseScreen {
     BitmapFont font;
     ParticleManager particles;
     String page1 =
-        "{COLOR=white}" +
-            "Food additives, micro plastics, and pesticides have mutated the once innocuous, productive creatures of the land\n\n"+
-            "They now seek vengeance against their polluting overlords \n\n";
+        "{COLOR=red}" +
+            "Food additives, micro plastics, and pesticides have mutated the once innocuous creatures of the land\n\n"+
+            "They now seek vengeance against their polluting oppressors \n\n";
 
     String page2 =
-        "Exact revenge! Raze their buildings, let nothing stand in your way. ";
+        "{COLOR=red}" +
+            "Exact revenge! Raze their buildings, exter{GRADIENT=black;gray}mini{ENDGRADIENT}ate them!";
     String page3 =
-        "Stuff to look for? Bath tubs with humans to eat?\n\n"+
-        "Food: roast chicken and fruit\n\n"+
-        "Photographer - stuns, bombs, electrical appliances";
+        "{COLOR=red}" +
+            "Food: roast chicken and fruit\n\n"+
+            "Photographer - stuns, bombs, electrical appliances";
 
     int currentPage = 0;
     float elapsedTime = 0f;
@@ -40,7 +41,7 @@ public class IntroScreen extends BaseScreen {
     public IntroScreen() {
 //        backgroundTexture = assets.introBackground;
 //        parchmentTexture = assets.parchment;
-        font = Main.game.assets.fontChrustySm;
+        font = Main.game.assets.fontChrustyMd;
 
         Main.game.audioManager.playMusic(AudioManager.Musics.introMusic);
 

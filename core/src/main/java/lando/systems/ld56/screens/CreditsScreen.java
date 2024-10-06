@@ -36,9 +36,9 @@ public class CreditsScreen extends BaseScreen {
     private final String theme = "{GRADIENT=purple;cyan}Made for Ludum Dare 56: Tiny Creatures{ENDGRADIENT}";
 
     private final String thanks = "{GRADIENT=purple;cyan}Thank you for playing our game!{ENDGRADIENT}";
-    private final String developers = "{COLOR=gray}Developed by:{COLOR=white}\n {GRADIENT=white;gray}Brian Ploeckelman{ENDGRADIENT} \n {GRADIENT=white;gray}Doug Graham{ENDGRADIENT} \n {GRADIENT=white;gray}Brian Rossman{ENDGRADIENT} \n {GRADIENT=white;gray}Jeffrey Hwang{ENDGRADIENT} \n {GRADIENT=white;gray}Luke Bain{ENDGRADIENT}";
+    private final String developers = "{COLOR=gray}Developed by:{COLOR=white}\n {GRADIENT=white;gray}Brian Ploeckelman{ENDGRADIENT}\n {GRADIENT=white;gray}Doug Graham{ENDGRADIENT}\n {GRADIENT=white;gray}Brian Rossman{ENDGRADIENT}\n {GRADIENT=white;gray}Jeffrey Hwang{ENDGRADIENT}\n {GRADIENT=white;gray}Luke Bain{ENDGRADIENT}";
     private final String artists = "{COLOR=gray}Art by:{COLOR=white}\n {GRADIENT=white;gray}Matt Neumann{ENDGRADIENT}\n {GRADIENT=white;gray}Luke Bain{ENDGRADIENT}\n";
-    private final String emotionalSupport = "{COLOR=cyan}Emotional Support:{COLOR=white}\n  Asuka, Osha, Cherry \n       Obi, and Yoda";
+    private final String emotionalSupport = "{COLOR=cyan}Emotional Support:{COLOR=white}\n Asuka, Osha, Cherry, \n Obi, Yoda, Nova, and Roxie";
     private final String music = "{COLOR=gray}Music and Writing:{COLOR=white}\n {GRADIENT=white;gray}Pete Valeo{ENDGRADIENT}\n";
     private final String libgdx = "Made with {COLOR=red}<3{COLOR=white}\nand {RAINBOW}LibGDX{ENDRAINBOW}";
     private final String disclaimer = "{GRADIENT=black;gray}Disclaimer:{ENDGRADIENT}  {GRADIENT=gold;yellow}{JUMP=.27} No babies were made in the harming of this game{ENDJUMP}{ENDGRADIENT}";
