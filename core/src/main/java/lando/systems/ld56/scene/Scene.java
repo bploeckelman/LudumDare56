@@ -39,9 +39,9 @@ public class Scene {
         this.particleManager = particleManager;
         structures = new Array<>();
 
-        structures.add(new Structure(assets, camera.viewportWidth / 4  - 100, 0, 200, 300, this));
-        structures.add(new Structure(assets, camera.viewportWidth / 4 * 2 - 150, 0, 300, 400, this));
-        structures.add(new Structure(assets, camera.viewportWidth / 4 * 3 - 100, 0, 200, 340, this));
+        structures.add(new Structure(assets, camera.viewportWidth / 4  - 100, 0, 200, 300, this, .5f));
+        structures.add(new Structure(assets, camera.viewportWidth / 4 * 2 - 150, 0, 300, 400, this, .3f));
+        structures.add(new Structure(assets, camera.viewportWidth / 4 * 3 - 100, 0, 200, 340, this, .6f));
 
         this.background = assets.atlas.findRegions("backgrounds/background-level-1").first();
 

@@ -25,22 +25,24 @@ public class Structure extends Entity implements XRayable {
     public Rectangle bounds;
     public XRayRender xRayRender;
     public Scene scene;
+    public float collapsePercent = .5f;
 
     public boolean collapsed = false;
     private boolean isCollapsing = false;
     private float collapseTimer = 0;
 
-    public Structure(Assets assets, float x, float y, float width, float height, Scene scene) {
-        this(assets, x, y, width, height, 8, 5, scene);
+    public Structure(Assets assets, float x, float y, float width, float height, Scene scene, float collapsePercent) {
+        this(assets, new Rectangle(x, y, width, height), 8, 5, scene, collapsePercent);
     }
 
-    public Structure(Assets assets, float x, float y, float width, float height, int rows, int columns, Scene scene) {
+    public Structure(Assets assets, Rectangle bounds, int rows, int columns, Scene scene, float collapsePercent) {
         this.internals = assets.buildingXrayTexture;
         this.externals = assets.buildingCoveredTexture;
         this.particleManager = scene.particleManager;
         this.scene = scene;
+        this.collapsePercent = collapsePercent;
 
-        this.bounds = new Rectangle(x, y, width, height);
+        this.bounds = new Rectangle(bounds);
         this.structureDamage = new StructureDamage(this, rows, columns);
         xRayRender = new XRayRender(this, externals, internals, bounds, scene.camera);
     }
@@ -80,7 +82,7 @@ public class Structure extends Entity implements XRayable {
             }
             randomSmoke();
         } else {
-            if (structureDamage.getDamagePercent() > .5f) {
+            if (structureDamage.getDamagePercent() > collapsePercent) {
                 collapse();
             }
         }
