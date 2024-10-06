@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import lando.systems.ld56.assets.Assets;
-import lando.systems.ld56.particles.effects.LevelUpEffect;
-import lando.systems.ld56.particles.effects.ParticleEffect;
-import lando.systems.ld56.particles.effects.ParticleEffectType;
+import lando.systems.ld56.particles.effects.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +33,7 @@ public class ParticleManager implements Disposable {
 
     public void init() {
         effects.put(ParticleEffectType.LEVEL_UP, new LevelUpEffect(this));
+        effects.put(ParticleEffectType.SMOKE, new SmokeEffect(this));
     }
 
     public void spawn(Layer layer, TextureRegion textureRegion, int amount, Vector2 startPos, Vector2 endPos, float angle, float speed, Color startColor, Color endColor, float startSize, float endSize, float timeToLive) {
@@ -52,6 +51,10 @@ public class ParticleManager implements Disposable {
                 .init()
             );
         }
+    }
+
+    public void spawn(ParticleEffectParams params) {
+        spawn(params.layer, params.textureRegion, params.amount, params.startPos, params.endPos, params.angle, params.speed, params.startColor, params.endColor, params.startSize, params.endSize, params.timeToLive);
     }
 
     public void clear() {

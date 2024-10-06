@@ -5,16 +5,15 @@ import com.badlogic.gdx.math.MathUtils;
 import lando.systems.ld56.particles.ParticleManager;
 
 public class LevelUpEffect extends ParticleEffect {
-    static ParticleManager.Layer layer = ParticleManager.Layer.FOREGROUND;
-    static float angle = MathUtils.random(0f, 360f);
-    static float speed = 0f;
-    static float startSize = MathUtils.random(50f, 80f);
-    static float endSize = 0f;
+    ParticleManager.Layer layer = ParticleManager.Layer.FOREGROUND;
+    float angle = MathUtils.random(0f, 360f);
+    float speed = 0f;
+    float startSize = MathUtils.random(50f, 80f);
+    float endSize = 0f;
 
     public LevelUpEffect(ParticleManager particleManager) {
         super(particleManager);
     }
-
 
     @Override
     public void spawn(ParticleEffectParams params) {
