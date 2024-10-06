@@ -52,7 +52,7 @@ public class Collider extends Component {
     }
 
     // temporary objects for collision tests and rendering
-    private final RectangleI rectA = new RectangleI();
+    public final RectangleI rectA = new RectangleI();
     private final RectangleI rectB = new RectangleI();
     private final GridPoint2 pointA = new GridPoint2();
     private final GridPoint2 pointB = new GridPoint2();

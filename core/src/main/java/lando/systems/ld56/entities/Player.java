@@ -14,6 +14,7 @@ import lando.systems.ld56.entities.components.Position;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.DirtEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
+import lando.systems.ld56.screens.GameScreen;
 import lando.systems.ld56.utils.Calc;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import text.formic.Stringf;
@@ -57,9 +58,12 @@ public class Player extends Entity {
     private boolean climbing = false;
     private float jumpHoldTimer = 0;
     private float attackTimer = 0;
+    private boolean attackSuccess = false;
+    private Collider attackCollider;
 
     private final float jumpHoldDuration = 0.15f;
     private final GridPoint2 offset = new GridPoint2(0, 0);
+
 
     // the amount of damage this player does
     public float damage = 0.4f;
@@ -188,6 +192,17 @@ public class Player extends Entity {
             } break;
             case ATTACK: {
                 attackTimer -= dt;
+                if (!attackSuccess && attackCollider.check(offset.set(0, 0), Collider.Type.climbable)) {
+                    attackSuccess = true;
+                    // from the collider, don't know where I am. hitting all structures
+                    ((GameScreen)Main.game.currentScreen).scene.structures.forEach(x -> {
+                        var rect = attackCollider.rectA;
+                        if (x.structureDamage.applyDamage(this, rect.x + rect.width/2, rect.y + rect.height /2)) {
+                            Main.playSound(AudioManager.Sounds.structureDamage);
+                        }
+                    });
+                }
+
                 if (attackTimer <= 0) {
                     setState(State.NORMAL);
                 }
@@ -239,11 +254,18 @@ public class Player extends Entity {
                     this.state = newState;
                     attackTimer = animator.play(creatureType, Anims.State.ATTACK);
                     Main.playSound(AudioManager.Sounds.ratAttack);
+                    int attackX = animator.facing == -1 ? -30 : 10;
+                    attackCollider = Collider.makeRect(this, Collider.Type.player, attackX, 25, 20, 20);
+                    attackSuccess = false;
                 }
                 break;
             case NORMAL:
                 this.state = newState;
                 animator.play(creatureType, Anims.State.IDLE);
+                if (attackCollider != null) {
+                    Main.game.entityData.remove(attackCollider, Collider.class);
+                    attackCollider = null;
+                }
                 break;
         }
     }
@@ -254,6 +276,9 @@ public class Player extends Entity {
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
         collider.render(shapes);
+        if (attackCollider != null) {
+            attackCollider.render(shapes);
+        }
     }
 
     public String debugString() {
