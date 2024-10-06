@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.entities.LevelMap;
 import lando.systems.ld56.entities.Npc;
@@ -15,7 +16,8 @@ public class Scene {
 
     public Assets assets;
     public Player player;
-    public Npc ant;
+    public Npc antPunch;
+    public Npc andClimbPunch;
     public LevelMap levelMap;
     public Structure structure;
     public TextureRegion background;
@@ -25,7 +27,8 @@ public class Scene {
         this.assets = assets;
         this.camera = camera;
         this.player = new Player(assets, (cols * tileSize) / 2f, 50);
-        this.ant = new Npc((cols * tileSize) / 3, tileSize);
+        this.antPunch = new Npc((cols * tileSize) / 3, tileSize, Anims.Type.ANT_PUNCH);
+        this.andClimbPunch = new Npc((int) ((cols * tileSize) * (2 / 3f)), tileSize, Anims.Type.ANT_CLIMB_PUNCH);
         this.levelMap = new LevelMap(tileSize, cols, rows);
         this.structure = new Structure(assets, (int) camera.viewportWidth / 2, 0);
         this.background = assets.atlas.findRegions("backgrounds/background-level-1").first();
@@ -41,13 +44,15 @@ public class Scene {
 
     public void update(float dt) {
         player.update(dt);
-        ant.update(dt);
+        antPunch.update(dt);
+        andClimbPunch.update(dt);
     }
 
     public void render(SpriteBatch batch) {
         batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
         structure.render(batch);
-        ant.render(batch);
+        antPunch.render(batch);
+        andClimbPunch.render(batch);
         player.render(batch);
     }
 

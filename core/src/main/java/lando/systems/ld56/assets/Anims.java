@@ -26,6 +26,7 @@ public class Anims {
         , RAT_FALL       (0.1f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
         // ant character -----------------------------------------------------------------------------------------------
         , ANT_PUNCH      (0.075f, "creatures/ant/player-ant-punch", Animation.PlayMode.LOOP)
+        , ANT_CLIMB_PUNCH(0.075f, "creatures/ant/player-ant-up-punch", Animation.PlayMode.LOOP)
         // -------------------------------------------------------------------------------------------------------------
         ;
         public final float frameDuration;
