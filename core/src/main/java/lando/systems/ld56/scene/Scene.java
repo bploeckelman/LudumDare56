@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.entities.LevelMap;
+import lando.systems.ld56.entities.Npc;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -14,6 +15,7 @@ public class Scene {
 
     public Assets assets;
     public Player player;
+    public Npc ant;
     public LevelMap levelMap;
     public Structure structure;
     public TextureRegion background;
@@ -23,6 +25,7 @@ public class Scene {
         this.assets = assets;
         this.camera = camera;
         this.player = new Player(assets, (cols * tileSize) / 2f, 50);
+        this.ant = new Npc((cols * tileSize) / 3, tileSize);
         this.levelMap = new LevelMap(tileSize, cols, rows);
         this.structure = new Structure(assets, (int) camera.viewportWidth / 2, 0);
         this.background = assets.atlas.findRegions("backgrounds/background-level-1").first();
@@ -38,11 +41,13 @@ public class Scene {
 
     public void update(float dt) {
         player.update(dt);
+        ant.update(dt);
     }
 
     public void render(SpriteBatch batch) {
         batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
         structure.render(batch);
+        ant.render(batch);
         player.render(batch);
     }
 

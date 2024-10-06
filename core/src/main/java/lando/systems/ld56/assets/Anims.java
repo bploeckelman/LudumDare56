@@ -24,6 +24,8 @@ public class Anims {
         // TODO: add these animations - using 'idle' as a placeholder for now
         , RAT_JUMP       (0.1f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
         , RAT_FALL       (0.1f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
+        // ant character -----------------------------------------------------------------------------------------------
+        , ANT_PUNCH      (0.075f, "creatures/ant/player-ant-punch", Animation.PlayMode.LOOP)
         // -------------------------------------------------------------------------------------------------------------
         ;
         public final float frameDuration;
