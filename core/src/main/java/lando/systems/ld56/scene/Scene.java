@@ -18,7 +18,19 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Scene {
 
-    public enum Type { MICROBIOME, NEIGHBORHOOD, CITY, MUSHROOM_KINGDOM }
+    public enum Type {
+          MICROBIOME        (Player.CreatureType.PHAGE, Player.CreatureType.PARASITE)
+        , NEIGHBORHOOD      (Player.CreatureType.WORM, Player.CreatureType.ANT)
+        , CITY              (Player.CreatureType.RAT, Player.CreatureType.SNAKE)
+        , MUSHROOM_KINGDOM  (Player.CreatureType.MARIO, Player.CreatureType.LUIGI)
+        ;
+        public final Player.CreatureType creatureTypeA;
+        public final Player.CreatureType creatureTypeB;
+        Type(Player.CreatureType creatureTypeA, Player.CreatureType creatureTypeB) {
+            this.creatureTypeA = creatureTypeA;
+            this.creatureTypeB = creatureTypeB;
+        }
+    }
 
     public final GameScreen screen;
     public final Assets assets;
@@ -53,7 +65,8 @@ public class Scene {
 
         // TODO: change player, npc, enemy setup based on scene type
         var basePixelsY = baseGridY * tileSize;
-        player = new Player(Player.CreatureType.RAT, (cols * tileSize) / 2f, basePixelsY + (2 * tileSize), particleManager);
+        var creatureType = type.creatureTypeA;
+        player = new Player(creatureType, (cols * tileSize) / 2f, basePixelsY + (2 * tileSize), particleManager);
 
         int widthNormal = 12 * tileSize;
         int widthNarrow = 6 * tileSize;

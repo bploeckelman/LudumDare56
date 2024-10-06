@@ -27,12 +27,14 @@ public class Player extends Entity {
           PHAGE(Mode.SWARM)
         , PARASITE(Mode.SNAKE)
         // Neighborhood
-        , MOUSE(Mode.SWARM)
+        , WORM(Mode.SWARM)
         , ANT(Mode.SNAKE)
         // City
         , RAT(Mode.SWARM)
         , SNAKE(Mode.SNAKE)
-        // TODO: Mushroom Kingdom
+        // Mushroom Kingdom
+        , MARIO(Mode.SWARM)
+        , LUIGI(Mode.SWARM)
         ;
         public final Mode mode;
         public final Anims.Type[] animTypes;

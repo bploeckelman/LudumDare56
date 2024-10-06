@@ -21,31 +21,31 @@ public class Anims {
         , ROSS_DOG       (0.1f, "pets/ross-dog", Animation.PlayMode.LOOP)
         , WHITE_LAB_DOG  (0.1f, "pets/white-lab-dog", Animation.PlayMode.LOOP)
         // phage character ---------------------------------------------------------------------------------------------
-        , PHAGE_IDLE     (0.1f, "creatures/phage/phage-idle", Animation.PlayMode.LOOP)
-        , PHAGE_WALK     (0.1f, "creatures/phage/phage-walk", Animation.PlayMode.LOOP)
-        , PHAGE_JUMP     (0.1f, "creatures/phage/phage-jump", Animation.PlayMode.NORMAL)
-        , PHAGE_FALL     (0.1f, "creatures/phage/phage-idle", Animation.PlayMode.LOOP) // TODO: setup a custom anim with frames from jump/idle
-        , PHAGE_STICK    (0.1f, "creatures/phage/phage-stick", Animation.PlayMode.NORMAL)
-        , PHAGE_HURT     (0.1f, "creatures/phage/phage-hurt", Animation.PlayMode.NORMAL)
-        , PHAGE_ATTACK   (0.1f, "creatures/phage/phage-headbutt", Animation.PlayMode.NORMAL)
+        , PHAGE_IDLE     (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)
+        , PHAGE_WALK     (0.1f, "creatures/phage/phage-walk/player-phage-walk", Animation.PlayMode.LOOP)
+        , PHAGE_JUMP     (0.1f, "creatures/phage/phage-jump/player-phage-jump", Animation.PlayMode.NORMAL)
+        , PHAGE_FALL     (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP) // TODO: setup a custom anim with frames from jump/idle
+        , PHAGE_STICK    (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL)
+        , PHAGE_HURT     (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL)
+        , PHAGE_ATTACK   (0.1f, "creatures/phage/phage-headbutt/player-phage-headbutt", Animation.PlayMode.NORMAL)
         // parasite character ------------------------------------------------------------------------------------------
         // TODO: placeholder anims
-        , PARASITE_IDLE  (0.1f, "creatures/phage/phage-idle", Animation.PlayMode.LOOP)
-        , PARASITE_WALK  (0.1f, "creatures/phage/phage-walk", Animation.PlayMode.LOOP)
-        , PARASITE_JUMP  (0.1f, "creatures/phage/phage-jump", Animation.PlayMode.NORMAL)
-        , PARASITE_FALL  (0.1f, "creatures/phage/phage-idle", Animation.PlayMode.LOOP) // TODO: setup a custom anim with frames from jump/idle
-        , PARASITE_STICK (0.1f, "creatures/phage/phage-stick", Animation.PlayMode.NORMAL)
-        , PARASITE_HURT  (0.1f, "creatures/phage/phage-hurt", Animation.PlayMode.NORMAL)
-        , PARASITE_ATTACK(0.1f, "creatures/phage/phage-headbutt", Animation.PlayMode.NORMAL)
+        , PARASITE_IDLE  (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)
+        , PARASITE_WALK  (0.1f, "creatures/phage/phage-walk/player-phage-walk", Animation.PlayMode.LOOP)
+        , PARASITE_JUMP  (0.1f, "creatures/phage/phage-jump/player-phage-jump", Animation.PlayMode.NORMAL)
+        , PARASITE_FALL  (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP) // TODO: setup a custom anim with frames from jump/idle
+        , PARASITE_STICK (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL)
+        , PARASITE_HURT  (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL)
+        , PARASITE_ATTACK(0.1f, "creatures/phage/phage-headbutt/player-phage-headbutt", Animation.PlayMode.NORMAL)
         // worm character ----------------------------------------------------------------------------------------------
         // TODO: placeholder anims
-        , WORM_IDLE      (0.1f, "creatures/phage/phage-idle", Animation.PlayMode.LOOP)
-        , WORM_WALK      (0.1f, "creatures/phage/phage-walk", Animation.PlayMode.LOOP)
-        , WORM_JUMP      (0.1f, "creatures/phage/phage-jump", Animation.PlayMode.NORMAL)
-        , WORM_FALL      (0.1f, "creatures/phage/phage-idle", Animation.PlayMode.LOOP) // TODO: setup a custom anim with frames from jump/idle
-        , WORM_STICK     (0.1f, "creatures/phage/phage-stick", Animation.PlayMode.NORMAL)
-        , WORM_HURT      (0.1f, "creatures/phage/phage-hurt", Animation.PlayMode.NORMAL)
-        , WORM_ATTACK    (0.1f, "creatures/phage/phage-headbutt", Animation.PlayMode.NORMAL)
+        , WORM_IDLE      (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)
+        , WORM_WALK      (0.1f, "creatures/phage/phage-walk/player-phage-walk", Animation.PlayMode.LOOP)
+        , WORM_JUMP      (0.1f, "creatures/phage/phage-jump/player-phage-jump", Animation.PlayMode.NORMAL)
+        , WORM_FALL      (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP) // TODO: setup a custom anim with frames from jump/idle
+        , WORM_STICK     (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL)
+        , WORM_HURT      (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL)
+        , WORM_ATTACK    (0.1f, "creatures/phage/phage-headbutt/player-phage-headbutt", Animation.PlayMode.NORMAL)
         // ant character -----------------------------------------------------------------------------------------------
         , ANT_PUNCH      (0.075f, "creatures/ant/player-ant-punch", Animation.PlayMode.LOOP)
         , ANT_CLIMB_PUNCH(0.075f, "creatures/ant/player-ant-up-punch", Animation.PlayMode.LOOP)
@@ -76,6 +76,11 @@ public class Anims {
         var atlas = assets.atlas;
         for (var type : Type.values()) {
             var frames = atlas.findRegions(type.regionsName);
+            if (frames.isEmpty()) {
+                Utils.log("Anims", Stringf.format("No atlas regions found for type '%s' regionsName '%s'", type, type.regionsName));
+                continue;
+            }
+
             var animation = new Animation<TextureRegion>(type.frameDuration, frames, type.playMode);
             animations.put(type, animation);
         }
@@ -116,7 +121,7 @@ public class Anims {
             } else {
                 animation = get(animType);
                 if (animation == null) {
-                    Utils.log("Animations", Stringf.format("No animation found for creature type '%s' and anim state 's', anim type '%s'", creatureType, state, animType));
+                    Utils.log("Animations", Stringf.format("No animation found for creature type '%s' and anim state '%s', anim type '%s'", creatureType, state, animType));
                 }
             }
         }

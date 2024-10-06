@@ -13,7 +13,6 @@ import lando.systems.ld56.Config;
 import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.particles.ParticleManager;
-import lando.systems.ld56.particles.effects.BiteEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.particles.effects.RatSwarmEffect;
 import lando.systems.ld56.scene.Scene;
@@ -29,6 +28,8 @@ public class GameScreen extends BaseScreen {
     public GameScreen() {
         particles = new ParticleManager(assets);
         this.scene = new Scene(this, Scene.Type.MICROBIOME);
+//        this.scene = new Scene(this, Scene.Type.NEIGHBORHOOD);
+//        this.scene = new Scene(this, Scene.Type.CITY);
         this.mouseGridPos = new GridPoint2();
 
         var inputMux = new InputMultiplexer(input);
