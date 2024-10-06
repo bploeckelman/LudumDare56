@@ -29,6 +29,14 @@ public class Assets implements Disposable {
 
     // END TEST THINGS - REMOVE AT RELEASE
 
+    // sound names
+    public static class SoundRes {
+        public static final String Coin = "audio/sounds/coin.ogg";
+        // todo pete sound when building takes damage
+        public static final String StructureDamage = "audio/sounds/structureDamage.ogg";
+        // todo pete rat attack sound
+        public static final String RatAttack = "audio/sounds/structureDamage.ogg";
+    }
 
     public enum Load { ASYNC, SYNC }
 
@@ -62,6 +70,7 @@ public class Assets implements Disposable {
 
     public Sound coin;
     public Sound structureDamage;
+    public Sound ratAttack;
 
     public Music mainTheme;
     public Music introMusic;
@@ -109,9 +118,9 @@ public class Assets implements Disposable {
 
             mgr.load("audio/music/intro-music.ogg", Music.class);
 
-            mgr.load("audio/sounds/coin.ogg", Sound.class);
-            // todo pete sound when building takes damage
-            mgr.load("audio/sounds/coin.ogg", Sound.class);
+            mgr.load(SoundRes.Coin, Sound.class);
+            mgr.load(SoundRes.StructureDamage, Sound.class);
+            mgr.load(SoundRes.RatAttack, Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -163,8 +172,9 @@ public class Assets implements Disposable {
         // Audio
         introMusic = mgr.get("audio/music/intro-music.ogg", Music.class);
 
-        coin = mgr.get("audio/sounds/coin.ogg", Sound.class);
-        structureDamage = mgr.get("audio/sounds/coin.ogg", Sound.class);
+        coin = mgr.get(SoundRes.Coin, Sound.class);
+        structureDamage = mgr.get(SoundRes.StructureDamage, Sound.class);
+        ratAttack = mgr.get(SoundRes.RatAttack, Sound.class);
 
         // initialize static asset classes
         Icons.init(this);
