@@ -53,7 +53,7 @@ public class Scene {
 
         // TODO: change player, npc, enemy setup based on scene type
         var basePixelsY = baseGridY * tileSize;
-        player = new Player(assets, (cols * tileSize) / 2f, basePixelsY + (2 * tileSize));
+        player = new Player(assets, (cols * tileSize) / 2f, basePixelsY + (2 * tileSize), particleManager);
 
         int widthNormal = 12 * tileSize;
         int widthNarrow = 6 * tileSize;

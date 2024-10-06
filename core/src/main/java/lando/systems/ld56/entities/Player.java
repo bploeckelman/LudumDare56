@@ -10,6 +10,9 @@ import lando.systems.ld56.entities.components.Animator;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.entities.components.Mover;
 import lando.systems.ld56.entities.components.Position;
+import lando.systems.ld56.particles.ParticleManager;
+import lando.systems.ld56.particles.effects.DirtEffect;
+import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.utils.Calc;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import text.formic.Stringf;
@@ -30,17 +33,19 @@ public class Player extends Entity {
 
     private final float jumpHoldDuration = 0.15f;
     private final GridPoint2 offset = new GridPoint2(0, 0);
+    private ParticleManager particleManager;
 
     // the amount of damage this player does
     public float damage = 0.4f;
 
-    public Player(Assets assets, float x, float y) {
+    public Player(Assets assets, float x, float y, ParticleManager particleManager) {
         this.position = new Position(this, x, y);
         this.animator = new Animator(this, position, Anims.get(Anims.Type.RAT_IDLE));
         this.animator.defaultScale.scl(2);
         this.collider = Collider.makeRect(this, Collider.Type.player, -10, 0, 24, 20);
         this.mover = new Mover(this, position, collider);
         this.mover.speed.y = this.mover.gravity;
+        this.particleManager = particleManager;
     }
 
     public void update(float dt) {
@@ -56,7 +61,6 @@ public class Player extends Entity {
                      || Gdx.input.isKeyPressed(Input.Keys.DPAD_UP);
 
         var isOnGround = mover.isOnGround();
-
         // animation stuff that should always happen regardless of state
         {
             // just landed - squash
@@ -75,6 +79,7 @@ public class Player extends Entity {
                 if (isOnGround) {
                     if (inputMoveDirX != 0) {
                         animator.play(Anims.Type.RAT_WALK);
+                        particleManager.effects.get(ParticleEffectType.DIRT).spawn(new DirtEffect.Params(position.x(), position.y()));
                     } else {
                         animator.play(Anims.Type.RAT_IDLE);
                     }
