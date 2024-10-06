@@ -33,7 +33,7 @@ public class ParticleManager implements Disposable {
     }
 
     public void init() {
-        effects.put(ParticleEffectType.LEVEL_UP, new AsukaEffect(this));
+        effects.put(ParticleEffectType.ASUKA, new AsukaEffect(this));
         effects.put(ParticleEffectType.SMOKE, new SmokeEffect(this));
     }
 

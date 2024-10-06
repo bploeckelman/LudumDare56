@@ -9,7 +9,8 @@ public class SmokeEffect extends ParticleEffect {
     }
 
     @Override
-    public void spawn(ParticleEffectParams params) {
-//        particleManager.spawn(params);
+    public void spawn(ParticleEffectParams parameters) {
+        var params = (SmokeEffectParams) parameters;
+        particleManager.spawn(params.layer, params.textureRegion, params.amount, params.startPos, params.angle, params.speed, params.startColor, params.endColor, params.startSize, params.endSize, params.timeToLive);
     }
 }

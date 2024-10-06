@@ -11,6 +11,6 @@ public class AsukaEffect extends ParticleEffect {
     @Override
     public void spawn(ParticleEffectParams parameters) {
         var params = (AsukaEffectParams) parameters;
-        particleManager.spawn(ParticleManager.Layer.FOREGROUND, params.textureRegion, 1, params.startPos, params.angle, params.speed, params.startColor, params.endColor, params.startSize, params.endSize, 2f);
+        particleManager.spawn(params.layer, params.textureRegion, params.amount, params.startPos, params.angle, params.speed, params.startColor, params.endColor, params.startSize, params.endSize, 2f);
     }
 }
