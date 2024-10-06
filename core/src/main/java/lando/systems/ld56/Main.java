@@ -21,6 +21,7 @@ import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Transition;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.EntityData;
+import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.screens.*;
 import lando.systems.ld56.utils.Time;
 import lando.systems.ld56.utils.accessors.CameraAccessor;
@@ -84,7 +85,7 @@ public class Main extends ApplicationAdapter {
         var showLaunchScreen = (Gdx.app.getType() == Application.ApplicationType.WebGL || Config.Debug.show_launch_screen);
         var startingScreen = showLaunchScreen ? new LaunchScreen() : new TitleScreen();
         if (Config.Debug.start_on_game_screen) {
-            startingScreen = new GameScreen();
+            startingScreen = new GameScreen(Scene.Type.MICROBIOME);
         }
         setScreen(startingScreen);
     }

@@ -12,6 +12,7 @@ import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Transition;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.particles.ParticleManager;
+import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.typinglabel.TypingLabel;
 
 public class IntroScreen extends BaseScreen {
@@ -120,7 +121,7 @@ public class IntroScreen extends BaseScreen {
     void launchGame() {
         if (!exitingScreen){
             exitingScreen = true;
-            game.setScreen(new GameScreen(), Transition.Type.DOOMDRIP, 2f);
+            game.setScreen(new GameScreen(Scene.Type.MICROBIOME), Transition.Type.DOOMDRIP, 2f);
 
         }
     }
