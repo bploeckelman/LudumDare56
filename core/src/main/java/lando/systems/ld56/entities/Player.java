@@ -2,6 +2,7 @@ package lando.systems.ld56.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import lando.systems.ld56.Main;
@@ -276,9 +277,16 @@ public class Player extends Entity {
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
         collider.render(shapes);
+
         if (attackCollider != null) {
             attackCollider.render(shapes);
         }
+
+        // position component, circle with outline
+        shapes.filledCircle(position.x(), position.y(), 3, Color.MAGENTA);
+        shapes.setColor(Color.SKY);
+        shapes.circle(position.x(), position.y(), 3);
+        shapes.setColor(Color.WHITE);
     }
 
     public String debugString() {

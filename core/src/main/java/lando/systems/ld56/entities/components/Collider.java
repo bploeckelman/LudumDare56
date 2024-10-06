@@ -219,8 +219,8 @@ public class Collider extends Component {
         // get the extents for grid tiles covered by the rect
         int left   = Calc.clampInt((int) Calc.floor((float) rectA.x / b.grid.tileSize), 0, b.grid.cols);
         int bottom = Calc.clampInt((int) Calc.floor((float) rectA.y / b.grid.tileSize), 0, b.grid.rows);
-        int right  = Calc.clampInt((int) Calc.ceiling((float) (rectA.x + rectA.width)  / b.grid.tileSize), 0, b.grid.cols);
-        int top    = Calc.clampInt((int) Calc.ceiling((float) (rectA.y + rectA.height) / b.grid.tileSize), 0, b.grid.rows);
+        int right  = Calc.clampInt((int) Calc.floor((float) (rectA.x + rectA.width)  / b.grid.tileSize), 0, b.grid.cols);
+        int top    = Calc.clampInt((int) Calc.floor((float) (rectA.y + rectA.height) / b.grid.tileSize), 0, b.grid.rows);
 
         // check each tile
         for (int x = left; x <= right; x++) {
