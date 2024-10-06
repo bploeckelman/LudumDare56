@@ -77,8 +77,8 @@ public class GameScreen extends BaseScreen {
         }
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            var particleEffect = particles.effects.get(ParticleEffectType.FLAME);
-            particleEffect.spawn(new FlameEffect.Params(vec3.x, vec3.y));
+            var particleEffect = particles.effects.get(ParticleEffectType.FLARE);
+            particleEffect.spawn(new FlareEffect.Params(vec3.x, vec3.y));
         }
 
         var goToEndScreen = false; // TODO: set true based on 'completing' the game, whatever that will mean

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import lando.systems.ld56.assets.Particles;
 import lando.systems.ld56.particles.Particle;
 import lando.systems.ld56.particles.ParticleManager;
+import lando.systems.ld56.utils.Utils;
 
 public class FlareEffect extends ParticleEffect {
 
@@ -35,13 +36,12 @@ public class FlareEffect extends ParticleEffect {
             var speed = 10;
             var startSize = MathUtils.random(20f, 50f);
             var ttl = MathUtils.random(1f, 3f);
-            var startingColor = new Color(MathUtils.random(.7f, 1f), MathUtils.random(.4f), MathUtils.random(.4f), 1);
+            var startingColor = Utils.randomColor();
             layer.add(Particle.initializer(pool.obtain())
                 .keyframe(keyframe)
                 .startPos(params.startX + MathUtils.random(-10f, 10f), params.startY + MathUtils.random(-10f, 10f))
                 .velocity(MathUtils.cosDeg(angle) * speed, MathUtils.sinDeg(angle) * speed)
                 .startColor(startingColor)
-                .endColor(startingColor)
                 .startSize(startSize)
                 .endSize(0)
                 .timeToLive(ttl)
