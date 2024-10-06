@@ -28,22 +28,27 @@ public class FlareEffect extends ParticleEffect {
         var layer = particleManager.activeParticles.get(ParticleManager.Layer.FOREGROUND);
         var pool = particleManager.particlePool;
 
-        var amount = 10;
+        var amount = 1;
 
         for (int i = 0; i < amount; i++) {
             var keyframe = Particles.get(Particles.Type.FLARE).getKeyFrame(MathUtils.random());
-            var angle = MathUtils.random(60f, 120f);
-            var speed = 10;
-            var startSize = MathUtils.random(20f, 50f);
-            var ttl = MathUtils.random(1f, 3f);
+            var angle = 90f;
+            var speed = 300f;
+            var acceleration = -100f;
+            var startSize = 20f;
+            var endSize = 150f;
+            var ttl = 3f;
             var startingColor = Utils.randomColor();
             layer.add(Particle.initializer(pool.obtain())
                 .keyframe(keyframe)
                 .startPos(params.startX + MathUtils.random(-10f, 10f), params.startY + MathUtils.random(-10f, 10f))
                 .velocity(MathUtils.cosDeg(angle) * speed, MathUtils.sinDeg(angle) * speed)
+                .acceleration(MathUtils.random(-50f, 50f), acceleration)
+                .accelerationDamping(1f)
                 .startColor(startingColor)
+                .endColor(startingColor.r, startingColor.g, startingColor.b, 0f)
                 .startSize(startSize)
-                .endSize(0)
+                .endSize(endSize)
                 .timeToLive(ttl)
                 .init()
             );

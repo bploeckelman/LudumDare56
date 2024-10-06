@@ -44,7 +44,7 @@ public class Structure extends Entity implements XRayable {
 
         this.bounds = new Rectangle(bounds);
         this.structureDamage = new StructureDamage(this, rows, columns);
-        xRayRender = new XRayRender(this, externals, internals, bounds, scene.camera);
+        xRayRender = new XRayRender(this, externals, internals, this.bounds, scene.camera);
     }
 
     public void damage(Player player, int x, int y) {
@@ -89,7 +89,7 @@ public class Structure extends Entity implements XRayable {
     }
 
     public void collapse() {
-        isCollapsing = !isCollapsing;
+        isCollapsing = true;
         scene.levelMap.removeStructure(this);
         collapseTimer = 0;
         bounds.y = 0;
