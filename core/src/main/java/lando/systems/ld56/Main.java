@@ -147,4 +147,8 @@ public class Main extends ApplicationAdapter {
         Transition.to(newScreen, transitionType, transitionSpeed);
         return true;
     }
+
+    public static void playSound(AudioManager.Sounds soundOption) {
+        Main.game.audioManager.playSound(soundOption);
+    }
 }

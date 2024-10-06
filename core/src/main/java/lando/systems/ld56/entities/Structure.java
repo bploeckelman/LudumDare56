@@ -48,6 +48,7 @@ public class Structure extends Entity implements XRayable {
 
     public Structure(Scene scene, RectangleI gridRect, float collapsePercent, int destructionRows, int destructionCols) {
         this.scene = scene;
+        this.particleManager = scene.particleManager;
         switch (scene.type) {
             case MICROBIOME: {
                 internals = Structures.get(Structures.Type.BACTERIA_BACK);
@@ -119,7 +120,6 @@ public class Structure extends Entity implements XRayable {
         isCollapsing = true;
         scene.levelMap.removeStructure(this);
         collapseTimer = 0;
-        bounds.y = 0;
     }
 
     private void randomSmoke() {

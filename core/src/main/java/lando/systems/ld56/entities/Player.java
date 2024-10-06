@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
+import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.assets.Assets;
+import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.components.Animator;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.entities.components.Mover;
@@ -16,7 +18,7 @@ import text.formic.Stringf;
 
 public class Player extends Entity {
 
-    public enum State { NORMAL }
+    public enum State { NORMAL, ATTACK }
 
     public Position position;
     public Animator animator;
@@ -30,6 +32,8 @@ public class Player extends Entity {
 
     private final float jumpHoldDuration = 0.15f;
     private final GridPoint2 offset = new GridPoint2(0, 0);
+
+    private float attackTimer = 0;
 
     // the amount of damage this player does
     public float damage = 0.4f;
@@ -54,6 +58,8 @@ public class Player extends Entity {
         var climbHeld = Gdx.input.isKeyPressed(Input.Keys.W)
                      || Gdx.input.isKeyPressed(Input.Keys.UP)
                      || Gdx.input.isKeyPressed(Input.Keys.DPAD_UP);
+
+        var attackJustPressed = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
 
         var isOnGround = mover.isOnGround();
 
@@ -140,8 +146,17 @@ public class Player extends Entity {
                     }
                 }
 
-                // TODO(brian): handle attack input... other input handling?
+                if (attackJustPressed) {
+                    setState(State.ATTACK);
+                }
             } break;
+            case ATTACK: {
+                attackTimer -= dt;
+                if (attackTimer <= 0) {
+                    setState(State.NORMAL);
+                }
+                break;
+            }
         }
 
         // variable jump timing, based on how long the button is held
@@ -179,6 +194,21 @@ public class Player extends Entity {
 
         // update flags for next frame
         wasOnGround = mover.isOnGround();
+    }
+
+    private void setState(State newState) {
+        switch (newState) {
+            case ATTACK:
+                if (this.state == State.NORMAL) {
+                    this.state = newState;
+                    attackTimer = animator.play(Anims.Type.RAT_BITE);
+                    Main.playSound(AudioManager.Sounds.ratAttack);
+                }
+                break;
+            case NORMAL:
+                this.state = newState;
+                break;
+        }
     }
 
     public void render(SpriteBatch batch) {

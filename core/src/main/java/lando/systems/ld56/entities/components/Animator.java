@@ -49,10 +49,11 @@ public class Animator extends Component {
         this.stateTime = 0;
     }
 
-    public void play(Anims.Type type) {
+    public float play(Anims.Type type) {
         var anim = Anims.get(type);
-        if (anim == null) return;
+        if (anim == null) return 0;
         this.animation = anim;
+        return this.animation.getAnimationDuration();
     }
 
     public void update(float dt) {
