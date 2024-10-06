@@ -20,8 +20,7 @@ import lando.systems.ld56.entities.XRayable;
 
 public class XRayRender extends Component{
 
-    public final Texture coveredTexture;
-    public final Texture xrayTexture;
+    public final Texture texture;
 
     public final FrameBuffer fbo;
     public final Texture fboTexture;
@@ -33,8 +32,7 @@ public class XRayRender extends Component{
 
     public XRayRender(Entity entity, Texture coveredTexture, Texture xrayTexture, Rectangle bounds, OrthographicCamera worldCamera) {
         super(entity, XRayRender.class);
-        this.coveredTexture = coveredTexture;
-        this.xrayTexture = xrayTexture;
+        this.texture = coveredTexture;
         this.bounds = bounds;
         this.worldCamera = worldCamera;
         this.noiseOffset = new Vector2(MathUtils.random(), MathUtils.random());
@@ -85,16 +83,14 @@ public class XRayRender extends Component{
         shader.setUniformf("u_noiseOffset", noiseOffset);
         shader.setUniformf("u_size", bounds.width, bounds.height);
 
-        Main.game.assets.noiseTexture.bind(3);
-        shader.setUniformi("u_noise", 3);
-        fboTexture.bind(2);
-        shader.setUniformi("u_mask", 2);
-        xrayTexture.bind(1);
-        shader.setUniformi("u_texture2", 1);
-        coveredTexture.bind(0);
+        Main.game.assets.noiseTexture.bind(2);
+        shader.setUniformi("u_noise", 2);
+        fboTexture.bind(1);
+        shader.setUniformi("u_mask", 1);
+        texture.bind(0);
         shader.setUniformi("u_texture", 0);
 
-        batch.draw(coveredTexture, bounds.x, bounds.y, bounds.width, bounds.height);
+        batch.draw(texture, bounds.x, bounds.y, bounds.width, bounds.height);
 
         batch.setShader(null);
 

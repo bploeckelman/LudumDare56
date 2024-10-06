@@ -92,7 +92,10 @@ public class Structure extends Entity implements XRayable {
         if (isCollapsing) {
             tintColor.a = 1f - collapseTimer / collapseDuration;;
         }
+        batch.setColor(tintColor);
+        batch.draw(internals, bounds.x, bounds.y, bounds.width, bounds.height);
         xRayRender.render(batch, tintColor);
+        batch.setColor(Color.WHITE);
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
