@@ -110,6 +110,8 @@ public class Scene {
 
     public void render(SpriteBatch batch) {
         batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
+
+        particleManager.draw(batch, ParticleManager.Layer.BACKGROUND);
         for (Structure structure : structures) {
             structure.render(batch);
         }

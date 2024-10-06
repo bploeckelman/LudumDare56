@@ -27,7 +27,7 @@ public class SmokeEffect extends ParticleEffect {
     @Override
     public void spawn(ParticleEffectParams parameters) {
         var params = (SmokeEffect.Params) parameters;
-        var layer = particleManager.activeParticles.get(ParticleManager.Layer.FOREGROUND);
+        var layer = particleManager.activeParticles.get(ParticleManager.Layer.BACKGROUND);
         var pool = particleManager.particlePool;
 
         var amount = 5;

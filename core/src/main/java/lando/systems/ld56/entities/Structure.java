@@ -20,6 +20,8 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 public class Structure extends Entity implements XRayable {
 
     public final Scene scene;
+    public static float collapseDuration = 2f;
+
     public Texture internals;
     public Texture externals;
     public ParticleManager particleManager;
@@ -35,7 +37,7 @@ public class Structure extends Entity implements XRayable {
     private float collapseTimer = 0;
 
     public Structure(Scene scene, RectangleI gridRect) {
-        this(scene, gridRect, 0.5f, 8, 5);
+        this(scene, gridRect, 0.5f, 8, 3);
     }
 
     public Structure(Scene scene, RectangleI gridRect, int destructionRows, int destructionCols) {
@@ -100,13 +102,16 @@ public class Structure extends Entity implements XRayable {
 
     public void update(float dt) {
         if (isCollapsing) {
-            float collapseDuration = 4f;
             collapseTimer += dt;
+            float collapsePercent = collapseTimer / collapseDuration;
+            structureDamage.setMinDamageForAllTiles(collapsePercent);
             bounds.x += MathUtils.sin(collapseTimer * 120) * 5;
-            bounds.y -= Interpolation.exp10In.apply(0, bounds.height, collapseTimer / collapseDuration);
+//            bounds.y -= Interpolation.exp10In.apply(0, bounds.height, collapsePercent);
             if (collapseTimer >= collapseDuration) {
                 isCollapsing = false;
                 collapsed = true;
+                //  TODO: create physics particles here
+
             }
             randomSmoke();
         } else {
@@ -124,6 +129,6 @@ public class Structure extends Entity implements XRayable {
 
     private void randomSmoke() {
         var particleEffect = particleManager.effects.get(ParticleEffectType.SMOKE);
-        particleEffect.spawn(new SmokeEffect.Params(bounds.x + MathUtils.random(bounds.getWidth()), bounds.y, 30));
+        particleEffect.spawn(new SmokeEffect.Params(bounds.x + MathUtils.random(bounds.getWidth()), bounds.y, MathUtils.random(5f,10f)));
     }
 }

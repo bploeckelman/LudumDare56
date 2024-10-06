@@ -98,7 +98,6 @@ public class GameScreen extends BaseScreen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         {
-            particles.draw(batch, ParticleManager.Layer.BACKGROUND);
             scene.render(batch);
             particles.draw(batch, ParticleManager.Layer.FOREGROUND);
 

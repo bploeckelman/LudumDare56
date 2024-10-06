@@ -39,6 +39,14 @@ public class StructureDamage {
         this.tileHeight = (float)bounds.height / rows;
     }
 
+    public void setMinDamageForAllTiles(float value) {
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                damage[x][y] = Math.max(damage[x][y], value);
+            }
+        }
+    }
+
     public boolean applyDamage(Player player, int posX, int posY) {
         int xOffset = (int)((posX - bounds.getX()) / tileWidth);
         int yOffset = (int)((posY - bounds.getY()) / tileHeight);
