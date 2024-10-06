@@ -179,6 +179,12 @@ public class GameScreen extends BaseScreen {
         batch.end();
     }
 
+    @Override
+    public void renderFrameBuffers(SpriteBatch batch ) {
+        scene.renderFrameBuffers(batch);
+    }
+
+
     private boolean leftMouseDown = false;
     private boolean rightMouseDown = false;
     private boolean middleMouseDown = false;

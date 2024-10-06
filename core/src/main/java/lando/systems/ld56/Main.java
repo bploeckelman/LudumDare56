@@ -125,6 +125,7 @@ public class Main extends ApplicationAdapter {
         if (Transition.inProgress()) {
             Transition.render(assets.batch);
         } else {
+            currentScreen.renderFrameBuffers(assets.batch);
             currentScreen.render(assets.batch);
         }
     }

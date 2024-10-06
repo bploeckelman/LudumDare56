@@ -5,11 +5,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.ld56.assets.Anims;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.entities.LevelMap;
 import lando.systems.ld56.entities.Npc;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
+import lando.systems.ld56.entities.TestXRay;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Scene {
@@ -22,6 +25,7 @@ public class Scene {
     public Structure structure;
     public TextureRegion background;
     public OrthographicCamera camera;
+    public Array<TestXRay> testXRays;
 
     public Scene(Assets assets, OrthographicCamera camera, int tileSize, int cols, int rows) {
         this.assets = assets;
@@ -40,12 +44,20 @@ public class Scene {
         levelMap.collider.setGridTilesSolid(0, 0, 1, h, solid);
         levelMap.collider.setGridTilesSolid(0, h, w, 1, solid);
         levelMap.collider.setGridTilesSolid(w, 0, 1, h, solid);
+
+        testXRays = new Array<>();
+        testXRays.add(new TestXRay(new Rectangle(200, 30, 300, 300), camera));
+        testXRays.add(new TestXRay(new Rectangle(800, 30, 400, 400), camera));
+
     }
 
     public void update(float dt) {
         player.update(dt);
         antPunch.update(dt);
         andClimbPunch.update(dt);
+        for (TestXRay testXRay : testXRays) {
+            testXRay.update(dt);
+        }
     }
 
     public void render(SpriteBatch batch) {
@@ -54,12 +66,21 @@ public class Scene {
         antPunch.render(batch);
         andClimbPunch.render(batch);
         player.render(batch);
+        for (TestXRay testXRay : testXRays) {
+            testXRay.render(batch);
+        }
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
         levelMap.renderDebug(shapes);
         player.renderDebug(batch, shapes);
         structure.renderDebug(batch, shapes);
+    }
+
+    public void renderFrameBuffers(SpriteBatch batch) {
+        for (TestXRay testXRay : testXRays) {
+            testXRay.renderFrameBuffers(batch);
+        }
     }
 
     public void paintGridAt(int x, int y) {

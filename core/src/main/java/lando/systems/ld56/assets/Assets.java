@@ -24,6 +24,14 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Assets implements Disposable {
 
+    //  TEST THINGS GO HERE
+
+    public Texture testCoverTexture;
+    public Texture testxRayTexture;
+
+    // END TEST THINGS - REMOVE AT RELEASE
+
+
     public enum Load { ASYNC, SYNC }
 
     public final Preferences preferences;
@@ -44,8 +52,13 @@ public class Assets implements Disposable {
 
     public Texture pixel;
     public Texture gdx;
+    public Texture noiseTexture;
+
+    public ShaderProgram xRayShader;
+
 
     public TextureRegion pixelRegion;
+    public TextureRegion fuzzyCircle;
 
     public Sound coin;
 
@@ -89,6 +102,9 @@ public class Assets implements Disposable {
 
             mgr.load("images/pixel.png", Texture.class);
             mgr.load("images/libgdx.png", Texture.class);
+            mgr.load("images/noise.png", Texture.class);
+            mgr.load("images/covered.png", Texture.class);
+            mgr.load("images/xray.png", Texture.class);
 
             mgr.load("audio/music/intro-music.ogg", Music.class);
 
@@ -109,6 +125,11 @@ public class Assets implements Disposable {
         strings = mgr.get("i18n/strings", I18NBundle.class);
         gdx = mgr.get("images/libgdx.png");
         pixel = mgr.get("images/pixel.png");
+        noiseTexture = mgr.get("images/noise.png");
+        testCoverTexture = mgr.get("images/covered.png");
+        testxRayTexture = mgr.get("images/xray.png");
+
+        fuzzyCircle = atlas.findRegion("misc/fuzzy-circle");
 
         var ttfLg = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 80; }};
         var ttfMd = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 40; }};
@@ -146,6 +167,8 @@ public class Assets implements Disposable {
         Particles.init(this);
         Transition.init();
 
+        xRayShader = loadShader("shaders/default.vert", "shaders/xray.frag");
+
         initialized = true;
         return 1;
     }
@@ -161,7 +184,7 @@ public class Assets implements Disposable {
     }
 
     public static ShaderProgram loadShader(String vertSourcePath, String fragSourcePath) {
-        ShaderProgram.pedantic = true;
+        ShaderProgram.pedantic = false;
         var shaderProgram = new ShaderProgram(
             Gdx.files.internal(vertSourcePath),
             Gdx.files.internal(fragSourcePath));
