@@ -50,7 +50,6 @@ public class Scene {
     public LevelMap levelMap;
     public TextureRegion background;
     public Array<Structure> structures;
-    public Array<TestXRay> testXRays;
 
 
     // Debris things
@@ -65,7 +64,6 @@ public class Scene {
         this.particleManager = screen.particles;
         this.type = type;
         this.structures = new Array<>();
-        this.testXRays = new Array<>();
 
         init();
         physics = new PhysicsSystem(new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -73,9 +71,6 @@ public class Scene {
         collidables.add(new GameBoundSegment(0, 4 * 16, 0, Gdx.graphics.getHeight()));
         collidables.add(new GameBoundSegment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), 4 * 16));
 
-        for (int i = 0; i < 100; i++) {
-//            collidables.add(new Debris(new Vector2(MathUtils.random(Gdx.graphics.getWidth()), MathUtils.random(Gdx.graphics.getHeight())), 40, 20, assets.pixelRegion));
-        }
     }
 
     private void init() {
@@ -132,9 +127,7 @@ public class Scene {
     public void update(float dt) {
         physics.update(dt, collidables, influencers);
         player.update(dt);
-        for (TestXRay testXRay : testXRays) {
-            testXRay.update(dt);
-        }
+
         for (int i = structures.size-1; i >=0; i--) {
             Structure structure = structures.get(i);
             structure.update(dt);
@@ -171,9 +164,7 @@ public class Scene {
 //            c.renderDebug(batch);
         }
         player.render(batch);
-        for (TestXRay testXRay : testXRays) {
-            testXRay.render(batch);
-        }
+
 
     }
 
@@ -188,9 +179,6 @@ public class Scene {
     public void renderFrameBuffers(SpriteBatch batch) {
         for (Structure structure : structures) {
             structure.renderFrameBuffers(batch);
-        }
-        for (TestXRay testXRay : testXRays) {
-            testXRay.renderFrameBuffers(batch);
         }
     }
 
@@ -207,5 +195,9 @@ public class Scene {
     public void eraseGridAt(int x, int y) {
         var solid = false;
         levelMap.solidCollider.setGridTileSolid(x, y, solid);
+    }
+
+    public boolean gameOver() {
+        return structures.size <= 0;
     }
 }

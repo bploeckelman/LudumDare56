@@ -102,6 +102,10 @@ public class Debris implements Collidable {
             if (MathUtils.randomBoolean(.01f)){
                 ttl = 0;
             }
+            collisionBounds.height *= .99f;
+            collisionBounds.width *= .99f;
+            radius = Math.min(collisionBounds.width/2f, collisionBounds.height/2f) - 2f;
+
         }
     }
 

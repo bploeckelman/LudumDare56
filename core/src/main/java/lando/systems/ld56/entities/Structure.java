@@ -24,7 +24,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 public class Structure extends Entity implements XRayable {
 
     public final Scene scene;
-    public static float collapseDuration = 2f;
+    public static float collapseDuration = 3f;
 
     public Texture internals;
     public Texture externals;

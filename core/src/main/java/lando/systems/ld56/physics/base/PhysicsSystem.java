@@ -171,7 +171,7 @@ public class PhysicsSystem {
 
             } while (overlaps);
 
-            if (infiniteLoops++ > 10) {
+            if (infiniteLoops++ > 100) {
                 Gdx.app.log("Physics", "Caught in an infinite loop doing collisions");
                 updateMovements(collidables, influencers, timeLeft);
                 break;
@@ -237,7 +237,7 @@ public class PhysicsSystem {
             if (c.getMass() != Collidable.IMMOVABLE) {
                 Vector2 vel = c.getVelocity();
                 // Gravity
-                c.setVelocity(vel.x, (float) (vel.y - (50 * dt)));
+                c.setVelocity(vel.x, (float) (vel.y - (100 * dt)));
                 tempVec2.set(c.getPosition());
                 tempVec2.add((float)(c.getVelocity().x * dt), (float)(c.getVelocity().y * dt));
                 c.getVelocity().scl((float) Math.pow(c.getFriction(), dt));
