@@ -124,7 +124,7 @@ public class Scene {
         }
     }
 
-    public void update(float dt) {
+    public void update(float dt, boolean allowInput) {
         physics.update(dt, collidables, influencers);
         player.update(dt);
 
