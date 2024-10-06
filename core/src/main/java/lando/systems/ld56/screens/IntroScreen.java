@@ -21,24 +21,15 @@ public class IntroScreen extends BaseScreen {
     BitmapFont font;
     ParticleManager particles;
     String page1 =
-        "{COLOR=black}" +
-            "Many consider a{GRADIENT=black;gray} King{ENDGRADIENT} the embodiment of{GRADIENT=black;gold} power{ENDGRADIENT}.\n\n" +
-            "But in truth, each monarch is a captive. " +
-            "Their every need relies on the{GRADIENT=navy;purple} fealty {ENDGRADIENT}of those they purport to rule.\n\n " +
-            "And in times of peril, the King is only as safe as the court they are {GRADIENT=yellow;black}summoning{ENDGRADIENT} to their defense...";
+        "{COLOR=white}" +
+            "These  {GRADIENT=black;gray} STRUCTURES {ENDGRADIENT} are blocking the {GRADIENT=black;gold} VIEW {ENDGRADIENT}.\n\n"+
+            "Perhaps{GRADIENT=navy;purple} SOMEONE {ENDGRADIENT} needs to get rid of them.\n\n " +
+            "Use your  {GRADIENT=yellow;black} ATTACKS {ENDGRADIENT} to destroy them!";
     String page2 =
-        "{COLOR=black}When a mystical{GRADIENT=red;black} wizard{ENDGRADIENT} unleashes his army of {GRADIENT=red;brown}monsters {ENDGRADIENT}on the castle, " +
-            "the King's warriors must confront the menace before they reach the kingdom.\n\n" +
-            "(Kind of a dick move by the wizard. Really failed the vibe check.)";
+        "{COLOR=white}Something{GRADIENT=red;black} about {ENDGRADIENT} buildings {GRADIENT=red;brown} knocked {ENDGRADIENT} down ";
     String page3 =
-        "{COLOR=black}For whatever reason, the King's guards prefer a strategy of{GRADIENT=brown;red} turn-based combat {ENDGRADIENT}" +
-            "that I guess is reminiscent of {GRADIENT=green;black}chess{ENDGRADIENT}? I don't really know - I'm more of a Go player myself." +
-            "\n\nIf our warriors reach the wizard's stronghold, it means victory for the kingdom. But if any of the enemies reach the king, he'll be {GRADIENT=red;brown}Board To Death! {ENDGRADIENT} " ;
-    //    String page4 =
-//        "{COLOR=black}This is no mere chessboard, but a tapestry of fate woven by your strategic brilliance.\n" +
-//        "So, grand observer, will your reign usher in an era of prosperity...\n" +
-//        "...or will the kingdom crumble beneath the weight of your decisions?\n" +
-//        "{RAINBOW}The time has come. The pieces await your command...{ENDRAINBOW}\n";
+        "{COLOR=white}Some more stuff here{GRADIENT=brown;red} still going {ENDGRADIENT}";
+
     int currentPage = 0;
     float elapsedTime = 0f;
     TypingLabel typingLabel;

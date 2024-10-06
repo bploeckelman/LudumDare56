@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Assets;
-// ToDo PV import lando.systems.ld56.audio.AudioManager;
+import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.ui.Button;
 import lando.systems.ld56.utils.typinglabel.TypingLabel;
@@ -32,14 +32,14 @@ public class CreditsScreen extends BaseScreen {
 //    private final Animation<TextureRegion> kittenAnimation;
     private final TextureRegion background;
 
-    private final String title = "{GRADIENT=purple;cyan}Board to Death: Monsters and Monarchs{ENDGRADIENT}";
-    private final String theme = "Made for Ludum Dare 55: Summoning";
+    private final String title = "{GRADIENT=purple;cyan}Game Name{ENDGRADIENT}";
+    private final String theme = "{GRADIENT=purple;cyan}Made for Ludum Dare 56: Tiny Creatures{ENDGRADIENT}";
 
     private final String thanks = "{GRADIENT=purple;cyan}Thank you for playing our game!{ENDGRADIENT}";
-    private final String developers = "{COLOR=gray}Developed by:{COLOR=white}\n {GRADIENT=white;gray}Brian Ploeckelman{ENDGRADIENT} \n {GRADIENT=white;gray}Doug Graham{ENDGRADIENT} \n {GRADIENT=white;gray}Brian Rossman{ENDGRADIENT} \n {GRADIENT=white;gray}Jeffrey Hwang{ENDGRADIENT}";
+    private final String developers = "{COLOR=gray}Developed by:{COLOR=white}\n {GRADIENT=white;gray}Brian Ploeckelman{ENDGRADIENT} \n {GRADIENT=white;gray}Doug Graham{ENDGRADIENT} \n {GRADIENT=white;gray}Brian Rossman{ENDGRADIENT} \n {GRADIENT=white;gray}Jeffrey Hwang{ENDGRADIENT} \n {GRADIENT=white;gray}Luke Bain{ENDGRADIENT}";
     private final String artists = "{COLOR=gray}Art by:{COLOR=white}\n {GRADIENT=white;gray}Matt Neumann{ENDGRADIENT}\n {GRADIENT=white;gray}Luke Bain{ENDGRADIENT}\n";
     private final String emotionalSupport = "{COLOR=cyan}Emotional Support:{COLOR=white}\n  Asuka, Osha, Cherry \n       Obi, and Yoda";
-    private final String music = "{COLOR=gray}Music and Writing:{COLOR=white}\n {GRADIENT=white;gray}Pete V{ENDGRADIENT}\n";
+    private final String music = "{COLOR=gray}Music and Writing:{COLOR=white}\n {GRADIENT=white;gray}Pete Valeo{ENDGRADIENT}\n";
     private final String libgdx = "Made with {COLOR=red}<3{COLOR=white}\nand {RAINBOW}LibGDX{ENDRAINBOW}";
     private final String disclaimer = "{GRADIENT=black;gray}Disclaimer:{ENDGRADIENT}  {GRADIENT=gold;yellow}{JUMP=.27} No babies were harmed in the making of this game{ENDJUMP}{ENDGRADIENT}";
 
@@ -54,7 +54,7 @@ public class CreditsScreen extends BaseScreen {
         assets.fontChrustySm.setColor(Color.WHITE);
         assets.fontChrustySm.getData().setScale(1f);
 
-        titleLabel = new TypingLabel(assets.fontChrustySm, title, 0f, Config.Screen.window_height - 20f);
+        titleLabel = new TypingLabel(assets.fontChrustyMd, title, 0f, Config.Screen.window_height - 20f);
         titleLabel.setWidth(Config.Screen.window_width);
         titleLabel.setFontScale(1f);
 
@@ -62,24 +62,24 @@ public class CreditsScreen extends BaseScreen {
         themeLabel.setWidth(Config.Screen.window_width);
         themeLabel.setFontScale(1f);
 
-        leftCreditLabel = new TypingLabel(assets.fontChrustySm, developers.toLowerCase() + "\n\n" + emotionalSupport.toLowerCase() + "\n\n", 75f, Config.Screen.window_height / 2f + 135f);
+        leftCreditLabel = new TypingLabel(assets.fontChrustyMd, developers.toLowerCase() + "\n\n" + emotionalSupport.toLowerCase() + "\n\n", 75f, Config.Screen.window_height / 2f + 135f);
         leftCreditLabel.setWidth(Config.Screen.window_width / 2f - 150f);
         leftCreditLabel.setLineAlign(Align.left);
-        leftCreditLabel.setFontScale(.85f);
+        leftCreditLabel.setFontScale(.75f);
 
         background = assets.pixelRegion;
 
-        rightCreditLabel = new TypingLabel(assets.fontChrustySm, artists.toLowerCase() + "\n" + music.toLowerCase() + "\n" + libgdx.toLowerCase(), Config.Screen.window_width / 2 + 75f, Config.Screen.window_height / 2f + 135f);
+        rightCreditLabel = new TypingLabel(assets.fontChrustyMd, artists.toLowerCase() + "\n" + music.toLowerCase() + "\n" + libgdx.toLowerCase(), Config.Screen.window_width / 2 + 75f, Config.Screen.window_height / 2f + 135f);
         rightCreditLabel.setWidth(Config.Screen.window_width / 2f - 150f);
         rightCreditLabel.setLineAlign(Align.left);
-        rightCreditLabel.setFontScale(.85f);
+        rightCreditLabel.setFontScale(.75f);
 
         thanksLabel = new TypingLabel(assets.fontChrustySm, thanks, 0f, 105f);
         thanksLabel.setWidth(Config.Screen.window_width);
         thanksLabel.setLineAlign(Align.center);
         thanksLabel.setFontScale(.85f);
 
-        disclaimerLabel = new TypingLabel(assets.fontChrustySm, disclaimer, 0f, 50f);
+        disclaimerLabel = new TypingLabel(assets.fontChrustySm, disclaimer, 0f, 75f);
         disclaimerLabel.setWidth(Config.Screen.window_width);
         thanksLabel.setLineAlign(Align.center);
         disclaimerLabel.setFontScale(.5f);
@@ -90,7 +90,7 @@ public class CreditsScreen extends BaseScreen {
 //ToDo ninePatch        afterCreditsButton = new Button(new Rectangle(worldCamera.viewportWidth - 300f, 0f, 300, 50), "Scrapped Ideas", Assets.NinePatches.glass_yellow, Assets.NinePatches.glass, assets.fontChrustySm);
 
 //ToDo PV       Main.game.audioManager.playMusic(AudioManager.Musics.outroMusic);
-        var bounds = new Rectangle(0, 0, windowCamera.viewportWidth, 100);
+        var bounds = new Rectangle((windowCamera.viewportWidth /3), 0, (windowCamera.viewportWidth /3), 50);
         afterCreditsButton = new Button(bounds, "Done", Patches.get(Patches.Type.PLAIN), Patches.get(Patches.Type.PLAIN_GRADIENT), assets.font);
     }
 
@@ -150,7 +150,7 @@ public class CreditsScreen extends BaseScreen {
         batch.setProjectionMatrix(windowCamera.combined);
         batch.begin();
         {
-            //batch.draw(background, 0, 0, Config.Screen.window_width, Config.Screen.window_height);
+            batch.draw(background, 0, 0, Config.Screen.window_width, Config.Screen.window_height);
 
             batch.setColor(0f, 0f, 0f, .6f);
             batch.draw(assets.pixelRegion, 25f, 130f, Config.Screen.window_width / 2f - 50f, 400f);
