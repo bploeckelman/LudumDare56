@@ -1,5 +1,6 @@
 package lando.systems.ld56.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,6 +13,7 @@ import lando.systems.ld56.entities.components.XRayRender;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.particles.effects.SmokeEffect;
+import lando.systems.ld56.scene.Scene;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Structure extends Entity implements XRayable {
@@ -22,19 +24,25 @@ public class Structure extends Entity implements XRayable {
     public StructureDamage structureDamage;
     public Rectangle bounds;
     public XRayRender xRayRender;
+    public Scene scene;
 
-    public Structure(Assets assets, ParticleManager particleManager, float x, float y, float width, float height, OrthographicCamera worldCamera) {
-        this(assets, particleManager, x, y, width, height, 8, 3, worldCamera);
+    public boolean collapsed = false;
+    private boolean isCollapsing = false;
+    private float collapseTimer = 0;
+
+    public Structure(Assets assets, float x, float y, float width, float height, Scene scene) {
+        this(assets, x, y, width, height, 8, 5, scene);
     }
 
-    public Structure(Assets assets, ParticleManager particleManager, float x, float y, float width, float height, int rows, int columns, OrthographicCamera worldCamera) {
+    public Structure(Assets assets, float x, float y, float width, float height, int rows, int columns, Scene scene) {
         this.internals = assets.buildingXrayTexture;
         this.externals = assets.buildingCoveredTexture;
-        this.particleManager = particleManager;
+        this.particleManager = scene.particleManager;
+        this.scene = scene;
 
         this.bounds = new Rectangle(x, y, width, height);
         this.structureDamage = new StructureDamage(this, rows, columns);
-        xRayRender = new XRayRender(this, externals, internals, bounds, worldCamera);
+        xRayRender = new XRayRender(this, externals, internals, bounds, scene.camera);
     }
 
     public void damage(Player player, int x, int y) {
@@ -58,8 +66,7 @@ public class Structure extends Entity implements XRayable {
         xRayRender.renderXrayAlpha(batch);
     }
 
-    private boolean isCollapsing = false;
-    private float collapseTimer = 0;
+
 
     public void update(float dt) {
         if (isCollapsing) {
@@ -69,14 +76,19 @@ public class Structure extends Entity implements XRayable {
             bounds.y -= Interpolation.exp10In.apply(0, bounds.height, collapseTimer / collapseDuration);
             if (collapseTimer >= collapseDuration) {
                 isCollapsing = false;
+                collapsed = true;
             }
             randomSmoke();
+        } else {
+            if (structureDamage.getDamagePercent() > .5f) {
+                collapse();
+            }
         }
     }
 
     public void collapse() {
         isCollapsing = !isCollapsing;
-
+        scene.levelMap.removeStructure(this);
         collapseTimer = 0;
         bounds.y = 0;
     }

@@ -37,6 +37,28 @@ public class LevelMap extends Entity {
         solidCollider.setGridTilesSolid(left + 1, top - 1, w - 1, 1, solid);
     }
 
+    public void removeStructure(Structure structure) {
+        var grid = solidCollider.grid;
+        var bounds = structure.bounds;
+
+        // convert bounds px to tile grid coords edges
+        var left   = Calc.clampInt((int) Calc.floor((float) bounds.x / grid.tileSize), 0, grid.cols);
+        var bottom = Calc.clampInt((int) Calc.floor((float) bounds.y / grid.tileSize), 0, grid.rows);
+        var right  = Calc.clampInt((int) Calc.floor((float) (bounds.x + bounds.width)  / grid.tileSize), 0, grid.cols);
+        var top    = Calc.clampInt((int) Calc.floor((float) (bounds.y + bounds.height) / grid.tileSize), 0, grid.rows);
+        var w = right - left;
+        var h = top - bottom;
+
+        // set left and right edges climbable
+        var climbable = false;
+        climbableCollider.setGridTilesClimbable(left, bottom, 1, h, climbable);
+        climbableCollider.setGridTilesClimbable(right - 1, bottom, 1, h, climbable);
+
+        // TODO(brian): not really the right place for this, but the tops of structures should probably be walkable?
+        var solid = false;
+        solidCollider.setGridTilesSolid(left + 1, top - 1, w - 1, 1, solid);
+    }
+
     public void setBorderSolid() {
         int w = solidCollider.grid.cols - 1;
         int h = solidCollider.grid.rows - 1;

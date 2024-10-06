@@ -55,7 +55,7 @@ public class StructureDamage {
         }
 
         // get amount of damage from player
-        this.damage[xOffset][yOffset] += player.damage;
+        this.damage[xOffset][yOffset] = Math.clamp(this.damage[xOffset][yOffset] + player.damage, 0f, 1f);
         return true;
     }
 
@@ -77,6 +77,18 @@ public class StructureDamage {
         }
 
         batch.setColor(Color.WHITE);
+    }
+
+    public float getDamagePercent() {
+        float totalHealth = 0;
+        float totalDamage = 0;
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                totalHealth += 1f;
+                totalDamage += damage[x][y];
+            }
+        }
+        return totalDamage/totalHealth;
     }
 
     public void renderMask(SpriteBatch batch) {

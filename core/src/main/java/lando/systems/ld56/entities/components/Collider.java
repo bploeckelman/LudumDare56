@@ -137,6 +137,18 @@ public class Collider extends Component {
         return this;
     }
 
+    public Collider removeAllTiles(int x, int y, int w, int h) {
+        for (int iy = y; iy< y + h; iy++) {
+            for (int ix = x; ix < x+w; ix++) {
+                var tile = getGridTile(ix, iy);
+                if (tile == null) continue;
+                tile.climbable = false;
+                tile.solid = false;
+            }
+        }
+        return this;
+    }
+
     public boolean check(GridPoint2 offset, Type type) {
         var colliders = Main.game.entityData.getComponents(Collider.class);
         for (var collider : colliders) {
