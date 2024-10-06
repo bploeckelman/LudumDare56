@@ -37,6 +37,7 @@ public class ParticleManager implements Disposable {
         effects.put(ParticleEffectType.SCRATCH, new ScratchEffect(this));
         effects.put(ParticleEffectType.BITE,    new BiteEffect(this));
         effects.put(ParticleEffectType.DIRT,    new DirtEffect(this));
+        effects.put(ParticleEffectType.RAT_SWARM, new RatSwarmEffect(this));
     }
 
     public ParticleEffect randomEffect() {

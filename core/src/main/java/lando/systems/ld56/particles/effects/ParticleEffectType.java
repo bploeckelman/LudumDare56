@@ -8,4 +8,5 @@ public enum ParticleEffectType {
     SCRATCH,
     BITE,
     DIRT,
+    RAT_SWARM,
 }
