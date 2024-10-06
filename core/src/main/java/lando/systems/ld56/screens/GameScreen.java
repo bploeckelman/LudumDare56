@@ -11,10 +11,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
-import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.particles.ParticleManager;
-import lando.systems.ld56.particles.effects.ParticleEffectParams;
+import lando.systems.ld56.particles.effects.AsukaEffectParams;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
@@ -71,8 +70,7 @@ public class GameScreen extends BaseScreen {
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             var particleEffect = particles.effects.get(ParticleEffectType.LEVEL_UP);
-            var textureRegion = Anims.get(Anims.Type.DOG).getKeyFrame(0);
-            particleEffect.spawn(new ParticleEffectParams(new Vector2(vec3.x, vec3.y), textureRegion));
+            particleEffect.spawn(new AsukaEffectParams(new Vector2(vec3.x, vec3.y)));
         }
 
         var goToEndScreen = false; // TODO: set true based on 'completing' the game, whatever that will mean

@@ -3,6 +3,7 @@ package lando.systems.ld56.particles;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import lando.systems.ld56.assets.Assets;
@@ -32,17 +33,16 @@ public class ParticleManager implements Disposable {
     }
 
     public void init() {
-        effects.put(ParticleEffectType.LEVEL_UP, new LevelUpEffect(this));
+        effects.put(ParticleEffectType.LEVEL_UP, new AsukaEffect(this));
         effects.put(ParticleEffectType.SMOKE, new SmokeEffect(this));
     }
 
-    public void spawn(Layer layer, TextureRegion textureRegion, int amount, Vector2 startPos, Vector2 endPos, float angle, float speed, Color startColor, Color endColor, float startSize, float endSize, float timeToLive) {
+    public void spawn(Layer layer, TextureRegion textureRegion, int amount, Vector2 startPos, Vector2 endPos, Color startColor, Color endColor, float startSize, float endSize, float timeToLive) {
         for (int i = 0; i < amount; i++) {
             activeParticles.get(layer).add(Particle.initializer(particlePool.obtain())
                 .keyframe(textureRegion)
                 .startPos(startPos)
                 .endPos(endPos)
-                .velocityDirection(angle, speed)
                 .startColor(startColor)
                 .endColor(endColor)
                 .startSize(startSize)
@@ -53,8 +53,20 @@ public class ParticleManager implements Disposable {
         }
     }
 
-    public void spawn(ParticleEffectParams params) {
-        spawn(params.layer, params.textureRegion, params.amount, params.startPos, params.endPos, params.angle, params.speed, params.startColor, params.endColor, params.startSize, params.endSize, params.timeToLive);
+    public void spawn(Layer layer, TextureRegion textureRegion, int amount, Vector2 startPos, float angle, float speed, Color startColor, Color endColor, float startSize, float endSize, float timeToLive) {
+        for (int i = 0; i < amount; i++) {
+            activeParticles.get(layer).add(Particle.initializer(particlePool.obtain())
+                .keyframe(textureRegion)
+                .startPos(startPos)
+                .velocity(MathUtils.cosDeg(angle) * speed, MathUtils.sinDeg(angle) * speed)
+                .startColor(startColor)
+                .endColor(endColor)
+                .startSize(startSize)
+                .endSize(endSize)
+                .timeToLive(timeToLive)
+                .init()
+            );
+        }
     }
 
     public void clear() {
