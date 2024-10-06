@@ -57,7 +57,7 @@ public class Scene {
         levelMap.collider.setGridTileSolid(x, y, solid);
 
         // temp
-        structure.damage(Gdx.input.getX(), (int)camera.viewportHeight - Gdx.input.getY());
+        structure.damage(player, Gdx.input.getX(), (int)camera.viewportHeight - Gdx.input.getY());
     }
 
     public void eraseGridAt(int x, int y) {

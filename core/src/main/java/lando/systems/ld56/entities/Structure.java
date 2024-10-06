@@ -29,12 +29,8 @@ public class Structure extends Entity {
         this.structureDamage = new StructureDamage(this, rows, columns);
     }
 
-    public void damage(int x, int y) {
-        damage(x, y, 1f);
-    }
-
-    public void damage(int x, int y, float damage) {
-        structureDamage.applyDamage(x, y, damage);
+    public void damage(Player player, int x, int y) {
+        structureDamage.applyDamage(player, x, y);
     }
 
     public void render(SpriteBatch batch) {

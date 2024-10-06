@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import lando.systems.ld56.Main;
+import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.utils.Calc;
 import lando.systems.ld56.utils.RectangleI;
@@ -36,14 +37,28 @@ public class StructureDamage {
         this.tileHeight = (float)bounds.height / rows;
     }
 
-    public void applyDamage(int posX, int posY, float damage) {
+    public void applyDamage(Player player, int posX, int posY) {
         int xOffset = (int)((posX - bounds.getX()) / tileWidth);
         int yOffset = (int)((posY - bounds.getY()) / tileHeight);
 
         // calc offset instead of using bounds
         if (xOffset < 0 || xOffset >= columns || yOffset < 0 || yOffset >= rows) { return; }
 
-        this.damage[xOffset][yOffset] += damage;
+        // get from player
+        int moveDirection = 1;
+        int damageX = xOffset;
+        if (moveDirection == 1) {
+            while (damageX-- > 0) {
+                if (this.damage[damageX][yOffset] < 1f) {
+                    return;
+                }
+            }
+        } else {
+
+        }
+
+        // get amount of damage from player
+        this.damage[xOffset][yOffset] += 0.5f;
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
