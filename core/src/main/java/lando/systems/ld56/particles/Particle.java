@@ -65,6 +65,8 @@ public class Particle implements Pool.Poolable {
     private boolean timed;
     public float ttlMax;
     public float ttl;
+    public float ttlInitial;
+    private boolean looping;
 
     private boolean dead;
     private boolean persistent;
@@ -82,10 +84,17 @@ public class Particle implements Pool.Poolable {
 
     public void update(float dt) {
         float lifetime, progress;
+        if (looping && ttlInitial == 0f) {
+            ttlInitial = ttl;
+        }
         if (timed) {
             ttl -= dt;
-            if (ttl <= 0f && !persistent) {
+            if (ttl <= 0f && !persistent && !looping) {
                 dead = true;
+            } else if (looping && ttl <= 0f) {
+                ttl = ttlInitial;
+                reverse();
+
             }
             lifetime = MathUtils.clamp(ttl / ttlMax , 0f, 1f);
         } else {
@@ -151,6 +160,36 @@ public class Particle implements Pool.Poolable {
 
     boolean isDead() {
         return dead;
+    }
+
+    void reverse() {
+        float rTemp = rStart;
+        float bTemp = bStart;
+        float gTemp = gStart;
+        float aTemp = aStart;
+        rStart = rEnd;
+        gStart = gEnd;
+        bStart = bEnd;
+        aStart = aEnd;
+        rEnd = rTemp;
+        gEnd = gTemp;
+        bEnd = bTemp;
+        aEnd = aTemp;
+        float widthTemp = widthStart;
+        float heightTemp = heightStart;
+        widthStart = widthEnd;
+        heightStart = heightEnd;
+        widthEnd = widthTemp;
+        heightEnd = heightTemp;
+        float rotationTemp = rotationStart;
+        rotationStart = rotationEnd;
+        rotationEnd = rotationTemp;
+        float xTemp = xStart;
+        float yTemp = yStart;
+        xStart = xTarget;
+        yStart = yTarget;
+        xTarget = xTemp;
+        yTarget = yTemp;
     }
 
     @Override
@@ -262,6 +301,7 @@ public class Particle implements Pool.Poolable {
         private float aEnd = 1f;
         private boolean setColorEnd = false;
         private boolean setAlphaEnd = false;
+        private boolean looping = false;
 
         private boolean persistent = false;
         private boolean timed = false;
@@ -270,6 +310,11 @@ public class Particle implements Pool.Poolable {
         public Initializer(Particle particle) {
             this.particle = particle;
             this.particle.reset();
+        }
+
+        public Initializer looping() {
+            this.looping = true;
+            return this;
         }
 
         public Initializer interpolation(Interpolation interpolation) {
@@ -504,6 +549,7 @@ public class Particle implements Pool.Poolable {
 
             particle.persistent = persistent;
             particle.dead = false;
+            particle.looping = looping;
 
             return particle;
         }

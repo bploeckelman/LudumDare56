@@ -16,7 +16,7 @@ public class Particles {
         , FIRE      (0.1f, "particles/kenney/fire",    Animation.PlayMode.LOOP)
         , FLAME     (0.1f, "particles/kenney/flame",   Animation.PlayMode.LOOP)
         , FLARE     (0.1f, "particles/kenney/flare",   Animation.PlayMode.LOOP)
-        , LIGHT     (0.2f, "particles/kenney/light",   Animation.PlayMode.LOOP)
+        , LIGHT     (0.1f, "particles/kenney/light",   Animation.PlayMode.LOOP)
         , MAGIC     (0.1f, "particles/kenney/magic",   Animation.PlayMode.LOOP)
         , MUZZLE    (0.1f, "particles/kenney/muzzle",  Animation.PlayMode.LOOP)
         , SCORCH    (0.1f, "particles/kenney/scorch",  Animation.PlayMode.LOOP)

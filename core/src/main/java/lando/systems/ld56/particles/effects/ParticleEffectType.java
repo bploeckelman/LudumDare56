@@ -9,4 +9,5 @@ public enum ParticleEffectType {
     BITE,
     DIRT,
     RAT_SWARM,
+    LIGHT,
 }

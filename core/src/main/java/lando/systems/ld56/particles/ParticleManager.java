@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class ParticleManager implements Disposable {
 
-    public enum Layer { BACKGROUND, FOREGROUND }
+    public enum Layer { BACKGROUND, MIDDLE, FOREGROUND }
 
     private static final int MAX_PARTICLES = 4000;
 
@@ -25,19 +25,21 @@ public class ParticleManager implements Disposable {
         this.activeParticles = new ObjectMap<>();
         int particlesPerLayer = MAX_PARTICLES / Layer.values().length;
         this.activeParticles.put(Layer.BACKGROUND, new Array<>(false, particlesPerLayer));
+        this.activeParticles.put(Layer.MIDDLE, new Array<>(false, particlesPerLayer));
         this.activeParticles.put(Layer.FOREGROUND,     new Array<>(false, particlesPerLayer));
         init();
     }
 
     public void init() {
-        effects.put(ParticleEffectType.ASUKA,   new AsukaEffect(this));
-        effects.put(ParticleEffectType.SMOKE,   new SmokeEffect(this));
-        effects.put(ParticleEffectType.FLAME,   new FlameEffect(this));
-        effects.put(ParticleEffectType.FLARE,   new FlareEffect(this));
-        effects.put(ParticleEffectType.SCRATCH, new ScratchEffect(this));
-        effects.put(ParticleEffectType.BITE,    new BiteEffect(this));
-        effects.put(ParticleEffectType.DIRT,    new DirtEffect(this));
+        effects.put(ParticleEffectType.ASUKA,     new AsukaEffect(this));
+        effects.put(ParticleEffectType.SMOKE,     new SmokeEffect(this));
+        effects.put(ParticleEffectType.FLAME,     new FlameEffect(this));
+        effects.put(ParticleEffectType.FLARE,     new FlareEffect(this));
+        effects.put(ParticleEffectType.SCRATCH,   new ScratchEffect(this));
+        effects.put(ParticleEffectType.BITE,      new BiteEffect(this));
+        effects.put(ParticleEffectType.DIRT,      new DirtEffect(this));
         effects.put(ParticleEffectType.RAT_SWARM, new RatSwarmEffect(this));
+        effects.put(ParticleEffectType.LIGHT,     new LightEffect(this));
     }
 
     public ParticleEffect randomEffect() {

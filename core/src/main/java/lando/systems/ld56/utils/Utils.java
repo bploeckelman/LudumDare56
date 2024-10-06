@@ -2,6 +2,7 @@ package lando.systems.ld56.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import lando.systems.ld56.Config;
 
