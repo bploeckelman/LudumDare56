@@ -30,7 +30,7 @@ public class AudioManager implements Disposable {
     public enum Musics {
         none
         , introMusic
-        , mainTheme
+        , mainMusic
         , outroMusic
     }
 
@@ -49,12 +49,13 @@ public class AudioManager implements Disposable {
         this.tween = tween;
 
         musics.put(Musics.introMusic, assets.introMusic);
+        musics.put(Musics.mainMusic, assets.mainMusic);
         putSound(Sounds.coin, assets.coin);
         putSound(Sounds.structureDamage, assets.structureDamage);
         putSound(Sounds.ratAttack, assets.ratAttack);
 
-        musicVolume = new MutableFloat(0.4f);
-        soundVolume = new MutableFloat(0.6f);
+        musicVolume = new MutableFloat(0.8f);
+        soundVolume = new MutableFloat(0.8f);
 
         isMusicMuted = false;
         isSoundMuted = false;

@@ -69,7 +69,7 @@ public class Assets implements Disposable {
     public Sound structureDamage;
     public Sound ratAttack;
 
-    public Music mainTheme;
+    public Music mainMusic;
     public Music introMusic;
 
     public Assets() {
@@ -117,6 +117,7 @@ public class Assets implements Disposable {
             mgr.load("images/structures/building-brick-back_00.png", Texture.class);
 
             mgr.load("audio/music/intro-music.ogg", Music.class);
+            mgr.load("audio/music/main-music.ogg", Music.class);
 
             mgr.load(SoundRes.Coin, Sound.class);
             mgr.load(SoundRes.StructureDamage, Sound.class);
@@ -169,6 +170,7 @@ public class Assets implements Disposable {
 
         // Audio
         introMusic = mgr.get("audio/music/intro-music.ogg", Music.class);
+        mainMusic = mgr.get("audio/music/main-music.ogg", Music.class);
 
         coin = mgr.get(SoundRes.Coin, Sound.class);
         structureDamage = mgr.get(SoundRes.StructureDamage, Sound.class);

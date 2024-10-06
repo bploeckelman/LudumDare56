@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
 import lando.systems.ld56.assets.Patches;
+import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.BiteEffect;
@@ -36,7 +37,7 @@ public class GameScreen extends BaseScreen {
         var inputMux = new InputMultiplexer(input);
         Gdx.input.setInputProcessor(inputMux);
 
-//        audioManager.playMusic(AudioManager.Musics.introMusic);
+        audioManager.playMusic(AudioManager.Musics.mainMusic);
     }
 
     @Override
