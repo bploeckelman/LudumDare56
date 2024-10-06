@@ -13,6 +13,7 @@ import lando.systems.ld56.Config;
 import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.particles.ParticleManager;
+import lando.systems.ld56.particles.effects.BiteEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.particles.effects.RatSwarmEffect;
 import lando.systems.ld56.scene.Scene;
