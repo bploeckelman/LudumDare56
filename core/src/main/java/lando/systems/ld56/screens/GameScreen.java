@@ -85,6 +85,9 @@ public class GameScreen extends BaseScreen {
         if (!exitingScreen && goToEndScreen) {
             exitingScreen = game.setScreen(new EndingScreen());
         }
+        if (!exitingScreen && scene.gameOver() && Gdx.input.justTouched()) {
+            exitingScreen = game.setScreen(new GameScreen(Scene.Type.MICROBIOME));
+        }
 
         particles.update(delta);
         scene.update(delta, scene.gameOver());
@@ -119,6 +122,11 @@ public class GameScreen extends BaseScreen {
         batch.setProjectionMatrix(windowCamera.combined);
         batch.begin();
         {
+
+            if (scene.gameOver()) {
+                assets.layout.setText(assets.font, "Congratz!\nWe need text here\n Click to continue or something", Color.WHITE, windowCamera.viewportWidth/2f, Align.center, true);
+                assets.font.draw(batch, assets.layout, windowCamera.viewportWidth/4f, windowCamera.viewportHeight/2f);
+            }
             if (Config.Debug.shouldShowDebugUi()) {
                 var lines = 0;
                 if (Config.Debug.general) lines++;
