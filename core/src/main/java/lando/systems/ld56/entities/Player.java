@@ -283,11 +283,7 @@ public class Player extends Entity {
             attackCollider.render(shapes);
         }
 
-        // position component, circle with outline
-        shapes.filledCircle(position.x(), position.y(), 3, Color.MAGENTA);
-        shapes.setColor(Color.SKY);
-        shapes.circle(position.x(), position.y(), 3);
-        shapes.setColor(Color.WHITE);
+        position.renderDebug(shapes);
     }
 
     public String debugString() {

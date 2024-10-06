@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -11,9 +12,13 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.entities.LevelMap;
 import lando.systems.ld56.entities.Player;
+import lando.systems.ld56.entities.PlayerSegment;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.entities.TestXRay;
+import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.particles.ParticleManager;
+import lando.systems.ld56.particles.effects.AsukaEffect;
+import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.physics.base.Collidable;
 import lando.systems.ld56.physics.base.Influencer;
 import lando.systems.ld56.physics.base.PhysicsSystem;
@@ -51,11 +56,13 @@ public class Scene {
     public TextureRegion background;
     public Array<Structure> structures;
 
-
     // Debris things
     public PhysicsSystem physics;
     public Array<Collidable> collidables = new Array<>();
     public Array<Influencer> influencers = new Array<>();
+
+    // working data
+    private final GridPoint2 offset = new GridPoint2(0, 0);
 
     public Scene(GameScreen screen, Type type) {
         this.screen = screen;
@@ -145,7 +152,21 @@ public class Scene {
                     collidables.removeIndex(i);
                 }
             }
+        }
 
+        for (int i = playerSegments.size - 1; i >= 0; i--) {
+            var segment = playerSegments.get(i);
+            segment.update(dt);
+            if (!segment.canPickup()) continue;
+
+            // TODO(brian): I guess the 'Collider.overlapsXY()' methods could probably be made static
+            var overlaps = player.collider.overlapsRectRect(player.collider, segment.collider, offset.set(0, 0));
+            if (overlaps) {
+                var effect = particleManager.effects.get(ParticleEffectType.ASUKA);
+                effect.spawn(new AsukaEffect.Params(segment.position.x(), segment.position.y()));
+                // TODO: pv - 'player segment pickup' sound here
+                playerSegments.removeIndex(i);
+            }
         }
     }
 
@@ -163,23 +184,40 @@ public class Scene {
             }
 //            c.renderDebug(batch);
         }
+        for (var segment : playerSegments) {
+            segment.render(batch);
+        }
         player.render(batch);
-
-
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
         levelMap.renderDebug(shapes);
-        player.renderDebug(batch, shapes);
         for (Structure structure : structures) {
             structure.renderDebug(batch, shapes);
         }
+        for (var segment : playerSegments) {
+            segment.renderDebug(batch, shapes);
+        }
+        player.renderDebug(batch, shapes);
     }
 
     public void renderFrameBuffers(SpriteBatch batch) {
         for (Structure structure : structures) {
             structure.renderFrameBuffers(batch);
         }
+    }
+
+    private final Array<PlayerSegment> playerSegments = new Array<>();
+    public void emitPlayerSegment_TEST() {
+        var scale = 2;
+        var x = (int) player.position.x();
+        var y = (int) player.position.y();
+        var angle = MathUtils.random(50, 130);
+        var speed = MathUtils.random(400, 1000);
+        var speedX = (int) (MathUtils.cosDeg(angle) * speed);
+        var speedY = (int) (MathUtils.sinDeg(angle) * speed);
+        var segment = new PlayerSegment(player, x, y, scale, speedX, speedY);
+        playerSegments.add(segment);
     }
 
     public void paintGridAt(int x, int y) {

@@ -20,6 +20,9 @@ public class Anims {
         , KITTEN         (0.1f, "pets/kitten", Animation.PlayMode.LOOP)
         , ROSS_DOG       (0.1f, "pets/ross-dog", Animation.PlayMode.LOOP)
         , WHITE_LAB_DOG  (0.1f, "pets/white-lab-dog", Animation.PlayMode.LOOP)
+        // kitten character --------------------------------------------------------------------------------------------
+        // NOTE: test for snake/swarm 'segment'
+        , KITTEN_IDLE    (0.1f, "creatures/kittens/kitten", Animation.PlayMode.LOOP)
         // phage character ---------------------------------------------------------------------------------------------
         , PHAGE_IDLE     (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)
         , PHAGE_WALK     (0.1f, "creatures/phage/phage-walk/player-phage-walk", Animation.PlayMode.LOOP)
