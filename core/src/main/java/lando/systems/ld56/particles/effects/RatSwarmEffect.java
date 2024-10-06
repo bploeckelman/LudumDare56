@@ -27,16 +27,16 @@ public class RatSwarmEffect extends ParticleEffect {
         var layer = particleManager.activeParticles.get(ParticleManager.Layer.FOREGROUND);
         var pool = particleManager.particlePool;
         var angle = 0f;
-        var amount = 30;
-        var keyframe = Anims.get(Anims.Type.RAT_WALK).getKeyFrame(0f);
+        var amount = 10;
+        var animation = Anims.get(Anims.Type.RAT_WALK);
 
         for (int i = 0; i < amount; i++) {
             var startSize = MathUtils.random(5f, 20f);
-            var ttl = MathUtils.random(1f, 3f);
+            var ttl = MathUtils.random(.5f, 1f);
             var startPosY = MathUtils.random(params.startY - 50, params.startY + 50);
-            var velocity = MathUtils.random(50f, 100f);
+            var velocity = MathUtils.random(70f, 100f);
             layer.add(Particle.initializer(pool.obtain())
-                .keyframe(keyframe)
+                .animation(animation)
                 .startPos(params.startX - 50f, startPosY)
                 .velocity(MathUtils.cosDeg(angle) * velocity, MathUtils.sinDeg(angle) * velocity)
                 .startColor(Color.WHITE)
