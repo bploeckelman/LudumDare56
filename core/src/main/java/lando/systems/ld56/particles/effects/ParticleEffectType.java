@@ -6,4 +6,5 @@ public enum ParticleEffectType {
     FLAME,
     FLARE,
     SCRATCH,
+    BITE,
 }

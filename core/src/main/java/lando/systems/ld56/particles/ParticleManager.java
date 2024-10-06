@@ -30,11 +30,12 @@ public class ParticleManager implements Disposable {
     }
 
     public void init() {
-        effects.put(ParticleEffectType.ASUKA, new AsukaEffect(this));
-        effects.put(ParticleEffectType.SMOKE, new SmokeEffect(this));
-        effects.put(ParticleEffectType.FLAME,  new FlameEffect(this));
-        effects.put(ParticleEffectType.FLARE, new FlareEffect(this));
+        effects.put(ParticleEffectType.ASUKA,   new AsukaEffect(this));
+        effects.put(ParticleEffectType.SMOKE,   new SmokeEffect(this));
+        effects.put(ParticleEffectType.FLAME,   new FlameEffect(this));
+        effects.put(ParticleEffectType.FLARE,   new FlareEffect(this));
         effects.put(ParticleEffectType.SCRATCH, new ScratchEffect(this));
+        effects.put(ParticleEffectType.BITE,    new BiteEffect(this));
     }
 
     public ParticleEffect randomEffect() {
