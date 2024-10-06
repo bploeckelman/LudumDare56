@@ -1,5 +1,6 @@
 package lando.systems.ld56.entities;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -137,6 +138,7 @@ public class Structure extends Entity implements XRayable {
         collapseTimer = 0;
         createDebris();
         structureDamage.setMinDamageForAllTiles(1f);
+        Main.playSound(AudioManager.Sounds.collapse);
 
     }
 

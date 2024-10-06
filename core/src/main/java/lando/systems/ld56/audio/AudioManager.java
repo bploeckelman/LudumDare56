@@ -25,6 +25,7 @@ public class AudioManager implements Disposable {
         , coin
         , structureDamage
         , ratAttack
+        , collapse
     }
 
     public enum Musics {
@@ -53,6 +54,7 @@ public class AudioManager implements Disposable {
         putSound(Sounds.coin, assets.coin);
         putSound(Sounds.structureDamage, assets.structureDamage);
         putSound(Sounds.ratAttack, assets.ratAttack);
+        putSound(Sounds.collapse, assets.collapse1);
 
         musicVolume = new MutableFloat(0.8f);
         soundVolume = new MutableFloat(0.8f);
