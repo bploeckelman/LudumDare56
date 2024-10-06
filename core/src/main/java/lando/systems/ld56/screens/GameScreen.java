@@ -27,7 +27,7 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen() {
         particles = new ParticleManager(assets);
-        this.scene = new Scene(this, Scene.Type.CITY);
+        this.scene = new Scene(this, Scene.Type.MICROBIOME);
         this.mouseGridPos = new GridPoint2();
 
         var inputMux = new InputMultiplexer(input);
