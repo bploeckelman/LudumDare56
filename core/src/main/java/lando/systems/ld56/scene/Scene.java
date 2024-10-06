@@ -1,6 +1,7 @@
 package lando.systems.ld56.scene;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -221,8 +222,10 @@ public class Scene {
     }
 
     public void paintGridAt(int x, int y) {
-        var solid = true;
-        levelMap.solidCollider.setGridTileSolid(x, y, solid);
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            var solid = true;
+            levelMap.solidCollider.setGridTileSolid(x, y, solid);
+        }
 
         // temp
         for (Structure structure : structures) {
@@ -231,8 +234,10 @@ public class Scene {
     }
 
     public void eraseGridAt(int x, int y) {
-        var solid = false;
-        levelMap.solidCollider.setGridTileSolid(x, y, solid);
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            var solid = false;
+            levelMap.solidCollider.setGridTileSolid(x, y, solid);
+        }
     }
 
     public boolean gameOver() {
