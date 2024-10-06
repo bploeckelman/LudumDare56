@@ -54,6 +54,7 @@ public class Scene {
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
         player.renderDebug(batch, shapes);
+        structure.renderDebug(batch, shapes);
     }
 
     private void gridRender(SpriteBatch batch) {
