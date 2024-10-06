@@ -12,6 +12,8 @@ varying vec4 v_color;
 varying vec2 v_texCoord;
 
 const float pixelMargin = 10.;
+const vec4 borderColor = vec4(0.2, .2, .2, 1.);
+const float borderThickness = .49;
 
 
 float cubicPulse( float c, float w, float x )
@@ -38,8 +40,11 @@ void main() {
     mask = mask + texture2D(u_mask, vec2(invertedY.x - scaledMargin.x, invertedY.y + scaledMargin.y));
 
     mask /= 5.;
-    float noiseAddition = cubicPulse(.5, .3, mask.r);
+    float noiseAddition = cubicPulse(.5, .4, mask.r);
 //    xray.r = noiseAddition;
-    float mixAmount = smoothstep(.4, .6, mask.r + (noiseAddition * ((noise.r * 2.) - 1.)));
-    gl_FragColor = mix(covered, xray, mixAmount) * v_color;
+    float mixAmount = smoothstep(.2, .8, mask.r + (noiseAddition * ((noise.r * 2.) - 1.)));
+    vec4 finalColor = mix(covered, borderColor, smoothstep(.5 - borderThickness, .45, mixAmount)) ;
+    finalColor = mix(finalColor, xray, smoothstep(.55, .5 +borderThickness, mixAmount));
+
+    gl_FragColor = finalColor * v_color;
 }
