@@ -22,15 +22,15 @@ public class IntroScreen extends BaseScreen {
     BitmapFont font;
     ParticleManager particles;
     String page1 =
-        "{COLOR=red}" +
+        "{COLOR=white}" +
             "Food additives, micro plastics, and pesticides have mutated the once innocuous creatures of the land\n\n"+
             "They now seek vengeance against their polluting oppressors \n\n";
 
     String page2 =
-        "{COLOR=red}" +
+        "{COLOR=white}" +
             "Exact revenge! Raze their buildings, exter{GRADIENT=black;gray}mini{ENDGRADIENT}ate them!";
     String page3 =
-        "{COLOR=red}" +
+        "{COLOR=white}" +
             "Food: roast chicken and fruit\n\n"+
             "Photographer - stuns, bombs, electrical appliances";
 

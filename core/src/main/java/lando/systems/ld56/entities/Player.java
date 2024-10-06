@@ -254,7 +254,8 @@ public class Player extends Entity {
                 if (this.state == State.NORMAL) {
                     this.state = newState;
                     attackTimer = animator.play(creatureType, Anims.State.ATTACK);
-                    Main.playSound(AudioManager.Sounds.ratAttack);
+//                    Main.playSound(AudioManager.Sounds.ratAttack);
+                    Main.playSound(AudioManager.Sounds.impact);
                     int attackX = animator.facing == -1 ? -30 : 10;
                     attackCollider = Collider.makeRect(this, Collider.Type.player, attackX, 25, 20, 20);
                     attackSuccess = false;

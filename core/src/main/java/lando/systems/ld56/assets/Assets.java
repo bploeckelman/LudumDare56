@@ -65,12 +65,20 @@ public class Assets implements Disposable {
         // todo pete rat attack sound
         public static final String RatAttack = "audio/sounds/structureDamage.ogg";
         public static final String Collapse1 = "audio/sounds/collapse1.ogg";
+        public static final String Impact1 = "audio/sounds/impact1.ogg";
+        public static final String Impact2 = "audio/sounds/impact2.ogg";
+        public static final String Impact3 = "audio/sounds/impact3.ogg";
+        public static final String Impact4 = "audio/sounds/impact4.ogg";
     }
 
     public Sound coin;
     public Sound structureDamage;
     public Sound ratAttack;
     public Sound collapse1;
+    public Sound impact1;
+    public Sound impact2;
+    public Sound impact3;
+    public Sound impact4;
 
     public Music mainMusic;
     public Music introMusic;
@@ -126,6 +134,10 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.StructureDamage, Sound.class);
             mgr.load(SoundRes.RatAttack, Sound.class);
             mgr.load(SoundRes.Collapse1, Sound.class);
+            mgr.load(SoundRes.Impact1, Sound.class);
+            mgr.load(SoundRes.Impact2, Sound.class);
+            mgr.load(SoundRes.Impact3, Sound.class);
+            mgr.load(SoundRes.Impact4, Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -151,7 +163,7 @@ public class Assets implements Disposable {
         var ttfLg = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 80; }};
         var ttfMd = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 40; }};
         var ttfSm = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 20; }};
-        var ttf = new FreeTypeFontGenerator(Gdx.files.internal("fonts/good_brush.ttf"));
+        var ttf = new FreeTypeFontGenerator(Gdx.files.internal("fonts/airstrip.ttf"));
         fontChrustyLg = ttf.generateFont(ttfLg);
         fontChrustyMd = ttf.generateFont(ttfMd);
         fontChrustySm = ttf.generateFont(ttfSm);
@@ -180,6 +192,10 @@ public class Assets implements Disposable {
         structureDamage = mgr.get(SoundRes.StructureDamage, Sound.class);
         ratAttack = mgr.get(SoundRes.RatAttack, Sound.class);
         collapse1 = mgr.get(SoundRes.Collapse1, Sound.class);
+        impact1 = mgr.get(SoundRes.Impact1, Sound.class);
+        impact2 = mgr.get(SoundRes.Impact2, Sound.class);
+        impact3 = mgr.get(SoundRes.Impact3, Sound.class);
+        impact4 = mgr.get(SoundRes.Impact4, Sound.class);
 
         // initialize static asset classes
         Icons.init(this);

@@ -85,7 +85,7 @@ public class Structure extends Entity implements XRayable {
 
     public void damage(Player player, int x, int y) {
         if (!isCollapsing && structureDamage.applyDamage(player, x, y)) {
-            Main.game.audioManager.playSound(this.damageSound);
+            Main.game.audioManager.playSound(AudioManager.Sounds.impact);
         }
     }
 
