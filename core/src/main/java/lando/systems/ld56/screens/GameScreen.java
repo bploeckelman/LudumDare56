@@ -13,23 +13,21 @@ import lando.systems.ld56.Config;
 import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.particles.ParticleManager;
-import lando.systems.ld56.particles.effects.*;
+import lando.systems.ld56.particles.effects.BiteEffect;
+import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
 import text.formic.Stringf;
 
 public class GameScreen extends BaseScreen {
 
-    Scene scene;
-    GridPoint2 mouseGridPos;
-    ParticleManager particles;
+    public Scene scene;
+    public GridPoint2 mouseGridPos;
+    public ParticleManager particles;
 
     public GameScreen() {
         particles = new ParticleManager(assets);
-        int tileSize = 16;
-        int initialWidth  = (int) Calc.ceiling(worldCamera.viewportWidth  / tileSize);
-        int initialHeight = (int) Calc.ceiling(worldCamera.viewportHeight / tileSize);
-        this.scene = new Scene(assets, particles, worldCamera, tileSize, initialWidth, initialHeight);
+        this.scene = new Scene(this, Scene.Type.CITY);
         this.mouseGridPos = new GridPoint2();
 
         var inputMux = new InputMultiplexer(input);

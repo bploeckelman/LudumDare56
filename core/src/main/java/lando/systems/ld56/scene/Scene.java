@@ -4,62 +4,98 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.entities.LevelMap;
-import lando.systems.ld56.entities.Npc;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.entities.TestXRay;
 import lando.systems.ld56.particles.ParticleManager;
+import lando.systems.ld56.screens.GameScreen;
+import lando.systems.ld56.utils.Calc;
+import lando.systems.ld56.utils.RectangleI;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Scene {
 
-    public Assets assets;
+    public enum Type { MICROBIOME, NEIGHBORHOOD, CITY, MUSHROOM_KINGDOM }
+
+    public final GameScreen screen;
+    public final Assets assets;
+    public final OrthographicCamera camera;
+    public final ParticleManager particleManager;
+    public final Type type;
+
     public Player player;
-    public Npc antPunch;
-    public Npc andClimbPunch;
     public LevelMap levelMap;
-    public Array<Structure> structures;
     public TextureRegion background;
-    public OrthographicCamera camera;
+    public Array<Structure> structures;
     public Array<TestXRay> testXRays;
-    public ParticleManager particleManager;
 
-    public Scene(Assets assets, ParticleManager particleManager, OrthographicCamera camera, int tileSize, int cols, int rows) {
-        this.assets = assets;
-        this.camera = camera;
-        this.player = new Player(assets, (cols * tileSize) / 2f, 50);
-        this.antPunch = new Npc((cols * tileSize) / 3, tileSize, Anims.Type.ANT_PUNCH);
-        this.andClimbPunch = new Npc((int) ((cols * tileSize) * (2 / 3f)), tileSize, Anims.Type.ANT_CLIMB_PUNCH);
-        this.levelMap = new LevelMap(tileSize, cols, rows);
-        this.particleManager = particleManager;
-        structures = new Array<>();
+    public Scene(GameScreen screen, Type type) {
+        this.screen = screen;
+        this.assets = screen.assets;
+        this.camera = screen.worldCamera;
+        this.particleManager = screen.particles;
+        this.type = type;
+        this.structures = new Array<>();
+        this.testXRays = new Array<>();
 
-        structures.add(new Structure(assets, camera.viewportWidth / 4  - 100, 0, 200, 300, this, .5f));
-        structures.add(new Structure(assets, camera.viewportWidth / 4 * 2 - 150, 0, 300, 400, this, .3f));
-        structures.add(new Structure(assets, camera.viewportWidth / 4 * 3 - 100, 0, 200, 340, this, .6f));
+        init();
+    }
 
-        this.background = assets.atlas.findRegions("backgrounds/background-level-1").first();
+    private void init() {
+        int tileSize = 16;
+        int baseGridY = 4;
+        int cols  = (int) Calc.ceiling(camera.viewportWidth  / tileSize);
+        int rows = (int) Calc.ceiling(camera.viewportHeight / tileSize);
+        levelMap = new LevelMap(tileSize, cols, rows);
+
+        // TODO: change player, npc, enemy setup based on scene type
+        var basePixelsY = baseGridY * tileSize;
+        player = new Player(assets, (cols * tileSize) / 2f, basePixelsY + (2 * tileSize));
+
+        int widthNormal = 12 * tileSize;
+        int widthNarrow = 6 * tileSize;
+        int heightNormal = 16 * tileSize;
+        int heightTall = 20 * tileSize;
+
+        // these are pixel positions that align with the LevelMap grid
+        int left   = (int) Calc.floor(((1 / 4f) * camera.viewportWidth - (widthNormal / 2f)));
+        int middle = (int) Calc.floor(((2 / 4f) * camera.viewportWidth - (widthNarrow / 2f)));
+        int right  = (int) Calc.floor(((3 / 4f) * camera.viewportWidth - (widthNormal / 2f)));
+
+        var gridRect1 = new RectangleI(left, basePixelsY, widthNormal, heightNormal);
+        var gridRect2 = new RectangleI(middle, basePixelsY, widthNarrow, heightTall);
+        var gridRect3 = new RectangleI(right, basePixelsY, widthNormal, heightNormal);
+
+        structures.add(new Structure(this, gridRect1));
+        structures.add(new Structure(this, gridRect2));
+        structures.add(new Structure(this, gridRect3));
+
+        switch (type) {
+            case MICROBIOME: {
+                // TODO: animated background
+                background = assets.atlas.findRegions("backgrounds/background-biome").first();
+            } break;
+            case NEIGHBORHOOD:
+            case CITY: // TODO: create background for this level
+            case MUSHROOM_KINGDOM: // TODO: create background for this level
+            {
+                // TODO: create background for this level
+                background = assets.atlas.findRegions("backgrounds/background-level-1").first();
+            } break;
+        }
 
         levelMap.setBorderSolid();
+        levelMap.setRowSolid(baseGridY - 1);
         for (Structure structure : structures) {
             levelMap.setClimbable(structure);
         }
-
-        testXRays = new Array<>();
-
-//        testXRays.add(new TestXRay(new Rectangle(200, 30, 300, 300), camera));
-//        testXRays.add(new TestXRay(new Rectangle(800, 30, 400, 400), camera));
     }
 
     public void update(float dt) {
         player.update(dt);
-        antPunch.update(dt);
-        andClimbPunch.update(dt);
         for (TestXRay testXRay : testXRays) {
             testXRay.update(dt);
         }
@@ -77,8 +113,6 @@ public class Scene {
         for (Structure structure : structures) {
             structure.render(batch);
         }
-        antPunch.render(batch);
-        andClimbPunch.render(batch);
         player.render(batch);
         for (TestXRay testXRay : testXRays) {
             testXRay.render(batch);

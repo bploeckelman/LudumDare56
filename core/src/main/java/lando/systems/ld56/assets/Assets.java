@@ -59,11 +59,8 @@ public class Assets implements Disposable {
     public Texture pixel;
     public Texture gdx;
     public Texture noiseTexture;
-    public Texture buildingCoveredTexture;
-    public Texture buildingXrayTexture;
 
     public ShaderProgram xRayShader;
-
 
     public TextureRegion pixelRegion;
     public TextureRegion fuzzyCircle;
@@ -113,6 +110,9 @@ public class Assets implements Disposable {
             mgr.load("images/pixel.png", Texture.class);
             mgr.load("images/libgdx.png", Texture.class);
             mgr.load("images/noise.png", Texture.class);
+
+            mgr.load("images/structures/building-bacteria-front_00.png", Texture.class);
+            mgr.load("images/structures/building-bacteria-back_00.png", Texture.class);
             mgr.load("images/structures/building-brick-front_00.png", Texture.class);
             mgr.load("images/structures/building-brick-back_00.png", Texture.class);
 
@@ -140,8 +140,6 @@ public class Assets implements Disposable {
         noiseTexture = mgr.get("images/noise.png");
         noiseTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         noiseTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        buildingCoveredTexture = mgr.get("images/structures/building-brick-front_00.png");
-        buildingXrayTexture = mgr.get("images/structures/building-brick-back_00.png");
 
         fuzzyCircle = atlas.findRegion("misc/fuzzy-circle");
 
@@ -181,6 +179,7 @@ public class Assets implements Disposable {
         Patches.init(this);
         Anims.init(this);
         Particles.init(this);
+        Structures.init(this);
         Transition.init();
 
         xRayShader = loadShader("shaders/default.vert", "shaders/xray.frag");

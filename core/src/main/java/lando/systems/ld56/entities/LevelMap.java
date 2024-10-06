@@ -3,7 +3,9 @@ package lando.systems.ld56.entities;
 import com.badlogic.gdx.graphics.Color;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.utils.Calc;
+import lando.systems.ld56.utils.Utils;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+import text.formic.Stringf;
 
 public class LevelMap extends Entity {
 
@@ -101,5 +103,14 @@ public class LevelMap extends Entity {
                 }
             }
         }
+    }
+
+    public void setRowSolid(int y) {
+        var collider = solidCollider;
+        if (y < 0 || y > collider.grid.rows) {
+            Utils.log("LevelMap", Stringf.format("Unable to set row solid, %d out of bounds: rows %d", y, collider.grid.rows));
+            return;
+        }
+        collider.setGridTilesSolid(0, y, collider.grid.cols, 1, true);
     }
 }

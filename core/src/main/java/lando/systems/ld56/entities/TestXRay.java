@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld56.Main;
+import lando.systems.ld56.assets.Structures;
 import lando.systems.ld56.entities.components.Position;
 import lando.systems.ld56.entities.components.XRayRender;
 
@@ -12,7 +13,7 @@ public class TestXRay extends Entity{
     Position pos;
 
     public TestXRay (Rectangle bounds, OrthographicCamera worldCamera) {
-        xRayRender = new XRayRender(this, Main.game.assets.buildingCoveredTexture, Main.game.assets.buildingXrayTexture, bounds, worldCamera);
+        xRayRender = new XRayRender(this, Structures.get(Structures.Type.BRICK_FRONT), Structures.get(Structures.Type.BRICK_FRONT), bounds, worldCamera);
         pos = new Position(this, bounds.x, bounds.y);
     }
 
