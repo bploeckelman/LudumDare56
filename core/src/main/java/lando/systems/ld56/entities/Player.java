@@ -212,6 +212,7 @@ public class Player extends Entity {
                 break;
             case NORMAL:
                 this.state = newState;
+                animator.play(Anims.Type.RAT_IDLE);
                 break;
         }
     }
