@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Assets;
+import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.components.StructureDamage;
 import lando.systems.ld56.entities.components.XRayRender;
 import lando.systems.ld56.particles.ParticleManager;
@@ -25,8 +27,10 @@ public class Structure extends Entity implements XRayable {
     public Rectangle bounds;
     public XRayRender xRayRender;
     public Scene scene;
-    public float collapsePercent = .5f;
 
+    private AudioManager.Sounds damageSound = AudioManager.Sounds.structureDamage;
+
+    public float collapsePercent = .5f;
     public boolean collapsed = false;
     private boolean isCollapsing = false;
     private float collapseTimer = 0;
@@ -48,7 +52,9 @@ public class Structure extends Entity implements XRayable {
     }
 
     public void damage(Player player, int x, int y) {
-        structureDamage.applyDamage(player, x, y);
+        if (structureDamage.applyDamage(player, x, y)) {
+            Main.game.audioManager.playSound(this.damageSound);
+        }
     }
 
     public void render(SpriteBatch batch) {

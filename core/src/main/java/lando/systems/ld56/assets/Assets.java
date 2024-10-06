@@ -61,6 +61,7 @@ public class Assets implements Disposable {
     public TextureRegion fuzzyCircle;
 
     public Sound coin;
+    public Sound structureDamage;
 
     public Music mainTheme;
     public Music introMusic;
@@ -108,6 +109,8 @@ public class Assets implements Disposable {
 
             mgr.load("audio/music/intro-music.ogg", Music.class);
 
+            mgr.load("audio/sounds/coin.ogg", Sound.class);
+            // todo pete sound when building takes damage
             mgr.load("audio/sounds/coin.ogg", Sound.class);
         }
 
@@ -161,6 +164,7 @@ public class Assets implements Disposable {
         introMusic = mgr.get("audio/music/intro-music.ogg", Music.class);
 
         coin = mgr.get("audio/sounds/coin.ogg", Sound.class);
+        structureDamage = mgr.get("audio/sounds/coin.ogg", Sound.class);
 
         // initialize static asset classes
         Icons.init(this);
