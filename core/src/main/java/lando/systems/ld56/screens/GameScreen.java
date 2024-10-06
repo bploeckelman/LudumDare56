@@ -43,7 +43,8 @@ public class GameScreen extends BaseScreen {
     @Override
     public void update(float delta) {
         super.update(delta);
-        particles.update(delta);
+
+        // NOTE: put update code after the check for 'stepFrame' so that its paused when stepping
 
         // update the grid coords that the mouse is currently positioned at
         vec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -83,6 +84,7 @@ public class GameScreen extends BaseScreen {
             exitingScreen = game.setScreen(new EndingScreen());
         }
 
+        particles.update(delta);
         scene.update(delta);
 
         if (Config.Debug.general) {
