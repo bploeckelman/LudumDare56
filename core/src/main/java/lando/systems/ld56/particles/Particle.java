@@ -19,7 +19,7 @@ public class Particle implements Pool.Poolable {
     // eg. sizes[{10,10}, {20, 20}, {10, 10}] would interpolate to twice the size by halfway through its lifetime, then back down to initial size by the end, scale this across an arbitrary number of values
 
 
-    static Initializer initializer(Particle particle) {
+    public static Initializer initializer(Particle particle) {
         return new Initializer(particle);
     }
 
@@ -267,97 +267,97 @@ public class Particle implements Pool.Poolable {
         private boolean timed = false;
         private float ttlMax = 0f;
 
-        Initializer(Particle particle) {
+        public Initializer(Particle particle) {
             this.particle = particle;
             this.particle.reset();
         }
 
-        Initializer interpolation(Interpolation interpolation) {
+        public Initializer interpolation(Interpolation interpolation) {
             this.interpolation = interpolation;
             return this;
         }
 
-        Initializer path(SimplePath path) {
+        public Initializer path(SimplePath path) {
             this.path = path;
             return this;
         }
 
-        Initializer keyframe(TextureRegion keyframe) {
+        public Initializer keyframe(TextureRegion keyframe) {
             this.keyframe = keyframe;
             return this;
         }
 
-        Initializer animation(Animation<TextureRegion> animation) {
+        public Initializer animation(Animation<TextureRegion> animation) {
             this.animation = animation;
             return this;
         }
 
-        Initializer animUnlocked(boolean animUnlocked) {
+        public Initializer animUnlocked(boolean animUnlocked) {
             this.animUnlocked = animUnlocked;
             return this;
         }
 
-        Initializer startPos(float x, float y) {
+        public Initializer startPos(float x, float y) {
             this.xStart = x;
             this.yStart = y;
             return this;
         }
 
-        Initializer startPos(Vector2 startPos) {
+        public Initializer startPos(Vector2 startPos) {
             this.xStart = startPos.x;
             this.yStart = startPos.y;
             return this;
         }
 
-        Initializer endPos(Vector2 endPos) {
+        public Initializer endPos(Vector2 endPos) {
             this.xStart = endPos.x;
             this.yStart = endPos.y;
             return this;
         }
 
-        Initializer targetPos(float x, float y) {
+        public Initializer targetPos(float x, float y) {
             this.xTarget = x;
             this.yTarget = y;
             this.targeted = true;
             return this;
         }
 
-        Initializer velocity(float x, float y) {
+        public Initializer velocity(float x, float y) {
             this.xVel = x;
             this.yVel = y;
             return this;
         }
 
-        Initializer velocityDirection(float angle, float magnitude) {
+        public Initializer velocityDirection(float angle, float magnitude) {
             this.xVel = MathUtils.cosDeg(angle) * magnitude;
             this.yVel = MathUtils.sinDeg(angle) * magnitude;
             return this;
         }
 
-        Initializer acceleration(float x, float y) {
+        public Initializer acceleration(float x, float y) {
             this.xAcc = x;
             this.yAcc = y;
             return this;
         }
 
-        Initializer accelerationDamping(float damp) {
+        public Initializer accelerationDamping(float damp) {
             this.accDamp = damp;
             return this;
         }
 
-        Initializer startSize(float width, float height) {
+        public Initializer startSize(float width, float height) {
             this.widthStart = width;
             this.heightStart = height;
             return this;
         }
 
-        Initializer startSize(float size) {
+        public Initializer startSize(float size) {
             this.widthStart = size;
             this.heightStart = size;
             return this;
         }
 
-        Initializer endSize(float width, float height) {
+        public Initializer endSize(float width, float height) {
             this.widthEnd = width;
             this.heightEnd = height;
             this.setWidthEnd = true;
@@ -365,7 +365,7 @@ public class Particle implements Pool.Poolable {
             return this;
         }
 
-        Initializer endSize(float size) {
+        public Initializer endSize(float size) {
             this.widthEnd = size;
             this.heightEnd = size;
             this.setWidthEnd = true;
@@ -373,18 +373,18 @@ public class Particle implements Pool.Poolable {
             return this;
         }
 
-        Initializer startRotation(float rotation) {
+        public Initializer startRotation(float rotation) {
             this.rotationStart = rotation;
             return this;
         }
 
-        Initializer endRotation(float rotation) {
+        public Initializer endRotation(float rotation) {
             this.rotationEnd = rotation;
             this.setRotationEnd = true;
             return this;
         }
 
-        Initializer startColor(float r, float g, float b, float a) {
+        public Initializer startColor(float r, float g, float b, float a) {
             this.rStart = r;
             this.gStart = g;
             this.bStart = b;
@@ -392,7 +392,7 @@ public class Particle implements Pool.Poolable {
             return this;
         }
 
-        Initializer startColor(Color color) {
+        public Initializer startColor(Color color) {
             this.rStart = color.r;
             this.gStart = color.g;
             this.bStart = color.b;
@@ -400,7 +400,7 @@ public class Particle implements Pool.Poolable {
             return this;
         }
 
-        Initializer endColor(float r, float g, float b, float a) {
+        public Initializer endColor(float r, float g, float b, float a) {
             this.rEnd = r;
             this.gEnd = g;
             this.bEnd = b;
@@ -409,7 +409,7 @@ public class Particle implements Pool.Poolable {
             return this;
         }
 
-        Initializer endColor(Color color) {
+        public Initializer endColor(Color color) {
             this.rEnd = color.r;
             this.gEnd = color.g;
             this.bEnd = color.b;
@@ -418,29 +418,29 @@ public class Particle implements Pool.Poolable {
             return this;
         }
 
-        Initializer startAlpha(float a) {
+        public Initializer startAlpha(float a) {
             this.aStart = a;
             return this;
         }
 
-        Initializer endAlpha(float a) {
+        public Initializer endAlpha(float a) {
             this.aEnd = a;
             this.setAlphaEnd = true;
             return this;
         }
 
-        Initializer timeToLive(float ttl) {
+        public Initializer timeToLive(float ttl) {
             this.ttlMax = ttl;
             this.timed = true;
             return this;
         }
 
-        Initializer persist() {
+        public Initializer persist() {
             this.persistent = true;
             return this;
         }
 
-        Particle init() {
+        public Particle init() {
             if (keyframe  != null) {
                 particle.keyframe  = keyframe;
             }

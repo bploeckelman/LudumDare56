@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
 import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.particles.ParticleManager;
-import lando.systems.ld56.particles.effects.AsukaEffectParams;
+import lando.systems.ld56.particles.effects.AsukaEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.particles.effects.SmokeEffectParams;
 import lando.systems.ld56.scene.Scene;
@@ -72,7 +72,7 @@ public class GameScreen extends BaseScreen {
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             var particleEffect = particles.effects.get(ParticleEffectType.ASUKA);
-            particleEffect.spawn(new AsukaEffectParams(new Vector2(vec3.x, vec3.y)));
+            particleEffect.spawn(new AsukaEffect.Params(vec3.x, vec3.y));
         }
         if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
             var particleEffect = particles.effects.get(ParticleEffectType.SMOKE);

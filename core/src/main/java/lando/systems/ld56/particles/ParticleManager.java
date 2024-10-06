@@ -20,8 +20,8 @@ public class ParticleManager implements Disposable {
 
     private final Assets assets;
     public final Map<ParticleEffectType, ParticleEffect> effects = new HashMap<>();
-    private final ObjectMap<Layer, Array<Particle>> activeParticles;
-    private final Pool<Particle> particlePool = Pools.get(Particle.class, MAX_PARTICLES);
+    public final ObjectMap<Layer, Array<Particle>> activeParticles;
+    public final Pool<Particle> particlePool = Pools.get(Particle.class, MAX_PARTICLES);
 
     public ParticleManager(Assets assets) {
         this.assets = assets;
