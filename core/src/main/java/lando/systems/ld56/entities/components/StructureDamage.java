@@ -54,23 +54,19 @@ public class StructureDamage {
             damageOffset -= xMod;
         }
 
+        if (this.damage[xOffset][yOffset] >= 1f) { return false; }
+
         // get amount of damage from player
-        this.damage[xOffset][yOffset] = Math.clamp(this.damage[xOffset][yOffset] + player.damage, 0f, 1f);
+        this.damage[xOffset][yOffset] = Calc.clampf(this.damage[xOffset][yOffset] + player.damage, 0f, 1f);
         return true;
     }
 
-    private Color damageColor = new Color(Color.RED);
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
         float dy = (float)bounds.getY();
         for (int y = 0; y < rows; y++) {
             float dx = (float)bounds.getX();
             for (int x = 0; x < columns; x++) {
-                float tileDamage = this.damage[x][y];
-                if (tileDamage > 0f) {
-                    shapes.rectangle(dx, dy, tileWidth, tileHeight, Color.GOLD, 1);
-                    batch.setColor(damageColor.set(1, 0, 0, Calc.clampf(tileDamage, 0, 1)));
-                    batch.draw(Main.game.assets.pixel, dx, dy, tileWidth, tileHeight);
-                }
+                shapes.rectangle(dx, dy, tileWidth, tileHeight, Color.GOLD, 1);
                 dx += tileWidth;
             }
             dy += tileHeight;
@@ -91,6 +87,7 @@ public class StructureDamage {
         return totalDamage/totalHealth;
     }
 
+    private final Color damageColor = new Color(Color.RED);
     public void renderMask(SpriteBatch batch) {
         float dy = (float)bounds.getY();
         for (int y = 0; y < rows; y++) {

@@ -54,7 +54,7 @@ public class Structure extends Entity implements XRayable {
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
-//        this.structureDamage.renderDebug(batch, shapes);
+        this.structureDamage.renderDebug(batch, shapes);
     }
 
     @Override
