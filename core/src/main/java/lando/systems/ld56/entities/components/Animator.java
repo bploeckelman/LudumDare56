@@ -22,17 +22,27 @@ public class Animator extends Component {
     public int facing = 1;
     public Vector2 defaultScale = new Vector2(1, 1);
 
+    private final float width;
+    private final float height;
+
     public Animator(Entity entity, Position position, Animation<TextureRegion> animation) {
-        this(entity, position, animation.getKeyFrame(0));
+        this(entity, position, animation.getKeyFrame(0), 0, 0);
         this.animation = animation;
     }
 
-    public Animator(Entity entity, Position position, TextureRegion keyframe) {
+    public Animator(Entity entity, Position position, Animation<TextureRegion> animation, float w, float h) {
+        this(entity, position, animation.getKeyFrame(0), w, h);
+        this.animation = animation;
+    }
+
+    public Animator(Entity entity, Position position, TextureRegion keyframe, float w, float h) {
         super(entity, Animator.class);
         this.position = position;
         this.animation = null;
         this.keyframe = keyframe;
-        this.origin = new Vector2(keyframe.getRegionWidth() / 2f, 0);
+        this.width = w == 0 ? keyframe.getRegionWidth() : w;
+        this.height = h == 0 ? keyframe.getRegionHeight() : h;
+        this.origin = new Vector2(width / 2f, 0);
         this.scale = new Vector2(1, 1);
         this.tint = Color.WHITE.cpy();
         this.rotation = 0;
@@ -64,8 +74,8 @@ public class Animator extends Component {
             position.x() - origin.x,
             position.y() - origin.y,
             origin.x, origin.y,
-            keyframe.getRegionWidth(),
-            keyframe.getRegionHeight(),
+            this.width,
+            this.height,
             scale.x, scale.y,
             rotation
         );
