@@ -1,12 +1,10 @@
 package lando.systems.ld56.particles;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.*;
 import lando.systems.ld56.assets.Assets;
-import lando.systems.ld56.particles.effects.AsukaEffect;
-import lando.systems.ld56.particles.effects.ParticleEffect;
-import lando.systems.ld56.particles.effects.ParticleEffectType;
-import lando.systems.ld56.particles.effects.SmokeEffect;
+import lando.systems.ld56.particles.effects.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +32,11 @@ public class ParticleManager implements Disposable {
     public void init() {
         effects.put(ParticleEffectType.ASUKA, new AsukaEffect(this));
         effects.put(ParticleEffectType.SMOKE, new SmokeEffect(this));
+        effects.put(ParticleEffectType.FIRE,  new FireEffect(this));
+    }
+
+    public ParticleEffect randomEffect() {
+        return (ParticleEffect) effects.values().toArray()[MathUtils.random(effects.size() - 1)];
     }
 
     public void clear() {
