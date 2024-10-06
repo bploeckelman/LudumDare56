@@ -34,15 +34,16 @@ public class Scene {
         this.antPunch = new Npc((cols * tileSize) / 3, tileSize, Anims.Type.ANT_PUNCH);
         this.andClimbPunch = new Npc((int) ((cols * tileSize) * (2 / 3f)), tileSize, Anims.Type.ANT_CLIMB_PUNCH);
         this.levelMap = new LevelMap(tileSize, cols, rows);
-        this.structure = new Structure(assets, (int) camera.viewportWidth / 2, 0);
+        this.structure = new Structure(assets, (int) camera.viewportWidth / 2, 0, camera);
         this.background = assets.atlas.findRegions("backgrounds/background-level-1").first();
 
         levelMap.setBorderSolid();
         levelMap.setClimbable(structure);
 
         testXRays = new Array<>();
-        testXRays.add(new TestXRay(new Rectangle(200, 30, 300, 300), camera));
-        testXRays.add(new TestXRay(new Rectangle(800, 30, 400, 400), camera));
+
+//        testXRays.add(new TestXRay(new Rectangle(200, 30, 300, 300), camera));
+//        testXRays.add(new TestXRay(new Rectangle(800, 30, 400, 400), camera));
     }
 
     public void update(float dt) {
@@ -72,6 +73,7 @@ public class Scene {
     }
 
     public void renderFrameBuffers(SpriteBatch batch) {
+        structure.renderFrameBuffers(batch);
         for (TestXRay testXRay : testXRays) {
             testXRay.renderFrameBuffers(batch);
         }

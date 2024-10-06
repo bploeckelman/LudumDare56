@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.entities.Entity;
+import lando.systems.ld56.entities.XRayable;
 
 public class XRayRender extends Component{
 
@@ -60,11 +61,11 @@ public class XRayRender extends Component{
         ScreenUtils.clear(0f, 0f, 0f, 1f);
         batch.begin();
 
-        tempVector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        worldCamera.unproject(tempVector3);
-
-        batch.draw(Main.game.assets.fuzzyCircle, tempVector3.x-100, tempVector3.y - 100, 200, 200);
-
+        if (entity instanceof XRayable) {
+            ((XRayable) entity).renderMask(batch);
+        } else {
+            Gdx.app.error("X-Ray render", "Need to implement XRayable");
+        }
         batch.end();
 
         batch.setProjectionMatrix(origProjection);
@@ -76,6 +77,8 @@ public class XRayRender extends Component{
         ShaderProgram shader = Main.game.assets.xRayShader;
         batch.setColor(Color.WHITE);
         batch.setShader(shader);
+
+        shader.setUniformf("u_size", bounds.width, bounds.height);
 
         Main.game.assets.noiseTexture.bind(3);
         shader.setUniformi("u_noise", 3);

@@ -26,8 +26,6 @@ public class Assets implements Disposable {
 
     //  TEST THINGS GO HERE
 
-    public Texture testCoverTexture;
-    public Texture testxRayTexture;
 
     // END TEST THINGS - REMOVE AT RELEASE
 
@@ -53,6 +51,8 @@ public class Assets implements Disposable {
     public Texture pixel;
     public Texture gdx;
     public Texture noiseTexture;
+    public Texture buildingCoveredTexture;
+    public Texture buildingXrayTexture;
 
     public ShaderProgram xRayShader;
 
@@ -103,8 +103,8 @@ public class Assets implements Disposable {
             mgr.load("images/pixel.png", Texture.class);
             mgr.load("images/libgdx.png", Texture.class);
             mgr.load("images/noise.png", Texture.class);
-            mgr.load("images/covered.png", Texture.class);
-            mgr.load("images/xray.png", Texture.class);
+            mgr.load("images/structures/building-brick-front_00.png", Texture.class);
+            mgr.load("images/structures/building-brick-back_00.png", Texture.class);
 
             mgr.load("audio/music/intro-music.ogg", Music.class);
 
@@ -126,8 +126,10 @@ public class Assets implements Disposable {
         gdx = mgr.get("images/libgdx.png");
         pixel = mgr.get("images/pixel.png");
         noiseTexture = mgr.get("images/noise.png");
-        testCoverTexture = mgr.get("images/covered.png");
-        testxRayTexture = mgr.get("images/xray.png");
+        noiseTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        noiseTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        buildingCoveredTexture = mgr.get("images/structures/building-brick-front_00.png");
+        buildingXrayTexture = mgr.get("images/structures/building-brick-back_00.png");
 
         fuzzyCircle = atlas.findRegion("misc/fuzzy-circle");
 

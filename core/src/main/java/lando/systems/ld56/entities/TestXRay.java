@@ -12,7 +12,7 @@ public class TestXRay extends Entity{
     Position pos;
 
     public TestXRay (Rectangle bounds, OrthographicCamera worldCamera) {
-        xRayRender = new XRayRender(this, Main.game.assets.testCoverTexture, Main.game.assets.testxRayTexture, bounds, worldCamera);
+        xRayRender = new XRayRender(this, Main.game.assets.buildingCoveredTexture, Main.game.assets.buildingXrayTexture, bounds, worldCamera);
         pos = new Position(this, bounds.x, bounds.y);
     }
 

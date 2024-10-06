@@ -11,6 +11,16 @@ uniform vec2 u_size;
 varying vec4 v_color;
 varying vec2 v_texCoord;
 
+const float pixelMargin = 10.;
+
+
+float cubicPulse( float c, float w, float x )
+{
+    x = abs(x - c);
+    if( x>w ) return 0.0;
+    x /= w;
+    return 1.0 - x*x*(3.0-2.0*x);
+}
 
 
 void main() {
@@ -18,10 +28,18 @@ void main() {
 
     vec4 covered = texture2D(u_texture, v_texCoord);
     vec4 xray = texture2D(u_texture2, v_texCoord);
-    vec4 noise = texture2D(u_noise, v_texCoord);
+    vec4 noise = texture2D(u_noise, v_texCoord * 2.);
     vec4 mask = texture2D(u_mask, invertedY);
 
+    vec2 scaledMargin = pixelMargin/u_size;
+    mask = mask + texture2D(u_mask, vec2(invertedY.x + scaledMargin.x, invertedY.y + scaledMargin.y));
+    mask = mask + texture2D(u_mask, vec2(invertedY.x + scaledMargin.x, invertedY.y - scaledMargin.y));
+    mask = mask + texture2D(u_mask, vec2(invertedY.x - scaledMargin.x, invertedY.y - scaledMargin.y));
+    mask = mask + texture2D(u_mask, vec2(invertedY.x - scaledMargin.x, invertedY.y + scaledMargin.y));
 
-    float mixAmount = mask.r;
+    mask /= 5.;
+    float noiseAddition = cubicPulse(.5, .3, mask.r);
+//    xray.r = noiseAddition;
+    float mixAmount = smoothstep(.4, .6, mask.r + (noiseAddition * ((noise.r * 2.) - 1.)));
     gl_FragColor = mix(covered, xray, mixAmount) * v_color;
 }
