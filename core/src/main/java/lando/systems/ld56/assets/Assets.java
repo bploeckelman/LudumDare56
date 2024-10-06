@@ -113,7 +113,7 @@ public class Assets implements Disposable {
         var ttfLg = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 80; }};
         var ttfMd = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 40; }};
         var ttfSm = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 20; }};
-        var ttf = new FreeTypeFontGenerator(Gdx.files.internal("fonts/ChrustyRock-ORLA.ttf"));
+        var ttf = new FreeTypeFontGenerator(Gdx.files.internal("fonts/good_brush.ttf"));
         fontChrustyLg = ttf.generateFont(ttfLg);
         fontChrustyMd = ttf.generateFont(ttfMd);
         fontChrustySm = ttf.generateFont(ttfSm);
