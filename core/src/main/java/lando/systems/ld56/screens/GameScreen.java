@@ -16,6 +16,7 @@ import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.FlameEffect;
 import lando.systems.ld56.particles.effects.FlareEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
+import lando.systems.ld56.particles.effects.ScratchEffect;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
 import text.formic.Stringf;
@@ -77,8 +78,8 @@ public class GameScreen extends BaseScreen {
         }
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            var particleEffect = particles.effects.get(ParticleEffectType.FLARE);
-            particleEffect.spawn(new FlareEffect.Params(vec3.x, vec3.y));
+            var particleEffect = particles.effects.get(ParticleEffectType.SCRATCH);
+            particleEffect.spawn(new ScratchEffect.Params(vec3.x, vec3.y));
         }
 
         var goToEndScreen = false; // TODO: set true based on 'completing' the game, whatever that will mean
