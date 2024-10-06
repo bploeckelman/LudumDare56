@@ -22,13 +22,15 @@ public class IntroScreen extends BaseScreen {
     ParticleManager particles;
     String page1 =
         "{COLOR=white}" +
-            "These  {GRADIENT=black;gray} STRUCTURES {ENDGRADIENT} are blocking the {GRADIENT=black;gold} VIEW {ENDGRADIENT}.\n\n"+
-            "Perhaps{GRADIENT=navy;purple} SOMEONE {ENDGRADIENT} needs to get rid of them.\n\n " +
-            "Use your  {GRADIENT=yellow;black} ATTACKS {ENDGRADIENT} to destroy them!";
+            "Food additives, micro plastics, and pesticides have mutated the once innocuous, productive creatures of the land\n\n"+
+            "They now seek vengeance against their polluting overlords \n\n";
+
     String page2 =
-        "{COLOR=white}Something{GRADIENT=red;black} about {ENDGRADIENT} buildings {GRADIENT=red;brown} knocked {ENDGRADIENT} down ";
+        "Exact revenge! Raze their buildings, let nothing stand in your way. ";
     String page3 =
-        "{COLOR=white}Some more stuff here{GRADIENT=brown;red} still going {ENDGRADIENT}";
+        "Stuff to look for? Bath tubs with humans to eat?\n\n"+
+        "Food: roast chicken and fruit\n\n"+
+        "Photographer - stuns, bombs, electrical appliances";
 
     int currentPage = 0;
     float elapsedTime = 0f;

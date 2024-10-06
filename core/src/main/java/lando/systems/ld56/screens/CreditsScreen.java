@@ -41,7 +41,7 @@ public class CreditsScreen extends BaseScreen {
     private final String emotionalSupport = "{COLOR=cyan}Emotional Support:{COLOR=white}\n  Asuka, Osha, Cherry \n       Obi, and Yoda";
     private final String music = "{COLOR=gray}Music and Writing:{COLOR=white}\n {GRADIENT=white;gray}Pete Valeo{ENDGRADIENT}\n";
     private final String libgdx = "Made with {COLOR=red}<3{COLOR=white}\nand {RAINBOW}LibGDX{ENDRAINBOW}";
-    private final String disclaimer = "{GRADIENT=black;gray}Disclaimer:{ENDGRADIENT}  {GRADIENT=gold;yellow}{JUMP=.27} No babies were harmed in the making of this game{ENDJUMP}{ENDGRADIENT}";
+    private final String disclaimer = "{GRADIENT=black;gray}Disclaimer:{ENDGRADIENT}  {GRADIENT=gold;yellow}{JUMP=.27} No babies were made in the harming of this game{ENDJUMP}{ENDGRADIENT}";
 
     private float accum = 0f;
     private boolean showPets = false;
