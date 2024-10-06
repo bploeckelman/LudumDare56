@@ -15,6 +15,7 @@ import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.BiteEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
+import lando.systems.ld56.particles.effects.RatSwarmEffect;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
 import text.formic.Stringf;
@@ -73,8 +74,8 @@ public class GameScreen extends BaseScreen {
         }
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            var particleEffect = particles.effects.get(ParticleEffectType.BITE);
-            particleEffect.spawn(new BiteEffect.Params(vec3.x, vec3.y));
+            var particleEffect = particles.effects.get(ParticleEffectType.RAT_SWARM);
+            particleEffect.spawn(new RatSwarmEffect.Params(vec3.x, vec3.y));
         }
 
         var goToEndScreen = false; // TODO: set true based on 'completing' the game, whatever that will mean
