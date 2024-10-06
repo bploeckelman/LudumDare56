@@ -6,9 +6,9 @@ import lando.systems.ld56.assets.Particles;
 import lando.systems.ld56.particles.Particle;
 import lando.systems.ld56.particles.ParticleManager;
 
-public class FireEffect extends ParticleEffect {
+public class FlameEffect extends ParticleEffect {
 
-    public FireEffect(ParticleManager particleManager) {
+    public FlameEffect(ParticleManager particleManager) {
         super(particleManager);
     }
 
@@ -23,11 +23,11 @@ public class FireEffect extends ParticleEffect {
 
     @Override
     public void spawn(ParticleEffectParams parameters) {
-        var params = (FireEffect.Params) parameters;
+        var params = (FlameEffect.Params) parameters;
         var layer = particleManager.activeParticles.get(ParticleManager.Layer.FOREGROUND);
         var pool = particleManager.particlePool;
 
-        var amount = 10;
+        var amount = 20;
 
         for (int i = 0; i < amount; i++) {
             var keyframe = Particles.get(Particles.Type.FLAME).getKeyFrame(MathUtils.random());
