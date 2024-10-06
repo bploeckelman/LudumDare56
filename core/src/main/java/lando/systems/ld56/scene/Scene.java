@@ -124,9 +124,9 @@ public class Scene {
         }
     }
 
-    public void update(float dt, boolean allowInput) {
+    public void update(float dt, boolean gameEnding) {
         physics.update(dt, collidables, influencers);
-        player.update(dt);
+        player.update(dt, gameEnding);
 
         for (int i = structures.size-1; i >=0; i--) {
             Structure structure = structures.get(i);

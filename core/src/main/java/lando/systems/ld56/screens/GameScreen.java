@@ -86,7 +86,7 @@ public class GameScreen extends BaseScreen {
         }
 
         particles.update(delta);
-        scene.update(delta, !scene.gameOver());
+        scene.update(delta, scene.gameOver());
 
         if (Config.Debug.general) {
             Gdx.app.log("debug", scene.player.debugString());

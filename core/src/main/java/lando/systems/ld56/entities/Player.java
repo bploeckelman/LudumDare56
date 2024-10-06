@@ -75,7 +75,7 @@ public class Player extends Entity {
         this.particleManager = particleManager;
     }
 
-    public void update(float dt) {
+    public void update(float dt, boolean gameEnding) {
         // collect input
         var inputMoveDirX = 0;
         if      (Gdx.input.isKeyPressed(Input.Keys.A)) inputMoveDirX = -1;
@@ -88,6 +88,14 @@ public class Player extends Entity {
                      || Gdx.input.isKeyPressed(Input.Keys.DPAD_UP);
 
         var attackJustPressed = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
+
+        if (gameEnding) {
+            inputMoveDirX = 0;
+            jumpJustPressed = false;
+            jumpHeld = false;
+            climbHeld = false;
+            attackJustPressed = false;
+        }
 
         var isOnGround = mover.isOnGround();
         // animation stuff that should always happen regardless of state
