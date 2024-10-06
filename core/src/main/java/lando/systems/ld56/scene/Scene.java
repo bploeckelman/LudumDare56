@@ -13,6 +13,7 @@ import lando.systems.ld56.entities.Npc;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.entities.TestXRay;
+import lando.systems.ld56.particles.ParticleManager;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Scene {
@@ -27,14 +28,14 @@ public class Scene {
     public OrthographicCamera camera;
     public Array<TestXRay> testXRays;
 
-    public Scene(Assets assets, OrthographicCamera camera, int tileSize, int cols, int rows) {
+    public Scene(Assets assets, ParticleManager particleManager, OrthographicCamera camera, int tileSize, int cols, int rows) {
         this.assets = assets;
         this.camera = camera;
         this.player = new Player(assets, (cols * tileSize) / 2f, 50);
         this.antPunch = new Npc((cols * tileSize) / 3, tileSize, Anims.Type.ANT_PUNCH);
         this.andClimbPunch = new Npc((int) ((cols * tileSize) * (2 / 3f)), tileSize, Anims.Type.ANT_CLIMB_PUNCH);
         this.levelMap = new LevelMap(tileSize, cols, rows);
-        this.structure = new Structure(assets, (int) camera.viewportWidth / 2, 0, camera);
+        this.structure = new Structure(assets, particleManager, (int) camera.viewportWidth / 2, 0, camera);
         this.background = assets.atlas.findRegions("backgrounds/background-level-1").first();
 
         levelMap.setBorderSolid();
@@ -53,6 +54,8 @@ public class Scene {
         for (TestXRay testXRay : testXRays) {
             testXRay.update(dt);
         }
+
+        structure.update(dt);
     }
 
     public void render(SpriteBatch batch) {
