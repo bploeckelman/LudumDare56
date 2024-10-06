@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
-import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.components.Animator;
 import lando.systems.ld56.entities.components.Collider;
@@ -22,6 +21,26 @@ import text.formic.Stringf;
 public class Player extends Entity {
 
     public enum State { NORMAL, ATTACK }
+    public enum Mode { SWARM, SNAKE }
+    public enum CreatureType {
+        // Microbiome
+          PHAGE(Mode.SWARM)
+        , PARASITE(Mode.SNAKE)
+        // Neighborhood
+        , MOUSE(Mode.SWARM)
+        , ANT(Mode.SNAKE)
+        // City
+        , RAT(Mode.SWARM)
+        , SNAKE(Mode.SNAKE)
+        // TODO: Mushroom Kingdom
+        ;
+        public final Mode mode;
+        public final Anims.Type[] animTypes;
+        CreatureType(Mode mode, Anims.Type... animTypes) {
+            this.mode = mode;
+            this.animTypes = animTypes;
+        }
+    }
 
     public Position position;
     public Animator animator;
@@ -29,20 +48,22 @@ public class Player extends Entity {
     public Mover mover;
 
     private State state = State.NORMAL;
+    private final CreatureType creatureType;
+    private final ParticleManager particleManager;
+
     private boolean wasOnGround = false;
     private boolean climbing = false;
     private float jumpHoldTimer = 0;
+    private float attackTimer = 0;
 
     private final float jumpHoldDuration = 0.15f;
     private final GridPoint2 offset = new GridPoint2(0, 0);
-    private ParticleManager particleManager;
-
-    private float attackTimer = 0;
 
     // the amount of damage this player does
     public float damage = 0.4f;
 
-    public Player(Assets assets, float x, float y, ParticleManager particleManager) {
+    public Player(CreatureType creatureType, float x, float y, ParticleManager particleManager) {
+        this.creatureType = creatureType;
         this.position = new Position(this, x, y);
         this.animator = new Animator(this, position, Anims.get(Anims.Type.RAT_IDLE));
         this.animator.defaultScale.scl(2);
@@ -84,14 +105,14 @@ public class Player extends Entity {
                 // set current animations
                 if (isOnGround) {
                     if (inputMoveDirX != 0) {
-                        animator.play(Anims.Type.RAT_WALK);
+                        animator.play(creatureType, Anims.State.WALK);
                         particleManager.effects.get(ParticleEffectType.DIRT).spawn(new DirtEffect.Params(position.x(), position.y()));
                     } else {
-                        animator.play(Anims.Type.RAT_IDLE);
+                        animator.play(creatureType, Anims.State.IDLE);
                     }
                 } else {
                     if (mover.speed.y < 0) {
-                        animator.play(Anims.Type.RAT_FALL);
+                        animator.play(creatureType, Anims.State.FALL);
                     }
                 }
 
@@ -135,7 +156,7 @@ public class Player extends Entity {
                         jumpHoldTimer = jumpHoldDuration;
 
                         // update animation - stretch on jump
-                        animator.play(Anims.Type.RAT_JUMP);
+                        animator.play(creatureType, Anims.State.JUMP);
                         animator.scale.set(animator.facing * 0.7f, 1.5f);
 
                         // adjust horizontal movement when jumping
@@ -206,13 +227,13 @@ public class Player extends Entity {
             case ATTACK:
                 if (this.state == State.NORMAL) {
                     this.state = newState;
-                    attackTimer = animator.play(Anims.Type.RAT_BITE);
+                    attackTimer = animator.play(creatureType, Anims.State.ATTACK);
                     Main.playSound(AudioManager.Sounds.ratAttack);
                 }
                 break;
             case NORMAL:
                 this.state = newState;
-                animator.play(Anims.Type.RAT_IDLE);
+                animator.play(creatureType, Anims.State.IDLE);
                 break;
         }
     }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.entities.Entity;
+import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.utils.Calc;
 
 public class Animator extends Component {
@@ -51,6 +52,15 @@ public class Animator extends Component {
 
     public float play(Anims.Type type) {
         var anim = Anims.get(type);
+        return play(anim);
+    }
+
+    public float play(Player.CreatureType creatureType, Anims.State state) {
+        var anim = Anims.get(creatureType, state);
+        return play(anim);
+    }
+
+    public float play(Animation<TextureRegion> anim) {
         if (anim == null) return 0;
         this.animation = anim;
         return this.animation.getAnimationDuration();
