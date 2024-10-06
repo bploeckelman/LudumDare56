@@ -7,13 +7,14 @@ uniform sampler2D u_texture2;
 uniform sampler2D u_mask;
 uniform sampler2D u_noise;
 uniform vec2 u_size;
+uniform vec2 u_noiseOffset;
 
 varying vec4 v_color;
 varying vec2 v_texCoord;
 
 const float pixelMargin = 10.;
 const vec4 borderColor = vec4(0.2, .2, .2, 1.);
-const float borderThickness = .49;
+const float borderThickness = .3;
 
 
 float cubicPulse( float c, float w, float x )
@@ -30,19 +31,28 @@ void main() {
 
     vec4 covered = texture2D(u_texture, v_texCoord);
     vec4 xray = texture2D(u_texture2, v_texCoord);
-    vec4 noise = texture2D(u_noise, v_texCoord * 2.);
-    vec4 mask = texture2D(u_mask, invertedY);
+    float noise = texture2D(u_noise, (v_texCoord + u_noiseOffset) * 2.).r;
+    noise = (noise +  texture2D(u_noise, (v_texCoord + u_noiseOffset) * 4.).g) / 2.;
+    noise = noise * 2. - 1.;
 
     vec2 scaledMargin = pixelMargin/u_size;
-    mask = mask + texture2D(u_mask, vec2(invertedY.x + scaledMargin.x, invertedY.y + scaledMargin.y));
-    mask = mask + texture2D(u_mask, vec2(invertedY.x + scaledMargin.x, invertedY.y - scaledMargin.y));
-    mask = mask + texture2D(u_mask, vec2(invertedY.x - scaledMargin.x, invertedY.y - scaledMargin.y));
-    mask = mask + texture2D(u_mask, vec2(invertedY.x - scaledMargin.x, invertedY.y + scaledMargin.y));
+    float count = 9.;
 
-    mask /= 5.;
-    float noiseAddition = cubicPulse(.5, .4, mask.r);
+    vec4 mask = texture2D(u_mask, invertedY) /count;
+    mask = mask + texture2D(u_mask, vec2(invertedY.x + scaledMargin.x, invertedY.y + scaledMargin.y)) / count;
+    mask = mask + texture2D(u_mask, vec2(invertedY.x + scaledMargin.x, invertedY.y - scaledMargin.y)) / count;
+    mask = mask + texture2D(u_mask, vec2(invertedY.x - scaledMargin.x, invertedY.y - scaledMargin.y)) / count;
+    mask = mask + texture2D(u_mask, vec2(invertedY.x - scaledMargin.x, invertedY.y + scaledMargin.y)) / count;
+
+    mask = mask + texture2D(u_mask, vec2(invertedY.x + scaledMargin.x *.5, invertedY.y + scaledMargin.y * .5)) / count;
+    mask = mask + texture2D(u_mask, vec2(invertedY.x + scaledMargin.x *.5, invertedY.y - scaledMargin.y *.5)) / count;
+    mask = mask + texture2D(u_mask, vec2(invertedY.x - scaledMargin.x *.5, invertedY.y - scaledMargin.y *.5)) / count;
+    mask = mask + texture2D(u_mask, vec2(invertedY.x - scaledMargin.x *.5, invertedY.y + scaledMargin.y *.5)) / count;
+
+
+    float noiseAddition = cubicPulse(.5, .45, mask.r);
 //    xray.r = noiseAddition;
-    float mixAmount = smoothstep(.2, .8, mask.r + (noiseAddition * ((noise.r * 2.) - 1.)));
+    float mixAmount = smoothstep(.2, .8, mask.r + (noiseAddition * noise));
     vec4 finalColor = mix(covered, borderColor, smoothstep(.5 - borderThickness, .45, mixAmount)) ;
     finalColor = mix(finalColor, xray, smoothstep(.55, .5 +borderThickness, mixAmount));
 

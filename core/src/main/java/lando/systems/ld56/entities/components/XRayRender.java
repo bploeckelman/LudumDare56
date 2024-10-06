@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Main;
@@ -26,6 +28,7 @@ public class XRayRender extends Component{
     public final OrthographicCamera objectCamera;
     public final Rectangle bounds;
     public final OrthographicCamera worldCamera;
+    private final Vector2 noiseOffset;
 
 
     public XRayRender(Entity entity, Texture coveredTexture, Texture xrayTexture, Rectangle bounds, OrthographicCamera worldCamera) {
@@ -34,6 +37,7 @@ public class XRayRender extends Component{
         this.xrayTexture = xrayTexture;
         this.bounds = bounds;
         this.worldCamera = worldCamera;
+        this.noiseOffset = new Vector2(MathUtils.random(), MathUtils.random());
 
         // TODO throw expection is images arent the same aspect ratio
 
@@ -78,6 +82,7 @@ public class XRayRender extends Component{
         batch.setColor(Color.WHITE);
         batch.setShader(shader);
 
+        shader.setUniformf("u_noiseOffset", noiseOffset);
         shader.setUniformf("u_size", bounds.width, bounds.height);
 
         Main.game.assets.noiseTexture.bind(3);

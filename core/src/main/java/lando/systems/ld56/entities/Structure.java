@@ -23,19 +23,16 @@ public class Structure extends Entity implements XRayable {
     public Rectangle bounds;
     public XRayRender xRayRender;
 
-    public Structure(Assets assets, ParticleManager particleManager, int centerX, int bottomY, OrthographicCamera worldCamera) {
-        this(assets, particleManager, centerX, bottomY, 8, 3, worldCamera);
+    public Structure(Assets assets, ParticleManager particleManager, float x, float y, float width, float height, OrthographicCamera worldCamera) {
+        this(assets, particleManager, x, y, width, height, 8, 3, worldCamera);
     }
 
-    public Structure(Assets assets, ParticleManager particleManager, int centerX, int bottomY, int rows, int columns, OrthographicCamera worldCamera) {
+    public Structure(Assets assets, ParticleManager particleManager, float x, float y, float width, float height, int rows, int columns, OrthographicCamera worldCamera) {
         this.internals = assets.buildingXrayTexture;
         this.externals = assets.buildingCoveredTexture;
         this.particleManager = particleManager;
 
-        var scale = 2;
-        var width = scale * internals.getWidth();
-        var height = scale * internals.getHeight();
-        this.bounds = new Rectangle(centerX - width / 2, bottomY, width, height);
+        this.bounds = new Rectangle(x, y, width, height);
         this.structureDamage = new StructureDamage(this, rows, columns);
         xRayRender = new XRayRender(this, externals, internals, bounds, worldCamera);
     }

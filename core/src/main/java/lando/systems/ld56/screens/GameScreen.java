@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
 import lando.systems.ld56.assets.Patches;
+import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.particles.effects.SmokeEffect;
@@ -60,7 +61,11 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) { Config.Debug.render = !Config.Debug.render; }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) { Config.Debug.ui = !Config.Debug.ui; }
         // collapse structure
-        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) { scene.structure.collapse(); }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+            for (Structure structure : scene.structures ) {
+                structure.collapse();
+            }
+        }
 
         // early out if we're in 'frame by frame' mode, so we can step a frame at a time via keypress
         // NOTE: the position of this block in this method is important!!!

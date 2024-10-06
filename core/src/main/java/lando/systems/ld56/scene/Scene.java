@@ -23,7 +23,7 @@ public class Scene {
     public Npc antPunch;
     public Npc andClimbPunch;
     public LevelMap levelMap;
-    public Structure structure;
+    public Array<Structure> structures;
     public TextureRegion background;
     public OrthographicCamera camera;
     public Array<TestXRay> testXRays;
@@ -35,11 +35,18 @@ public class Scene {
         this.antPunch = new Npc((cols * tileSize) / 3, tileSize, Anims.Type.ANT_PUNCH);
         this.andClimbPunch = new Npc((int) ((cols * tileSize) * (2 / 3f)), tileSize, Anims.Type.ANT_CLIMB_PUNCH);
         this.levelMap = new LevelMap(tileSize, cols, rows);
-        this.structure = new Structure(assets, particleManager, (int) camera.viewportWidth / 2, 0, camera);
+        structures = new Array<>();
+
+        structures.add(new Structure(assets, particleManager, camera.viewportWidth / 4  - 100, 0, 200, 300, camera));
+        structures.add(new Structure(assets, particleManager, camera.viewportWidth / 4 * 2 - 150, 0, 300, 400, camera));
+        structures.add(new Structure(assets, particleManager, camera.viewportWidth / 4 * 3 - 100, 0, 200, 340, camera));
+
         this.background = assets.atlas.findRegions("backgrounds/background-level-1").first();
 
         levelMap.setBorderSolid();
-        levelMap.setClimbable(structure);
+        for (Structure structure : structures) {
+            levelMap.setClimbable(structure);
+        }
 
         testXRays = new Array<>();
 
@@ -54,13 +61,16 @@ public class Scene {
         for (TestXRay testXRay : testXRays) {
             testXRay.update(dt);
         }
-
-        structure.update(dt);
+        for (Structure structure : structures) {
+            structure.update(dt);
+        }
     }
 
     public void render(SpriteBatch batch) {
         batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-        structure.render(batch);
+        for (Structure structure : structures) {
+            structure.render(batch);
+        }
         antPunch.render(batch);
         andClimbPunch.render(batch);
         player.render(batch);
@@ -72,11 +82,15 @@ public class Scene {
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
         levelMap.renderDebug(shapes);
         player.renderDebug(batch, shapes);
-        structure.renderDebug(batch, shapes);
+        for (Structure structure : structures) {
+            structure.renderDebug(batch, shapes);
+        }
     }
 
     public void renderFrameBuffers(SpriteBatch batch) {
-        structure.renderFrameBuffers(batch);
+        for (Structure structure : structures) {
+            structure.renderFrameBuffers(batch);
+        }
         for (TestXRay testXRay : testXRays) {
             testXRay.renderFrameBuffers(batch);
         }
@@ -87,7 +101,9 @@ public class Scene {
         levelMap.solidCollider.setGridTileSolid(x, y, solid);
 
         // temp
-        structure.damage(player, Gdx.input.getX(), (int)camera.viewportHeight - Gdx.input.getY());
+        for (Structure structure : structures) {
+            structure.damage(player, Gdx.input.getX(), (int) camera.viewportHeight - Gdx.input.getY());
+        }
     }
 
     public void eraseGridAt(int x, int y) {
