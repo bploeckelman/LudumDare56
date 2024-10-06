@@ -35,14 +35,15 @@ public class FireEffect extends ParticleEffect {
             var speed = 10;
             var startSize = MathUtils.random(20f, 50f);
             var ttl = MathUtils.random(1f, 3f);
+            var startingColor = new Color(MathUtils.random(.7f, 1f), MathUtils.random(.4f), MathUtils.random(.4f), 1);
             layer.add(Particle.initializer(pool.obtain())
                 .keyframe(keyframe)
                 .startPos(params.startX + MathUtils.random(-10f, 10f), params.startY + MathUtils.random(-10f, 10f))
                 .velocity(MathUtils.cosDeg(angle) * speed, MathUtils.sinDeg(angle) * speed)
-                .startColor(Color.RED)
-                .endColor(Color.ORANGE)
+                .startColor(startingColor)
+                .endColor(startingColor)
                 .startSize(startSize)
-                .endSize(startSize)
+                .endSize(0)
                 .timeToLive(ttl)
                 .init()
             );
