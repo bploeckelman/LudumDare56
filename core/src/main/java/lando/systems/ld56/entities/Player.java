@@ -26,14 +26,13 @@ public class Player extends Entity {
     private boolean wasOnGround = false;
     private float jumpHoldTimer = 0;
 
-    private final float jumpHoldDuration = 0.2f;
+    private final float jumpHoldDuration = 0.15f;
 
     public Player(Assets assets, float x, float y) {
         this.position = new Position(this, x, y);
         this.animator = new Animator(this, position, Anims.get(Anims.Type.RAT_IDLE));
         this.animator.defaultScale.scl(2);
-        this.collider = new Collider(this, Collider.Type.player, -4, 0, 12, 24);
-        this.collider.origin.set(0, 0);
+        this.collider = Collider.makeRect(this, Collider.Type.player, -10, 0, 24, 20);
         this.mover = new Mover(this, position, collider);
         this.mover.speed.y = this.mover.gravity;
     }
@@ -50,8 +49,6 @@ public class Player extends Entity {
                      || Gdx.input.isKeyPressed(Input.Keys.UP)
                      || Gdx.input.isKeyPressed(Input.Keys.DPAD_UP);
 
-        var inputSign = Calc.sign(inputMoveDirX);
-        var speedSign = Calc.sign(mover.speed.x);
         var isOnGround = mover.isOnGround();
 
         // animation stuff that should always happen regardless of state

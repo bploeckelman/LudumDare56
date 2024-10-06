@@ -13,16 +13,17 @@ public class Mover extends Component {
     public Vector2 speed = new Vector2();
 
     // constants
-    public float friction = 50f;
-    public float gravity = -100f;
+    public float friction = 500f;
+    public float gravity = -200f;
     public float airAccel = 500f;
-    public float groundAccel = 200f;
-    public float jumpImpulse = 500f;
-    public float maxFallSpeedY = -300f;
+    public float groundAccel = 1000f;
+    public float jumpImpulse = 300f;
+    public float maxFallSpeedY = -600f;
     public float maxAirSpeedX = 500f;
     public float maxGroundSpeedX = 200f;
 
     private final Vector2 remainder = new Vector2();
+    private final GridPoint2 offset = new GridPoint2();
 
     public Mover(Entity entity, Position position) {
         this(entity, position, null);
@@ -76,7 +77,7 @@ public class Mover extends Component {
                 }
 
                 amount -= sign;
-                position.value.x += amount;
+                position.value.x += sign;
             }
         }
         return false;
@@ -98,7 +99,7 @@ public class Mover extends Component {
                 }
 
                 amount -= sign;
-                position.value.y += amount;
+                position.value.y += sign;
             }
         }
         return false;
@@ -114,7 +115,6 @@ public class Mover extends Component {
         remainder.y = 0;
     }
 
-    private final GridPoint2 offset = new GridPoint2();
     public boolean isOnGround() {
         if (collider == null) {
             return false;

@@ -4,36 +4,137 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.GridPoint2;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.entities.Entity;
+import lando.systems.ld56.utils.Calc;
 import lando.systems.ld56.utils.RectangleI;
+import lando.systems.ld56.utils.Utils;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+import text.formic.Stringf;
 
 public class Collider extends Component {
 
     public enum Type {solid, player}
+    public enum Shape {rect, grid}
 
-    public Type type;
-    public RectangleI rect;
-    public GridPoint2 origin;
+    public final GridPoint2 origin;
+    public final Type type;
+    public final Shape shape;
+    public final RectangleI rect;
+    public final Grid grid;
 
-    private final RectangleI rect1 = new RectangleI();
-    private final RectangleI rect2 = new RectangleI();
+    public static Collider makeRect(Entity entity, Type type, int x, int y, int width, int height) {
+        return new Collider(entity, type, x, y, width, height);
+    }
 
-    public Collider(Entity entity, Type type, int x, int y, int width, int height) {
+    public static Collider makeGrid(Entity entity, Type type, int originX, int originY, int tileSize, int cols, int rows) {
+        return new Collider(entity, type, originX, originY, tileSize, cols, rows);
+    }
+
+    public static class Grid {
+        public int tileSize;
+        public int cols;
+        public int rows;
+        public Tile[] tiles;
+
+        public Grid(int tileSize, int cols, int rows) {
+            this.tileSize = tileSize;
+            this.cols = cols;
+            this.rows = rows;
+            this.tiles = new Tile[cols*rows];
+            for (int i = 0; i < cols*rows; i++) {
+                tiles[i] = new Tile();
+            }
+        }
+
+        public static class Tile {
+            public boolean solid = false;
+            public boolean climbable = false;
+        }
+    }
+
+    // temporary objects for collision tests and rendering
+    private final RectangleI rectA = new RectangleI();
+    private final RectangleI rectB = new RectangleI();
+    private final GridPoint2 pointA = new GridPoint2();
+    private final GridPoint2 pointB = new GridPoint2();
+
+    private Collider(Entity entity, Type type, int x, int y, int width, int height) {
         super(entity, Collider.class);
-        this.type = type;
-        this.rect = new RectangleI(x, y, width, height);
         this.origin = new GridPoint2(0, 0);
+        this.type = type;
+        this.shape = Shape.rect;
+        this.rect = new RectangleI(x, y, width, height);
+        this.grid = null;
+    }
+
+    private Collider(Entity entity, Type type, int originX, int originY, int tileSize, int cols, int rows) {
+        super(entity, Collider.class);
+        this.origin = new GridPoint2(originX, originY);
+        this.type = type;
+        this.shape = Shape.grid;
+        this.rect = null;
+        this.grid = new Grid(tileSize, cols, rows);
     }
 
     public void render(ShapeDrawer shapes) {
-        var pos1 = Main.game.entityData.get(entity, Position.class);
-        int x1 = (pos1 != null) ? (int) pos1.value.x : 0;
-        int y1 = (pos1 != null) ? (int) pos1.value.y : 0;
-        rect1.set(
-            x1 + this.origin.x + this.rect.x,
-            y1 + this.origin.y + this.rect.y,
+        var pos = Main.game.entityData.get(entity, Position.class);
+        int x = (pos != null) ? (int) pos.value.x : 0;
+        int y = (pos != null) ? (int) pos.value.y : 0;
+        rectA.set(
+            x + this.origin.x + this.rect.x,
+            y + this.origin.y + this.rect.y,
             this.rect.width, this.rect.height);
-        shapes.rectangle(rect1.x, rect1.y, rect1.width, rect1.height, Color.YELLOW, 1);
+        shapes.rectangle(rectA.x, rectA.y, rectA.width, rectA.height, Color.YELLOW, 1);
+    }
+
+    public Grid.Tile getGridTile(int x, int y) {
+        if (shape != Shape.grid) {
+            Utils.log("Collider", Stringf.format("Can't get grid tile at (%d,%d), collider is not a grid", x, y));
+            return null;
+        }
+        if (x < 0 || y < 0 || x >= grid.cols || y >= grid.rows) {
+            Utils.log("Collider", Stringf.format("Can't get grid tile at (%d,%d), coords are out of bounds (%d,%d)", x, y, grid.cols, grid.rows));
+            return null;
+        }
+        int index = y * grid.cols + x;
+        return grid.tiles[index];
+    }
+
+    public Collider setGridTileSolid(int x, int y, boolean solid) {
+        var tile = getGridTile(x, y);
+        if (tile != null) {
+            tile.solid = solid;
+        }
+        return this;
+    }
+
+    public Collider setGridTileClimbable(int x, int y, boolean climbable) {
+        var tile = getGridTile(x, y);
+        if (tile != null) {
+            tile.climbable = climbable;
+        }
+        return this;
+    }
+
+    public Collider setGridTilesSolid(int x, int y, int w, int h, boolean solid) {
+        for (int iy = y; iy < y + h; iy++) {
+            for (int ix = x; ix < x + w; ix++) {
+                var tile = getGridTile(ix, iy);
+                if (tile == null) continue;
+                tile.solid = solid;
+            }
+        }
+        return this;
+    }
+
+    public Collider setGridTilesClimbable(int x, int y, int w, int h, boolean climbable) {
+        for (int iy = y; iy <= y + h; iy++) {
+            for (int ix = x; ix <= x + w; ix++) {
+                var tile = getGridTile(ix, iy);
+                if (tile == null) continue;
+                tile.climbable = climbable;
+            }
+        }
+        return this;
     }
 
     public boolean check(Type type, GridPoint2 offset) {
@@ -50,24 +151,77 @@ public class Collider extends Component {
     }
 
     public boolean overlaps(Collider other, GridPoint2 offset) {
-        var pos1 = Main.game.entityData.get(entity, Position.class);
-        var pos2 = Main.game.entityData.get(other.entity, Position.class);
+        if (shape == Shape.rect) {
+            if (other.shape == Shape.rect) {
+                return overlapsRectRect(this, other, offset);
+            } else if (other.shape == Shape.grid) {
+                return overlapsRectGrid(this, other, offset);
+            }
+        } else if (shape == Shape.grid) {
+            if (other.shape == Shape.rect) {
+                return overlapsRectGrid(other, this, offset);
+            } else if (other.shape == Shape.grid) {
+                Utils.log("Collider", "Grid/Grid overlap check unsupported");
+            }
+        }
+        return false;
+    }
 
-        int x1 = (pos1 != null) ? (int) pos1.value.x : 0;
-        int y1 = (pos1 != null) ? (int) pos1.value.y : 0;
-        int x2 = (pos2 != null) ? (int) pos2.value.x : 0;
-        int y2 = (pos2 != null) ? (int) pos2.value.y : 0;
+    public boolean overlapsRectRect(Collider a, Collider b, GridPoint2 offset) {
+        var entityData = Main.game.entityData;
 
-        rect1.set(
-            x1 + this.origin.x + this.rect.x + offset.x,
-            y1 + this.origin.y + this.rect.y + offset.y,
-            this.rect.width, this.rect.height);
+        pointA.set(0, 0);
+        pointB.set(0, 0);
+        var posA = entityData.get(a.entity, Position.class);
+        var posB = entityData.get(b.entity, Position.class);
+        if (posA != null) pointA.set((int) posA.x(), (int) posA.y());
+        if (posB != null) pointB.set((int) posB.x(), (int) posB.y());
 
-        rect2.set(
-            x2 + other.origin.x + other.rect.x,
-            y2 + other.origin.y + other.rect.y,
-            other.rect.width, other.rect.height);
+        rectA.set(
+            a.origin.x + a.rect.x + pointA.x + offset.x,
+            a.origin.y + a.rect.y + pointA.y + offset.x,
+            a.rect.width, a.rect.height);
+        rectB.set(
+            b.origin.x + b.rect.x + pointB.x,
+            b.origin.y + b.rect.y + pointB.y,
+            b.rect.width, b.rect.height);
 
-        return rect1.overlaps(rect2);
+        return rectA.overlaps(rectB);
+    }
+
+    public boolean overlapsRectGrid(Collider a, Collider b, GridPoint2 offset) {
+        var entityData = Main.game.entityData;
+
+        pointA.set(0, 0);
+        pointB.set(0, 0);
+        var posA = entityData.get(a.entity, Position.class);
+        var posB = entityData.get(b.entity, Position.class);
+        if (posA != null) pointA.set((int) posA.x(), (int) posA.y());
+        if (posB != null) pointB.set((int) posB.x(), (int) posB.y());
+
+        // get a relative rectangle to the grid
+        rectA.set(a.rect);
+        rectA.x += pointA.x + offset.x - pointB.x;
+        rectA.y += pointA.y + offset.y - pointB.y;
+
+        // get the extents for grid tiles covered by the rect
+        int left   = Calc.clampInt((int) Calc.floor((float) rectA.x / b.grid.tileSize), 0, b.grid.cols);
+        int bottom = Calc.clampInt((int) Calc.floor((float) rectA.y / b.grid.tileSize), 0, b.grid.rows);
+        int right  = Calc.clampInt((int) Calc.ceiling((float) (rectA.x + rectA.width)  / b.grid.tileSize), 0, b.grid.cols);
+        int top    = Calc.clampInt((int) Calc.ceiling((float) (rectA.y + rectA.height) / b.grid.tileSize), 0, b.grid.rows);
+
+        // check each tile
+        for (int x = left; x <= right; x++) {
+            for (int y = bottom; y <= top; y++) {
+                var tile = b.getGridTile(x, y);
+                if (tile == null) continue;
+                if (tile.solid) {
+                    return true;
+                }
+            }
+        }
+
+        // no overlap detected
+        return false;
     }
 }
