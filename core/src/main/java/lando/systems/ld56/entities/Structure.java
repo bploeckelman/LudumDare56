@@ -11,7 +11,7 @@ public class Structure extends Entity {
 
     public TextureRegion internals;
     public TextureRegion externals;
-    public StructureDamage tileBank;
+    public StructureDamage structureDamage;
     public RectangleI bounds;
 
     public Structure(Assets assets, int centerX, int bottomY) {
@@ -26,7 +26,15 @@ public class Structure extends Entity {
         var width = scale * internals.getRegionWidth();
         var height = scale * internals.getRegionHeight();
         this.bounds = new RectangleI(centerX - width / 2, bottomY, width, height);
-        this.tileBank = new StructureDamage(this, rows, columns);
+        this.structureDamage = new StructureDamage(this, rows, columns);
+    }
+
+    public void damage(int x, int y) {
+        damage(x, y, 1f);
+    }
+
+    public void damage(int x, int y, float damage) {
+        structureDamage.applyDamage(x, y, damage);
     }
 
     public void render(SpriteBatch batch) {
@@ -35,6 +43,6 @@ public class Structure extends Entity {
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
-        this.tileBank.renderDebug(batch, shapes);
+        this.structureDamage.renderDebug(batch, shapes);
     }
 }

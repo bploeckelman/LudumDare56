@@ -1,5 +1,6 @@
 package lando.systems.ld56.scene;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -54,6 +55,9 @@ public class Scene {
     public void paintGridAt(int x, int y) {
         var solid = true;
         levelMap.collider.setGridTileSolid(x, y, solid);
+
+        // temp
+        structure.damage(Gdx.input.getX(), (int)camera.viewportHeight - Gdx.input.getY());
     }
 
     public void eraseGridAt(int x, int y) {
