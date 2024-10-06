@@ -112,4 +112,7 @@ public class Calc {
         return outVector;
     }
 
+    public static boolean inRange(int value, int low, int high) {
+        return value >= low && value < high;
+    }
 }

@@ -28,6 +28,9 @@ public class Player extends Entity {
 
     private final float jumpHoldDuration = 0.15f;
 
+    // the amount of damage this player has
+    public float damage = 1f;
+
     public Player(Assets assets, float x, float y) {
         this.position = new Position(this, x, y);
         this.animator = new Animator(this, position, Anims.get(Anims.Type.RAT_IDLE));

@@ -37,28 +37,25 @@ public class StructureDamage {
         this.tileHeight = (float)bounds.height / rows;
     }
 
-    public void applyDamage(Player player, int posX, int posY) {
+    public boolean applyDamage(Player player, int posX, int posY) {
         int xOffset = (int)((posX - bounds.getX()) / tileWidth);
         int yOffset = (int)((posY - bounds.getY()) / tileHeight);
 
         // calc offset instead of using bounds
-        if (xOffset < 0 || xOffset >= columns || yOffset < 0 || yOffset >= rows) { return; }
+        if (xOffset < 0 || xOffset >= columns || yOffset < 0 || yOffset >= rows) { return false; }
 
-        // get from player
-        int moveDirection = 1;
-        int damageX = xOffset;
-        if (moveDirection == 1) {
-            while (damageX-- > 0) {
-                if (this.damage[damageX][yOffset] < 1f) {
-                    return;
-                }
+        int xMod = player.animator.facing;
+        int damageOffset = xOffset - xMod;
+        while (Calc.inRange(damageOffset, 0, columns)) {
+            if (this.damage[damageOffset][yOffset] < 1f) {
+                return false;
             }
-        } else {
-
+            damageOffset -= xMod;
         }
 
         // get amount of damage from player
-        this.damage[xOffset][yOffset] += 0.5f;
+        this.damage[xOffset][yOffset] += player.damage;
+        return true;
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
