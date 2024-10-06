@@ -257,8 +257,8 @@ public class GameScreen extends BaseScreen {
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
             if (middleMouseDown) {
-                worldCamera.translate(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-                worldCamera.update();
+//                worldCamera.translate(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+//                worldCamera.update();
                 return true;
             } else {
                 if (leftMouseDown) {
@@ -283,8 +283,8 @@ public class GameScreen extends BaseScreen {
             if (amountY != 0) {
                 var zoomSpeed = 0.5f;
                 var sign = Calc.sign(amountY);
-                worldCamera.zoom = Calc.eerp(worldCamera.zoom, worldCamera.zoom + sign * 0.1f, zoomSpeed);
-                worldCamera.zoom = Calc.clampf(worldCamera.zoom, 0.1f, 8f);
+//                worldCamera.zoom = Calc.eerp(worldCamera.zoom, worldCamera.zoom + sign * 0.1f, zoomSpeed);
+//                worldCamera.zoom = Calc.clampf(worldCamera.zoom, 0.1f, 8f);
                 return true;
             }
             return false;

@@ -54,6 +54,7 @@ public class Assets implements Disposable {
     public Texture noiseTexture;
 
     public ShaderProgram xRayShader;
+    public ShaderProgram debrisShader;
 
     public TextureRegion pixelRegion;
     public TextureRegion fuzzyCircle;
@@ -206,6 +207,7 @@ public class Assets implements Disposable {
         Transition.init();
 
         xRayShader = loadShader("shaders/default.vert", "shaders/xray.frag");
+        debrisShader = loadShader("shaders/default.vert", "shaders/debris.frag");
 
         initialized = true;
         return 1;
