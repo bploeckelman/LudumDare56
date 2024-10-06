@@ -1,5 +1,6 @@
 package lando.systems.ld56.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -26,7 +27,7 @@ public class TestXRay extends Entity{
     }
 
     public void render(SpriteBatch batch) {
-        xRayRender.render(batch);
+        xRayRender.render(batch, new Color());
     }
 
 

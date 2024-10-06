@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.entities.LevelMap;
@@ -11,6 +14,11 @@ import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.entities.TestXRay;
 import lando.systems.ld56.particles.ParticleManager;
+import lando.systems.ld56.physics.base.Collidable;
+import lando.systems.ld56.physics.base.Influencer;
+import lando.systems.ld56.physics.base.PhysicsSystem;
+import lando.systems.ld56.physics.game.Debris;
+import lando.systems.ld56.physics.game.GameBoundSegment;
 import lando.systems.ld56.screens.GameScreen;
 import lando.systems.ld56.utils.Calc;
 import lando.systems.ld56.utils.RectangleI;
@@ -44,6 +52,12 @@ public class Scene {
     public Array<Structure> structures;
     public Array<TestXRay> testXRays;
 
+
+    // Debris things
+    public PhysicsSystem physics;
+    public Array<Collidable> collidables = new Array<>();
+    public Array<Influencer> influencers = new Array<>();
+
     public Scene(GameScreen screen, Type type) {
         this.screen = screen;
         this.assets = screen.assets;
@@ -54,6 +68,14 @@ public class Scene {
         this.testXRays = new Array<>();
 
         init();
+        physics = new PhysicsSystem(new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        collidables.add(new GameBoundSegment(Gdx.graphics.getWidth(), 4 * 16, 0, 4 * 16 ));
+        collidables.add(new GameBoundSegment(0, 4 * 16, 0, Gdx.graphics.getHeight()));
+        collidables.add(new GameBoundSegment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), 4 * 16));
+
+        for (int i = 0; i < 100; i++) {
+//            collidables.add(new Debris(new Vector2(MathUtils.random(Gdx.graphics.getWidth()), MathUtils.random(Gdx.graphics.getHeight())), 40, 20, assets.pixelRegion));
+        }
     }
 
     private void init() {
@@ -108,6 +130,7 @@ public class Scene {
     }
 
     public void update(float dt) {
+        physics.update(dt, collidables, influencers);
         player.update(dt);
         for (TestXRay testXRay : testXRays) {
             testXRay.update(dt);
@@ -119,19 +142,39 @@ public class Scene {
                 structures.removeIndex(i);
             }
         }
+
+        for (int i = collidables.size -1; i >= 0; i--) {
+            Collidable c = collidables.get(i);
+            if (c instanceof Debris) {
+                Debris d = (Debris) c;
+                d.update(dt);
+                if (d.shouldRemove()) {
+                    collidables.removeIndex(i);
+                }
+            }
+
+        }
     }
 
     public void render(SpriteBatch batch) {
         batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
 
         particleManager.draw(batch, ParticleManager.Layer.BACKGROUND);
+
         for (Structure structure : structures) {
             structure.render(batch);
+        }
+        for (Collidable c : collidables) {
+            if (c instanceof Debris) {
+                ((Debris) c).render(batch);
+            }
+//            c.renderDebug(batch);
         }
         player.render(batch);
         for (TestXRay testXRay : testXRays) {
             testXRay.render(batch);
         }
+
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {

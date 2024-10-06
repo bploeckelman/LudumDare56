@@ -1,5 +1,6 @@
-package lando.systems.ld56.physics;
+package lando.systems.ld56.physics.base;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -8,7 +9,7 @@ public interface Collidable {
 
     float IMMOVABLE = Float.MAX_VALUE;
 
-    void renderDebug(ShapeDrawer shapes);
+    void renderDebug(SpriteBatch batch);
 
     /**
      * This should be a value 0-1 for a percentage that should be lost to friction 0 = full stop 1 = no friction

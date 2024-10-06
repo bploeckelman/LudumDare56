@@ -77,9 +77,9 @@ public class XRayRender extends Component{
         fbo.end();
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, Color tintColor) {
         ShaderProgram shader = Main.game.assets.xRayShader;
-        batch.setColor(Color.WHITE);
+        batch.setColor(tintColor);
         batch.setShader(shader);
 
         shader.setUniformf("u_noiseOffset", noiseOffset);

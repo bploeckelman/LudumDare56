@@ -1,4 +1,4 @@
-package lando.systems.ld56.physics;
+package lando.systems.ld56.physics.base;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;

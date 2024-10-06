@@ -18,7 +18,7 @@ public class StructureDamage {
     public final int rows;
     public final int columns;
 
-    private float[][] damage;
+    public float[][] damage;
 
     private Rectangle bounds;
     private float tileWidth;

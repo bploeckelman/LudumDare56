@@ -1,4 +1,4 @@
-package lando.systems.ld56.physics;
+package lando.systems.ld56.physics.base;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
@@ -50,7 +50,7 @@ public class Collision implements Comparable<Collision>, Pool.Poolable {
             // Scoot it away a little bit
             normal.set(position).sub(bouncer.getPosition()).nor();
             Vector2 oldCenter = bouncer.getPosition();
-            bouncer.setPosition(oldCenter.x + .001f * -normal.x, oldCenter.y + .001f * -normal.y);
+            bouncer.setPosition(oldCenter.x + .1f * -normal.x, oldCenter.y + .1f * -normal.y);
         } else {
             float p = 2 * (col1.getVelocity().x * normal.x + col1.getVelocity().y * normal.y - col2.getVelocity().x * normal.x - col2.getVelocity().y * normal.y)/(col1.getMass() + col2.getMass());
             Vector2 firstVel = col1.getVelocity();
