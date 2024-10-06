@@ -1,13 +1,12 @@
 package lando.systems.ld56.particles;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import lando.systems.ld56.assets.Assets;
-import lando.systems.ld56.particles.effects.*;
+import lando.systems.ld56.particles.effects.AsukaEffect;
+import lando.systems.ld56.particles.effects.ParticleEffect;
+import lando.systems.ld56.particles.effects.ParticleEffectType;
+import lando.systems.ld56.particles.effects.SmokeEffect;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,38 +34,6 @@ public class ParticleManager implements Disposable {
     public void init() {
         effects.put(ParticleEffectType.ASUKA, new AsukaEffect(this));
         effects.put(ParticleEffectType.SMOKE, new SmokeEffect(this));
-    }
-
-    public void spawn(Layer layer, TextureRegion textureRegion, int amount, Vector2 startPos, Vector2 endPos, Color startColor, Color endColor, float startSize, float endSize, float timeToLive) {
-        for (int i = 0; i < amount; i++) {
-            activeParticles.get(layer).add(Particle.initializer(particlePool.obtain())
-                .keyframe(textureRegion)
-                .startPos(startPos)
-                .endPos(endPos)
-                .startColor(startColor)
-                .endColor(endColor)
-                .startSize(startSize)
-                .endSize(endSize)
-                .timeToLive(timeToLive)
-                .init()
-            );
-        }
-    }
-
-    public void spawn(Layer layer, TextureRegion textureRegion, int amount, Vector2 startPos, float angle, float speed, Color startColor, Color endColor, float startSize, float endSize, float timeToLive) {
-        for (int i = 0; i < amount; i++) {
-            activeParticles.get(layer).add(Particle.initializer(particlePool.obtain())
-                .keyframe(textureRegion)
-                .startPos(startPos)
-                .velocity(MathUtils.cosDeg(angle) * speed, MathUtils.sinDeg(angle) * speed)
-                .startColor(startColor)
-                .endColor(endColor)
-                .startSize(startSize)
-                .endSize(endSize)
-                .timeToLive(timeToLive)
-                .init()
-            );
-        }
     }
 
     public void clear() {

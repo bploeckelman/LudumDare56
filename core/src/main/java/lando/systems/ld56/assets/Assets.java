@@ -143,6 +143,7 @@ public class Assets implements Disposable {
         Icons.init(this);
         Patches.init(this);
         Anims.init(this);
+        Particles.init(this);
         Transition.init();
 
         initialized = true;

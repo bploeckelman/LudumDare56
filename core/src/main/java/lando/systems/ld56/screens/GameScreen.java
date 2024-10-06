@@ -7,15 +7,13 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
 import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.particles.ParticleManager;
-import lando.systems.ld56.particles.effects.AsukaEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
-import lando.systems.ld56.particles.effects.SmokeEffectParams;
+import lando.systems.ld56.particles.effects.SmokeEffect;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
 import text.formic.Stringf;
@@ -71,12 +69,8 @@ public class GameScreen extends BaseScreen {
         }
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            var particleEffect = particles.effects.get(ParticleEffectType.ASUKA);
-            particleEffect.spawn(new AsukaEffect.Params(vec3.x, vec3.y));
-        }
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
             var particleEffect = particles.effects.get(ParticleEffectType.SMOKE);
-            particleEffect.spawn(new SmokeEffectParams(new Vector2(vec3.x, vec3.y), 50));
+            particleEffect.spawn(new SmokeEffect.Params(vec3.x, vec3.y, 50));
         }
 
         var goToEndScreen = false; // TODO: set true based on 'completing' the game, whatever that will mean

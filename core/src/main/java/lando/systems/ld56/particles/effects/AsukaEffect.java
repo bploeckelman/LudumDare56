@@ -2,7 +2,6 @@ package lando.systems.ld56.particles.effects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.particles.Particle;
 import lando.systems.ld56.particles.ParticleManager;
@@ -14,9 +13,11 @@ public class AsukaEffect extends ParticleEffect {
     }
 
     public static class Params implements ParticleEffectParams {
-        public Vector2 startPos;
+        public float startX;
+        public float startY;
         public Params(float x, float y) {
-            startPos = new Vector2(x, y);
+            startX = x;
+            startY = y;
         }
     }
 
@@ -36,7 +37,7 @@ public class AsukaEffect extends ParticleEffect {
             var ttl = MathUtils.random(1f, 3f);
             layer.add(Particle.initializer(pool.obtain())
                 .keyframe(keyframe)
-                .startPos(params.startPos)
+                .startPos(params.startX, params.startY)
                 .velocity(MathUtils.cosDeg(angle) * speed, MathUtils.sinDeg(angle) * speed)
                 .startColor(Color.WHITE)
                 .endColor(Color.CLEAR)
