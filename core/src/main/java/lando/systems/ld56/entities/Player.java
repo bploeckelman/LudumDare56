@@ -8,10 +8,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.audio.AudioManager;
-import lando.systems.ld56.entities.components.Animator;
-import lando.systems.ld56.entities.components.Collider;
-import lando.systems.ld56.entities.components.Mover;
-import lando.systems.ld56.entities.components.Position;
+import lando.systems.ld56.entities.components.*;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.DirtEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
@@ -193,20 +190,22 @@ public class Player extends Entity {
             } break;
             case ATTACK: {
                 attackTimer -= dt;
-                if (!attackSuccess && attackCollider.check(offset.set(0, 0), Collider.Type.climbable)) {
-                    attackSuccess = true;
-                    // from the collider, don't know where I am. hitting all structures
-                    ((GameScreen)Main.game.currentScreen).scene.structures.forEach(x -> {
-                        var rect = attackCollider.rectA;
-                        if (x.structureDamage.applyDamage(this, rect.x + rect.width/2, rect.y + rect.height /2)) {
-                            Main.playSound(AudioManager.Sounds.structureDamage);
-                        }
-                    });
-                }
-
                 if (attackTimer <= 0) {
                     setState(State.NORMAL);
+                } else if (!attackSuccess) {
+                    var collider = attackCollider.check(Collider.Type.structure);
+                    if (collider != null) {
+                        int x = collider.rectA.x + collider.rectA.width / 2;
+                        int y = collider.rectA.y + collider.rectA.height / 2;
+
+                        if (collider.entity instanceof StructureDamage) {
+                            ((StructureDamage)collider.entity).applyDamage(this, x, y);
+                            Main.playSound(AudioManager.Sounds.structureDamage);
+                            attackSuccess = true;
+                        }
+                     }
                 }
+
                 break;
             }
         }

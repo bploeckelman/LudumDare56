@@ -2,23 +2,21 @@ package lando.systems.ld56.entities.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Align;
 import lando.systems.ld56.Main;
+import lando.systems.ld56.entities.Entity;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.utils.Calc;
-import lando.systems.ld56.utils.RectangleI;
-import lando.systems.ld56.utils.Utils;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
-public class StructureDamage {
+public class StructureDamage extends Entity {
     public final Structure structure;
     public final int rows;
     public final int columns;
 
     public float[][] damage;
+    public Collider[][] colliders;
 
     private Rectangle bounds;
     private float tileWidth;
@@ -29,20 +27,31 @@ public class StructureDamage {
         this.rows = rows;
         this.columns = columns;
         this.damage = new float[columns][rows];
-
         setBounds(structure.bounds);
     }
 
     public void setBounds(Rectangle bounds) {
         this.bounds = bounds;
-        this.tileWidth = (float)bounds.width / columns;
-        this.tileHeight = (float)bounds.height / rows;
+        this.tileWidth = bounds.width / columns;
+        this.tileHeight = bounds.height / rows;
+
+        this.colliders = new Collider[columns][rows];
+        float dy = bounds.getY();
+        for (int y = 0; y < rows; y++) {
+            float dx = bounds.getX();
+            for (int x = 0; x < columns; x++) {
+                this.colliders[x][y] = Collider.makeRect(this, Collider.Type.structure, (int)dx, (int)dy, (int)tileWidth, (int)tileHeight);
+                dx += tileWidth;
+            }
+            dy += tileHeight;
+        }
     }
 
     public void setMinDamageForAllTiles(float value) {
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < columns; x++) {
                 damage[x][y] = Math.max(damage[x][y], value);
+                Main.game.entityData.remove(this.colliders[x][y], Collider.class);
             }
         }
     }
@@ -71,17 +80,11 @@ public class StructureDamage {
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
-        float dy = (float)bounds.getY();
         for (int y = 0; y < rows; y++) {
-            float dx = (float)bounds.getX();
             for (int x = 0; x < columns; x++) {
-                shapes.rectangle(dx, dy, tileWidth, tileHeight, Color.GOLD, 1);
-                dx += tileWidth;
+                colliders[x][y].render(shapes);
             }
-            dy += tileHeight;
         }
-
-        batch.setColor(Color.WHITE);
     }
 
     public float getDamagePercent() {

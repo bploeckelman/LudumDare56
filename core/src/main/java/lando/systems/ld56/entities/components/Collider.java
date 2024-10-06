@@ -2,6 +2,8 @@ package lando.systems.ld56.entities.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.entities.Entity;
 import lando.systems.ld56.utils.Calc;
@@ -12,7 +14,7 @@ import text.formic.Stringf;
 
 public class Collider extends Component {
 
-    public enum Type {solid, climbable, player, player_segment}
+    public enum Type {solid, climbable, player, structure, player_segment}
     public enum Shape {rect, grid}
 
     public final GridPoint2 origin;
@@ -160,6 +162,31 @@ public class Collider extends Component {
             }
         }
         return false;
+    }
+
+    private final Rectangle srcRect = new Rectangle();
+    private final Rectangle checkRect = new Rectangle();
+    private final Rectangle intersectionRect = new Rectangle();
+    public Collider check(Type type) {
+        Collider overlap = null;
+        float maxArea = 0;
+
+        srcRect.set(this.rectA.x, this.rectA.y, this.rectA.width, this.rectA.height);
+
+        var colliders = Main.game.entityData.getComponents(Collider.class);
+        for (var collider : colliders) {
+            if (collider == this) continue;
+            if (collider.type != type) continue;
+
+            checkRect.set(collider.rectA.x, collider.rectA.y, collider.rectA.width, collider.rectA.height);
+            if (Intersector.intersectRectangles(srcRect, checkRect, intersectionRect)) {
+                if (intersectionRect.area() > maxArea) {
+                    maxArea = intersectionRect.area();
+                    overlap = collider;
+                }
+            }
+        }
+        return overlap;
     }
 
     public boolean overlaps(Collider other, GridPoint2 offset, Type type) {
