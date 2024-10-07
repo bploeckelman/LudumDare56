@@ -10,4 +10,7 @@ public enum ParticleEffectType {
     DIRT,
     RAT_SWARM,
     LIGHT,
+    BLOOD,
+    BLOOD_FOUNTAIN,
+    BLOOD_SPLAT,
 }

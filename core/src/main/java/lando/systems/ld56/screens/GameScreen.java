@@ -19,7 +19,6 @@ import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.BiteEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
-import lando.systems.ld56.particles.effects.RatSwarmEffect;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
 import text.formic.Stringf;

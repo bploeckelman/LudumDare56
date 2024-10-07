@@ -76,6 +76,8 @@ public class StructureDamage extends Entity {
 
         // get amount of damage from player
         this.damage[xOffset][yOffset] = Calc.clampf(this.damage[xOffset][yOffset] + player.attackStrength, 0f, 1f);
+        player.successfulHitEffect(posX, posY);
+        if (this.damage[xOffset][yOffset] >= 1f) { player.successfulDestroyEffect(posX, posY); }
         return true;
     }
 

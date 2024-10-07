@@ -10,8 +10,7 @@ import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.components.*;
 import lando.systems.ld56.particles.ParticleManager;
-import lando.systems.ld56.particles.effects.DirtEffect;
-import lando.systems.ld56.particles.effects.ParticleEffectType;
+import lando.systems.ld56.particles.effects.*;
 import lando.systems.ld56.utils.Calc;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import text.formic.Stringf;
@@ -58,6 +57,7 @@ public class Player extends Entity {
     public float attackStrength = 0.4f;
     private boolean attackSuccess = false;
     private Collider attackCollider;
+    private float accum = 0f;
 
     private final float jumpHoldDuration = 0.15f;
     private final GridPoint2 offset = new GridPoint2(0, 0);
@@ -79,6 +79,7 @@ public class Player extends Entity {
     }
 
     public void update(float dt, boolean gameEnding) {
+        accum += dt;
         // collect input
         var inputMoveDirX = 0;
         if      (Gdx.input.isKeyPressed(Input.Keys.A)) inputMoveDirX = -1;
@@ -283,6 +284,46 @@ public class Player extends Entity {
         position.renderDebug(shapes);
     }
 
+    public void successfulHitEffect(float targetX, float targetY) {
+        switch(creatureType) {
+            case PHAGE:
+                particleManager.effects.get(ParticleEffectType.SCRATCH).spawn(new ScratchEffect.Params(targetX, targetY));
+                particleManager.effects.get(ParticleEffectType.BLOOD).spawn(new BloodEffect.Params(targetX, targetY));
+                break;
+            case PARASITE:
+                particleManager.effects.get(ParticleEffectType.BITE).spawn(new BiteEffect.Params(targetX, targetY));
+                particleManager.effects.get(ParticleEffectType.BLOOD).spawn(new BloodEffect.Params(targetX, targetY));
+                break;
+            case WORM:
+                particleManager.effects.get(ParticleEffectType.SCRATCH).spawn(new ScratchEffect.Params(targetX, targetY));
+                particleManager.effects.get(ParticleEffectType.DIRT).spawn(new DirtEffect.Params(targetX, targetY));
+                break;
+            case ANT:
+                particleManager.effects.get(ParticleEffectType.BITE).spawn(new BiteEffect.Params(targetX, targetY));
+                particleManager.effects.get(ParticleEffectType.DIRT).spawn(new DirtEffect.Params(targetX, targetY));
+                break;
+            case RAT:
+                particleManager.effects.get(ParticleEffectType.SCRATCH).spawn(new ScratchEffect.Params(targetX, targetY));
+                particleManager.effects.get(ParticleEffectType.FLAME).spawn(new FlameEffect.Params(targetX, targetY));
+                break;
+            case SNAKE:
+                particleManager.effects.get(ParticleEffectType.BITE).spawn(new BiteEffect.Params(targetX, targetY));
+                particleManager.effects.get(ParticleEffectType.FLAME).spawn(new FlameEffect.Params(targetX, targetY));
+                break;
+            case MARIO:
+                particleManager.effects.get(ParticleEffectType.ASUKA).spawn(new AsukaEffect.Params(targetX, targetY));
+                break;
+            case LUIGI:
+                particleManager.effects.get(ParticleEffectType.ASUKA).spawn(new AsukaEffect.Params(targetX, targetY));
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void successfulDestroyEffect(float targetX, float targetY) {
+        particleManager.effects.get(ParticleEffectType.BLOOD_FOUNTAIN).spawn(new BloodFountainEffect.Params(targetX, targetY));
+    }
     public String debugString() {
         return Stringf.format("Player: pos(%.1f, %.1f) spd(%.1f, %.1f)", position.x(), position.y(), mover.speed.x, mover.speed.y);
     }

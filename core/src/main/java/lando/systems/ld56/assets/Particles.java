@@ -30,6 +30,8 @@ public class Particles {
         , TWIRL     (0.1f, "particles/kenney/twirl",   Animation.PlayMode.LOOP)
         , WINDOW    (0.1f, "particles/kenney/window",  Animation.PlayMode.LOOP)
         , BITE      (0.1f, "particles/bite",           Animation.PlayMode.LOOP)
+        , BLOOD     (0.1f, "particles/blood/particle-blood", Animation.PlayMode.LOOP)
+        , BLOOD_SPLAT(0.1f, "particles/blood/particle-blood-splat", Animation.PlayMode.LOOP)
         ;
         public final float frameDuration;
         public final String regionsName;

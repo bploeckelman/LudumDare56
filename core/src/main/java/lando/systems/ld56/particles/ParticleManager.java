@@ -40,6 +40,8 @@ public class ParticleManager implements Disposable {
         effects.put(ParticleEffectType.DIRT,      new DirtEffect(this));
         effects.put(ParticleEffectType.RAT_SWARM, new RatSwarmEffect(this));
         effects.put(ParticleEffectType.LIGHT,     new LightEffect(this));
+        effects.put(ParticleEffectType.BLOOD,     new BloodEffect(this));
+        effects.put(ParticleEffectType.BLOOD_FOUNTAIN, new BloodFountainEffect(this));
     }
 
     public ParticleEffect randomEffect() {
