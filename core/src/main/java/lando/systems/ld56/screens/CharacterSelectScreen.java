@@ -2,8 +2,10 @@ package lando.systems.ld56.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -29,12 +31,24 @@ public class CharacterSelectScreen extends BaseScreen {
     Color characterAColor = Color.RED;
     Color characterBColor = Color.BLUE;
     float accum = 0f;
+    Animation<TextureRegion> background;
 
     public CharacterSelectScreen(Scene.Type nextSceneType) {
         font = Main.game.assets.fontChrustyMd;
         Main.game.audioManager.playMusic(AudioManager.Musics.introMusic);
         particles = new ParticleManager(Main.game.assets);
         this.nextSceneType = nextSceneType;
+        switch (nextSceneType) {
+            case MICROBIOME:
+                this.background = Anims.get(Anims.Type.MICROBIOME_BACKGROUND);
+                break;
+            case NEIGHBORHOOD:
+                this.background = Anims.get(Anims.Type.NEIGHBORHOOD_BACKGROUND);
+                break;
+            default:
+                this.background = Anims.get(Anims.Type.BACKGROUND_1);
+                break;
+        }
     }
 
     @Override
@@ -71,8 +85,9 @@ public class CharacterSelectScreen extends BaseScreen {
 
     public void renderCharacterSelection(SpriteBatch batch) {
         // draw rectangle with ninepatch
-        batch.setColor(Color.WHITE);
+        batch.setColor(1f, 1f, 1f, 0.75f);
         Patches.get(Patches.Type.PLAIN).draw(batch, 0, 0, windowCamera.viewportWidth, windowCamera.viewportHeight);
+        batch.setColor(Color.WHITE);
         assets.fontChrustyLg.draw(batch, "Select your tiny character", windowCamera.viewportWidth / 2, windowCamera.viewportHeight - 50, 0, 1, false);
         // character title
         assets.layout.setText(assets.fontChrustyMd, "Unit");
@@ -125,6 +140,7 @@ public class CharacterSelectScreen extends BaseScreen {
         batch.setProjectionMatrix(windowCamera.combined);
         batch.begin();
         batch.setColor(Color.WHITE);
+        batch.draw(background.getKeyFrame(accum), 0, 0, windowCamera.viewportWidth, windowCamera.viewportHeight);
         renderCharacterSelection(batch);
         particles.draw(batch, ParticleManager.Layer.FOREGROUND);
         batch.end();

@@ -23,6 +23,11 @@ public class Anims {
         // kitten character --------------------------------------------------------------------------------------------
         // NOTE: test for snake/swarm 'segment'
         , KITTEN_IDLE    (0.1f, "creatures/kittens/kitten", Animation.PlayMode.LOOP)
+        // Backgrounds -------------------------------------------------------------------------------------------------
+        , MICROBIOME_BACKGROUND(0.1f, "backgrounds/background-biome", Animation.PlayMode.LOOP_PINGPONG)
+        , BACKGROUND_1   (0.1f, "backgrounds/background-level-1", Animation.PlayMode.LOOP)
+        , NEIGHBORHOOD_BACKGROUND(0.1f, "backgrounds/background-neighborhood-overlay", Animation.PlayMode.LOOP)
+        , NEIGHBORHOOD_SKY(0.1f, "backgrounds/background-neighborhood-sky", Animation.PlayMode.LOOP)
         // phage character ---------------------------------------------------------------------------------------------
         , PHAGE_IDLE     (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)
         , PHAGE_WALK     (0.1f, "creatures/phage/phage-walk/player-phage-walk", Animation.PlayMode.LOOP)
