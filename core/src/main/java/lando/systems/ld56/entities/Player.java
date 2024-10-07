@@ -2,6 +2,7 @@ package lando.systems.ld56.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
@@ -26,7 +27,7 @@ import text.formic.Stringf;
 
 public class Player extends Entity {
 
-    public enum State { NORMAL, ATTACK }
+    public enum State { NORMAL, ATTACK, KNOCK_OUT }
     public enum Mode { SWARM, CHASE}
     public enum CreatureType {
         // Microbiome
@@ -354,12 +355,19 @@ public class Player extends Entity {
 
         // update components
         mover.update(dt);
+
+        setInvincibilityColor();
+
         animator.update(dt);
 
         updateFollowers(dt);
 
         // update data for next frame
         wasOnGround = mover.isOnGround();
+    }
+
+    private void setInvincibilityColor() {
+        animator.tint = hitInvincibility > 0 ? Color.RED : Color.WHITE;
     }
 
     private void setState(State newState) {
@@ -457,7 +465,7 @@ public class Player extends Entity {
     private float hitInvincibility = 0;
     public void hit(Vector2 speed, int power) {
         if (!launchFollowers(power)) {
-            // knockout
+            setState(State.KNOCK_OUT);
         } else {
             mover.speed.set(200 * Calc.sign(speed.x), 200);
         }
@@ -465,31 +473,7 @@ public class Player extends Entity {
     }
 
     public boolean isInvicible() {
-        return hitInvincibility > 0;
-    }
-
-    public boolean launchFollowers(int count) {
-        for (int i = followers.size - 1; i >= 0; i--) {
-            if (count-- == 0) { return true; }
-            var follower = followers.get(i);
-            detach(follower);
-            follower.launch();
-        }
-        return false;
-    }
-
-    private float hitInvincibility = 0;
-    public void hit(Vector2 speed, int power) {
-        if (!launchFollowers(power)) {
-            // knockout
-        } else {
-            mover.speed.set(200 * Calc.sign(speed.x), 200);
-        }
-        hitInvincibility = 5f;
-    }
-
-    public boolean isInvicible() {
-        return hitInvincibility > 0;
+        return hitInvincibility > 0 || state == State.KNOCK_OUT;
     }
 
     public boolean launchFollowers(int count) {

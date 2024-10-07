@@ -43,8 +43,9 @@ public class SimpleWalker extends Enemy {
         if (playerCollider != null) {
             if (playerCollider.entity instanceof Player) {
                 if (!scene.player.isInvicible()) {
-                    scene.player.hit(mover.speed, 104);
-                    switchDirection();
+                    scene.player.hit(mover.speed, 10);
+                    //switchDirection();
+                    remove = true;
                 }
             }
         }
