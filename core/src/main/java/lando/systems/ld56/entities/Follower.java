@@ -49,7 +49,8 @@ public class Follower extends Entity {
                 } else if (creatureType == Player.CreatureType.ANT) {
                     animation = Anims.get(Anims.Type.ANT_IDLE); }
                 else if (creatureType == Player.CreatureType.PARASITE) {
-                    animation = Anims.get(Anims.Type.SEGMENT_IDLE);
+                    animation = Anims.get(Anims.Type.PARASITE_WALK);
+                    animation.setFrameDuration(MathUtils.random(0.04f, 0.08f));
                 } else {
                     animation = Anims.get(Anims.Type.KITTEN_IDLE);
                 }
@@ -71,6 +72,7 @@ public class Follower extends Entity {
 
         this.position = new Position(this, x, y);
         this.animator = new Animator(this, position, animation);
+        animator.stateTime = MathUtils.random(0, 1);
         this.collider = Collider.makeRect(this, Collider.Type.follower, rect.x, rect.y, rect.width, rect.height);
         this.mover = new Mover(this, position, collider);
         this.followTarget = new GridPoint2(x, y);
@@ -91,8 +93,8 @@ public class Follower extends Entity {
         }
 
         if (attached) {
+            var gray = .75f;
             if (player.creatureType.mode == Player.Mode.SWARM) {
-                var gray = 128 / 255f;
                 animator.tint.set(gray, gray, gray, 1);
                 // apply constraints to speed
                 var outputVector = Utils.vector2Pool.obtain().setZero();
@@ -103,7 +105,7 @@ public class Follower extends Entity {
                 // directly apply movement speed to position (since mover.update() is only for detached movement)
                 position.add(mover.speed.x * dt, mover.speed.y * dt);
             } else if (player.creatureType.mode == Player.Mode.CHASE) {
-                animator.tint.set(Color.WHITE);
+                animator.tint.set(gray, gray, gray, 1);
                 // when chasing, always lerp towards the followTarget
                 var x = Interpolation.linear.apply(position.x(), followTarget.x, dt * 10);
                 var y = Interpolation.linear.apply(position.y(), followTarget.y, dt * 10);

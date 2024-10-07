@@ -92,7 +92,7 @@ public class Player extends Entity {
         this.collider = Collider.makeRect(this, Collider.Type.player, animType.colliderRect);
         this.mover = new Mover(this, position, collider);
 
-        var scale = creatureType == CreatureType.PARASITE ? .5f : 1.5f;
+        var scale = 1.5f;
         animator.scale.set(scale, scale);
         animator.defaultScale.set(scale, scale);
         mover.speed.y = mover.gravity;
@@ -118,6 +118,9 @@ public class Player extends Entity {
             }
             if (creatureType == Player.CreatureType.SNAKE) {
                 scale = 1;
+            }
+            if (creatureType == CreatureType.PARASITE) {
+                scale = 0.5f;
             }
             var follower = new Follower(this, pos.x, pos.y, scale, speedX, speedY);
             follower.attached = true;
