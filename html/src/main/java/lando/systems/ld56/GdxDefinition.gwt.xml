@@ -33,12 +33,9 @@
   <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.utils.typinglabel.effects" />
   <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.utils.typinglabel.TypingGlyph" />
   <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.particles.Particle" />
-<<<<<<< HEAD
   <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.physics.base.Collision" />
-=======
   <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.utils.RectangleI" />
   <extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.math.GridPoint2" />
->>>>>>> 66cb35c (Sneaky snake)
 
   <!-- You must change this if you rename packages later, or rename GwtLauncher. -->
   <entry-point class="lando.systems.ld56.gwt.GwtLauncher" />
