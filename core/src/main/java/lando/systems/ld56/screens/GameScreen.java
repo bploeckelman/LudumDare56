@@ -97,7 +97,7 @@ public class GameScreen extends BaseScreen {
                     exitingScreen = game.setScreen(new GameScreen(Scene.Type.CITY));
                     break;
                 case CITY:
-                    // Go to End Screen
+                    exitingScreen = game.setScreen(new EndingScreen());
                     break;
                 case MUSHROOM_KINGDOM:
                     // no idea
