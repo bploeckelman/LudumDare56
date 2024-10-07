@@ -105,6 +105,15 @@ public class StructureDamage extends Entity {
             case HOUSE_B:
                 Main.game.audioManager.playSound(AudioManager.Sounds.impact);
                 break;
+            case HOUSE_C:
+                Main.game.audioManager.playSound(AudioManager.Sounds.impact);
+                break;
+            case HOUSE_D:
+                Main.game.audioManager.playSound(AudioManager.Sounds.impact);
+                break;
+            case HOUSE_E:
+                Main.game.audioManager.playSound(AudioManager.Sounds.impact);
+                break;
             default:
                 Main.game.audioManager.playSound(AudioManager.Sounds.thud);
                 break;
