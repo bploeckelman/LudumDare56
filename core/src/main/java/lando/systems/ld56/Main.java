@@ -168,7 +168,7 @@ public class Main extends ApplicationAdapter {
     private int sceneIndex = -1;
     private void nextScreen() {
         // last screen doesn't work at all
-        if (++sceneIndex == Scene.Type.values().length -1) {
+        if (++sceneIndex == Scene.Type.values().length) {
             sceneIndex = 0;
         }
         setScreen(new CharacterSelectScreen(Scene.Type.values()[sceneIndex]));

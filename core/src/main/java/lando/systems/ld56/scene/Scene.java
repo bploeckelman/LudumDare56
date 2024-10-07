@@ -166,7 +166,7 @@ public class Scene {
     private void initCity() {
         backgroundLayers.clear();
         backgroundLayers.add(Anims.get(Anims.Type.CITY_BACKGROUND));
-        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, 2f *camera.viewportHeight);
+        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight * 2);
     }
 
     private void initMicroBiomeStructures(int basePixelsY) {
@@ -190,6 +190,9 @@ public class Scene {
     private void initCityStructures(int basePixelsY) {
         // TODO: rossman, do stuff like in the above two methods, x,y,w,h should be multiples of 16 (LevelMap.tileSize),
         //  probably 2 or 3 buildings, one very tall, screen should scroll vertically to follow the player (perpendicular to how NEIGHBORHOD works)
+        structures.add(new Structure(this, new RectangleI(224, basePixelsY, 192, 384), Structures.Type.SKYSCRAPER_B));
+        structures.add(new Structure(this, new RectangleI(592, basePixelsY, 192, 800), Structures.Type.SKYSCRAPER_D));
+        structures.add(new Structure(this, new RectangleI(960, basePixelsY, 192, 768), Structures.Type.SKYSCRAPER_C));
     }
 
     public void update(float dt, boolean gameEnding) {
