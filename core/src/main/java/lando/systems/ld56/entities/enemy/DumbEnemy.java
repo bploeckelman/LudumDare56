@@ -1,48 +1,38 @@
-package lando.systems.ld56.entities;
+package lando.systems.ld56.entities.enemy;
 
 import lando.systems.ld56.assets.Anims;
+import lando.systems.ld56.entities.Follower;
+import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.components.Collider;
-import lando.systems.ld56.entities.components.Mover;
 
-public class Enemy extends Npc {
+public class DumbEnemy extends Enemy {
 
-    public static Enemy createTardigrade(LevelMap levelMap) {
-        int start = levelMap.tileSize * 4;
-        return new Enemy(start, start, Anims.Type.TARDIGRADE).moveX(200);
+    private float speed = 0;
+
+    public DumbEnemy(Anims.Type animType) {
+        super(animType);
     }
 
-    private final Mover mover;
-    private float speed;
-
-    public Enemy(int x, int y, Anims.Type animType) {
-        super(x, y, animType);
-        mover = new Mover(this, this.position, this.collider);
-    }
-
-    public Enemy moveX(float speed) {
-        mover.friction = 0;
-
+    public void moveX(float speed) {
         this.speed = speed;
+        mover.friction = 0;
         mover.speed.x = speed;
 
         animator.facing = speed > 0 ? -1 : 1;
-
-        return this;
     }
 
     public void switchDirection() {
         moveX(-speed);
     }
 
-     @Override
+    @Override
     public void update(float dt) {
         super.update(dt);
-        mover.update(dt);
 
         var playerCollider = collider.check(Collider.Type.player);
         if (playerCollider != null) {
             if (playerCollider.entity instanceof Player) {
-                ((Player)playerCollider.entity).mover.speed.set(200, 200);
+                ((Player) playerCollider.entity).mover.speed.set(200, 200);
                 switchDirection();
             }
         }

@@ -81,11 +81,16 @@ public class Anims {
         // TODO: add these animations - using 'idle' as a placeholder for now
         , RAT_JUMP       (0.1f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
         , RAT_FALL       (0.1f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
+
         // enemies
         , TARDIGRADE     (0.1f, "pets/cat", Animation.PlayMode.LOOP)
-
-
-
+        , BACTERIA       (0.1f, "pets/dog", Animation.PlayMode.LOOP)
+        , BIRD           (0.1f, "pets/cat", Animation.PlayMode.LOOP)
+        , ANIMAL         (0.1f, "pets/dog", Animation.PlayMode.LOOP)
+        , TRUCK          (0.1f, "pets/cat", Animation.PlayMode.LOOP)
+        , PERSON         (0.1f, "pets/dog", Animation.PlayMode.LOOP)
+        , GOOMBA         (0.1f, "pets/cat", Animation.PlayMode.LOOP)
+        , BOWSER         (0.1f, "pets/dog", Animation.PlayMode.LOOP)
 
         // snake character ---------------------------------------------------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------

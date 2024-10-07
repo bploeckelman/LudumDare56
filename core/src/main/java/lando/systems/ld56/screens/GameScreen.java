@@ -65,6 +65,11 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) { Config.Debug.general = !Config.Debug.general; }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) { Config.Debug.render = !Config.Debug.render; }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) { Config.Debug.ui = !Config.Debug.ui; }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+            var en = scene.enemies.first();
+            en.setPosition(64, 64);
+            en.mover.speed.y = 0;
+        }
         // collapse structure
         if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
             for (Structure structure : scene.structures ) {

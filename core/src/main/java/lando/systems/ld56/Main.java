@@ -21,6 +21,7 @@ import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Transition;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.EntityData;
+import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.screens.*;
 import lando.systems.ld56.utils.Time;
@@ -94,6 +95,11 @@ public class Main extends ApplicationAdapter {
         // handle top level input
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
             Config.Debug.general = !Config.Debug.general;
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
+            setScreen(new GameScreen(Scene.Type.MICROBIOME, Player.CreatureType.PHAGE), Transition.Type.DOOMDRIP, 1f);
+            return;
         }
 
         // update things that must update every tick

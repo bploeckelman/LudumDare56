@@ -14,13 +14,13 @@ import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Structures;
-import lando.systems.ld56.entities.Enemy;
 import lando.systems.ld56.entities.Follower;
 import lando.systems.ld56.entities.LevelMap;
-import lando.systems.ld56.entities.Npc;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.entities.components.Collider;
+import lando.systems.ld56.entities.enemy.Enemy;
+import lando.systems.ld56.entities.enemy.EnemySpawner;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.physics.base.Collidable;
 import lando.systems.ld56.physics.base.Influencer;
@@ -63,7 +63,7 @@ public class Scene {
     public Array<Follower> detachedFollowers = new Array<>();
 
     // enemies
-    public Array<Npc> enemies = new Array<>();
+    public Array<Enemy> enemies = new Array<>();
 
     // Debris things
     public PhysicsSystem physics;
@@ -74,6 +74,8 @@ public class Scene {
 
     // working data
     private final GridPoint2 offset = new GridPoint2(0, 0);
+
+    private EnemySpawner spawner;
 
     public Scene(GameScreen screen, Type type, Player.CreatureType creatureType) {
         this.screen = screen;
@@ -103,6 +105,8 @@ public class Scene {
         int cols  = (int) Calc.ceiling(backgroundRectangle.width  / tileSize);
         int rows = (int) Calc.ceiling(backgroundRectangle.height / tileSize);
         levelMap = new LevelMap(tileSize, cols, rows);
+
+        this.spawner = new EnemySpawner(this);
 
         // Set up Backgrounds
         switch (type) {
@@ -151,11 +155,10 @@ public class Scene {
     private void initMicroBiome() {
         backgroundLayers.clear();
         backgroundLayers.add(Anims.get(Anims.Type.MICROBIOME_BACKGROUND));
-        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
-        enemies.add(Enemy.createTardigrade(levelMap));
+        backgroundRectangle = new Rectangle(0, 0, camera.viewportWidth, camera.viewportHeight);
+
+        this.enemies.add(this.spawner.spawn());
     }
-
-
 
     private void initNeighborhood() {
         backgroundLayers.clear();
