@@ -17,7 +17,6 @@ import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.scene.Scene;
-import org.w3c.dom.Text;
 
 public class CharacterSelectScreen extends BaseScreen {
 
@@ -48,7 +47,7 @@ public class CharacterSelectScreen extends BaseScreen {
                 this.creatureBAnim = Anims.get(Anims.Type.PARASITE_WALK);
                 break;
             case NEIGHBORHOOD:
-                this.background = Anims.get(Anims.Type.NEIGHBORHOOD_BACKGROUND);
+                this.background = Anims.get(Anims.Type.NEIGHBORHOOD_OVERLAY);
                 this.creatureAAnim = Anims.get(Anims.Type.WORM_IDLE);
                 this.creatureBAnim = Anims.get(Anims.Type.ANT_PUNCH);
                 break;

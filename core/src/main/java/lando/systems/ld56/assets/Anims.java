@@ -26,7 +26,7 @@ public class Anims {
         // Backgrounds -------------------------------------------------------------------------------------------------
         , MICROBIOME_BACKGROUND(0.1f, "backgrounds/background-biome", Animation.PlayMode.LOOP_PINGPONG)
         , BACKGROUND_1   (0.1f, "backgrounds/background-level-1", Animation.PlayMode.LOOP)
-        , NEIGHBORHOOD_BACKGROUND(0.1f, "backgrounds/background-neighborhood-overlay", Animation.PlayMode.LOOP)
+        , NEIGHBORHOOD_OVERLAY(0.1f, "backgrounds/background-neighborhood-overlay", Animation.PlayMode.LOOP)
         , NEIGHBORHOOD_SKY(0.1f, "backgrounds/background-neighborhood-sky", Animation.PlayMode.LOOP)
         // phage character ---------------------------------------------------------------------------------------------
         , PHAGE_IDLE     (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)

@@ -3,6 +3,7 @@ package lando.systems.ld56.scene;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld56.Main;
+import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Structures;
 import lando.systems.ld56.entities.*;
@@ -50,7 +52,7 @@ public class Scene {
     public Player player;
     public Player.CreatureType creatureType;
     public LevelMap levelMap;
-    public Array<TextureRegion> backgroundLayers;
+    public Array<Animation<TextureRegion>> backgroundLayers;
     public Rectangle backgroundRectangle;
     public Array<Structure> structures;
     public Array<Follower> detachedFollowers = new Array<>();
@@ -62,6 +64,8 @@ public class Scene {
     public PhysicsSystem physics;
     public Array<Collidable> collidables = new Array<>();
     public Array<Influencer> influencers = new Array<>();
+
+    float accum = 0f;
 
     // working data
     private final GridPoint2 offset = new GridPoint2(0, 0);
@@ -86,7 +90,7 @@ public class Scene {
         Main.game.entityData.clearAllComponents(Collider.class);
 
         backgroundLayers = new Array<>();
-        backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-level-1").first());
+        backgroundLayers.add(Anims.get(Anims.Type.BACKGROUND_1));
         backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
 
         int tileSize = 16;
@@ -141,7 +145,7 @@ public class Scene {
 
     private void initMicroBiome() {
         backgroundLayers.clear();
-        backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-biome").first());
+        backgroundLayers.add(Anims.get(Anims.Type.MICROBIOME_BACKGROUND));
         backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
         enemies.add(Enemy.createTardigrade(levelMap));
     }
@@ -150,14 +154,15 @@ public class Scene {
 
     private void initNeighborhood() {
         backgroundLayers.clear();
-        backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-neighborhood-sky").first());
-        backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-neighborhood-overlay").first());
+        backgroundLayers.add(Anims.get(Anims.Type.NEIGHBORHOOD_SKY));
+        backgroundLayers.add(Anims.get(Anims.Type.NEIGHBORHOOD_OVERLAY));
         backgroundRectangle = new Rectangle(0,0, 3840, 720);
     }
 
     private void initCity() {
         backgroundLayers.clear();
-        backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-biome").first());        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
+        backgroundLayers.add(Anims.get(Anims.Type.BACKGROUND_1));
+        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
     }
 
     private void initMicroBiomeStructures(int basePixelsY) {
@@ -182,6 +187,7 @@ public class Scene {
     }
 
     public void update(float dt, boolean gameEnding) {
+        accum += dt;
         physics.update(dt, collidables, influencers);
         player.update(dt, gameEnding);
 
@@ -217,8 +223,8 @@ public class Scene {
     }
 
     public void render(SpriteBatch batch) {
-        for (TextureRegion background : backgroundLayers) {
-            batch.draw(background, backgroundRectangle.x, backgroundRectangle.y, backgroundRectangle.width, backgroundRectangle.height);
+        for (Animation<TextureRegion> background : backgroundLayers) {
+            batch.draw(background.getKeyFrame(accum), backgroundRectangle.x, backgroundRectangle.y, backgroundRectangle.width, backgroundRectangle.height);
         }
 
         particleManager.draw(batch, ParticleManager.Layer.BACKGROUND);
