@@ -77,6 +77,15 @@ public class Assets implements Disposable {
         public static final String Boing1 = "audio/sounds/boing1.ogg";
         public static final String Jump1 = "audio/sounds/jump1.ogg";
         public static final String Thud1 = "audio/sounds/thud1.ogg";
+        public static final String Intro1 = "audio/sounds/intro1.ogg";
+        public static final String Outro1 = "audio/sounds/outro1.ogg";
+        public static final String Ant1 = "audio/sounds/ant1.ogg";
+        public static final String Rat1 = "audio/sounds/rat1.ogg";
+        public static final String Phage1 = "audio/sounds/phage1.ogg";
+        public static final String Snake1 = "audio/sounds/snake1.ogg";
+        public static final String Tardigrade1 = "audio/sounds/tardigrade1.ogg";
+        public static final String Nematode1 = "audio/sounds/nematode1.ogg";
+        public static final String Earthworm1 = "audio/sounds/earthworm1.ogg";
     }
 
     public Sound coin;
@@ -96,6 +105,15 @@ public class Assets implements Disposable {
     public Sound boing1;
     public Sound jump1;
     public Sound thud1;
+    public Sound intro1;
+    public Sound outro1;
+    public Sound tardigrade1;
+    public Sound nematode1;
+    public Sound rat1;
+    public Sound ant1;
+    public Sound phage1;
+    public Sound snake1;
+    public Sound earthworm1;
 
     public Music mainMusic;
     public Music introMusic;
@@ -163,7 +181,15 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.CollectFollower1, Sound.class);
             mgr.load(SoundRes.Boing1, Sound.class);
             mgr.load(SoundRes.Jump1, Sound.class);
-            mgr.load(SoundRes.Thud1, Sound.class);
+            mgr.load(SoundRes.Intro1, Sound.class);
+            mgr.load(SoundRes.Outro1, Sound.class);
+            mgr.load(SoundRes.Tardigrade1, Sound.class);
+            mgr.load(SoundRes.Nematode1, Sound.class);
+            mgr.load(SoundRes.Rat1, Sound.class);
+            mgr.load(SoundRes.Ant1, Sound.class);
+            mgr.load(SoundRes.Phage1, Sound.class);
+            mgr.load(SoundRes.Snake1, Sound.class);
+            mgr.load(SoundRes.Earthworm1, Sound.class);
 
             for (Structures.Type type : Structures.Type.values()){
                 mgr.load(type.externalTextureName, Texture.class);
@@ -237,6 +263,15 @@ public class Assets implements Disposable {
         boing1 = mgr.get(SoundRes.Boing1, Sound.class);
         jump1 = mgr.get(SoundRes.Jump1, Sound.class);
         thud1 = mgr.get(SoundRes.Thud1, Sound.class);
+        intro1 = mgr.get(SoundRes.Intro1, Sound.class);
+        outro1 = mgr.get(SoundRes.Outro1, Sound.class);
+        tardigrade1 = mgr.get(SoundRes.Tardigrade1, Sound.class);
+        nematode1 = mgr.get(SoundRes.Nematode1, Sound.class);
+        rat1 = mgr.get(SoundRes.Rat1, Sound.class);
+        ant1 = mgr.get(SoundRes.Ant1, Sound.class);
+        phage1 = mgr.get(SoundRes.Phage1, Sound.class);
+        snake1 = mgr.get(SoundRes.Snake1, Sound.class);
+        earthworm1 = mgr.get(SoundRes.Earthworm1, Sound.class);
 
 
         // initialize static asset classes

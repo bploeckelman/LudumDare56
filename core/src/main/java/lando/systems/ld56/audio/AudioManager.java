@@ -34,6 +34,15 @@ public class AudioManager implements Disposable {
         , boing
         , jump
         , thud
+        , introNarration
+        , outroNarration
+        , antNarration
+        , snakeNarration
+        , ratNarration
+        , nematodeNarration
+        , phageNarration
+        , tardigradeNarration
+        , earthwormNarration
     }
 
     public enum Musics {
@@ -75,6 +84,15 @@ public class AudioManager implements Disposable {
         putSound(Sounds.collectFollower, assets.collectFollower1);
         putSound(Sounds.boing, assets.boing1);
         putSound(Sounds.thud, assets.thud1);
+        putSound(Sounds.introNarration, assets.intro1);
+        putSound(Sounds.outroNarration, assets.outro1);
+        putSound(Sounds.nematodeNarration, assets.nematode1);
+        putSound(Sounds.phageNarration, assets.phage1);
+        putSound(Sounds.ratNarration, assets.rat1);
+        putSound(Sounds.snakeNarration, assets.snake1);
+        putSound(Sounds.tardigradeNarration, assets.tardigrade1);
+        putSound(Sounds.antNarration, assets.ant1);
+        putSound(Sounds.earthwormNarration, assets.earthworm1);
 
         musicVolume = new MutableFloat(0.5f);
         soundVolume = new MutableFloat(0.5f);
