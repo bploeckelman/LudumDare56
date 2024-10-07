@@ -13,5 +13,6 @@ public enum ParticleEffectType {
     BLOOD,
     BLOOD_FOUNTAIN,
     BLOOD_SPLAT,
-    HEART
+    HEART,
+    CAMPFIRE_FLAME,
 }
