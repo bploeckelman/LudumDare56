@@ -44,17 +44,17 @@ public class CharacterSelectScreen extends BaseScreen {
             case MICROBIOME:
                 this.background = Anims.get(Anims.Type.MICROBIOME_BACKGROUND);
                 this.creatureAAnim = Anims.get(Anims.Type.PHAGE_IDLE);
-                this.creatureBAnim = Anims.get(Anims.Type.PARASITE_WALK);
+                this.creatureBAnim = Anims.get(Anims.Type.CAT);
                 break;
             case NEIGHBORHOOD:
                 this.background = Anims.get(Anims.Type.NEIGHBORHOOD_OVERLAY);
                 this.creatureAAnim = Anims.get(Anims.Type.WORM_IDLE);
-                this.creatureBAnim = Anims.get(Anims.Type.ANT_PUNCH);
+                this.creatureBAnim = Anims.get(Anims.Type.ANT_WALK);
                 break;
             default:
                 this.background = Anims.get(Anims.Type.BACKGROUND_1);
                 this.creatureAAnim = Anims.get(Anims.Type.RAT_WALK);
-                this.creatureBAnim = Anims.get(Anims.Type.CAT);
+                this.creatureBAnim = Anims.get(Anims.Type.SNAKE_IDLE);
                 break;
         }
     }
