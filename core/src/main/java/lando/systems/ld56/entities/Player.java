@@ -55,7 +55,7 @@ public class Player extends Entity {
     private boolean climbing = false;
     private float jumpHoldTimer = 0;
     private float attackTimer = 0;
-    private float attackStrength = 0.4f;
+    public float attackStrength = 0.4f;
     private boolean attackSuccess = false;
     private Collider attackCollider;
 
@@ -65,13 +65,17 @@ public class Player extends Entity {
 
     public Player(CreatureType creatureType, float x, float y, ParticleManager particleManager) {
         this.creatureType = creatureType;
+        this.particleManager = particleManager;
+
         this.position = new Position(this, x, y);
         this.animator = new Animator(this, position, Anims.get(creatureType, Anims.State.IDLE));
-        this.animator.defaultScale.scl(2);
         this.collider = Collider.makeRect(this, Collider.Type.player, -10, 0, 24, 20);
         this.mover = new Mover(this, position, collider);
-        this.mover.speed.y = this.mover.gravity;
-        this.particleManager = particleManager;
+
+        var scale = 2f;
+        animator.scale.set(scale, scale);
+        animator.defaultScale.set(scale, scale);
+        mover.speed.y = this.mover.gravity;
     }
 
     public void update(float dt, boolean gameEnding) {
