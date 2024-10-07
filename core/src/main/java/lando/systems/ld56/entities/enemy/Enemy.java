@@ -1,6 +1,7 @@
 package lando.systems.ld56.entities.enemy;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.entities.Entity;
 import lando.systems.ld56.entities.components.Animator;
@@ -14,6 +15,8 @@ public class Enemy extends Entity {
     public Collider collider;
     public Animator animator;
     public Mover mover;
+
+    public boolean remove = false;
 
     public Enemy(Anims.Type animType) {
         this(animType, -1000, -1000);
@@ -42,5 +45,9 @@ public class Enemy extends Entity {
 
     public void renderDebug(ShapeDrawer shapes) {
         collider.render(shapes);
+    }
+
+    public void dispose() {
+        Main.removeCollider(this.collider);
     }
 }

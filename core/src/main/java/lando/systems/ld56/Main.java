@@ -22,6 +22,7 @@ import lando.systems.ld56.assets.Transition;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.EntityData;
 import lando.systems.ld56.entities.Player;
+import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.screens.*;
 import lando.systems.ld56.utils.Time;
@@ -159,6 +160,10 @@ public class Main extends ApplicationAdapter {
         Main.game.audioManager.playSound(soundOption);
     }
 
+    public static void removeCollider(Collider collider) {
+        Main.game.entityData.remove(collider, Collider.class);
+    }
+
     // debug code
     private int sceneIndex = -1;
     private void nextScreen() {
@@ -167,5 +172,6 @@ public class Main extends ApplicationAdapter {
             sceneIndex = 0;
         }
         setScreen(new CharacterSelectScreen(Scene.Type.values()[sceneIndex]));
+        //setScreen(new CharacterSelectScreen(Scene.Type.NEIGHBORHOOD));
     }
 }

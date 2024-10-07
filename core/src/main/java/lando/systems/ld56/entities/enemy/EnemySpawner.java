@@ -3,6 +3,7 @@ package lando.systems.ld56.entities.enemy;
 import com.badlogic.gdx.math.MathUtils;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.scene.Scene;
+import lando.systems.ld56.utils.Utils;
 
 public class EnemySpawner {
 
@@ -39,9 +40,35 @@ public class EnemySpawner {
 
 
     private final Scene scene;
+    public float maxSpawnTime = 4f;
+    public float minSpawnTime = 1f;
+    public int maxSpawn = 5;
 
     public EnemySpawner(Scene scene) {
         this.scene = scene;
+
+        switch (scene.type) {
+            case MICROBIOME:
+                minSpawnTime = 0.4f;
+                maxSpawnTime = 3;
+                break;
+            case CITY:
+                minSpawnTime = 0.4f;
+                maxSpawnTime = 3;
+                break;
+            case MUSHROOM_KINGDOM:
+                minSpawnTime = 0.4f;
+                maxSpawnTime = 3;
+                break;
+            case NEIGHBORHOOD:
+            default:
+                minSpawnTime = 0.4f;
+                maxSpawnTime = 3;
+                maxSpawn = 3;
+                break;
+        }
+
+        spawnTime = nextSpawnTime();
     }
 
     public Enemy spawn() {
@@ -78,6 +105,9 @@ public class EnemySpawner {
             case ANIMAL:
                 enemy = createAnimal();
                 break;
+            case TRUCK:
+                enemy = createTruck();
+                break;
             default:
                 enemy = createTardigrade();
                 break;
@@ -87,6 +117,7 @@ public class EnemySpawner {
     }
 
     private Enemy createTardigrade() {
+        Utils.log("spawn", "tardigrade");
         var enemy = new SimpleWalker(scene, Anims.Type.TARDIGRADE);
         enemy.setPosition(64, 64);
         enemy.moveX(MathUtils.random(100, 200) * MathUtils.randomSign());
@@ -97,11 +128,30 @@ public class EnemySpawner {
         return createTardigrade();
     }
 
+    private Enemy createTruck() {
+        Utils.log("spawn", "truck");
+        return new Truck(scene, Anims.Type.TRUCK);
+    }
+
     private Enemy createBird() {
-        return createTardigrade();
+        return createTruck();
     }
 
     private  Enemy createAnimal() {
-        return createTardigrade();
+        return createTruck();
+    }
+
+    private float nextSpawnTime() {
+        return MathUtils.random(minSpawnTime, maxSpawnTime);
+    }
+    public float spawnTime = 0;
+    public void update(float dt) {
+        spawnTime -= dt;
+        if (spawnTime < 0) {
+            if (this.scene.enemies.size < maxSpawn) {
+                this.scene.enemies.add(this.spawn());
+            }
+            spawnTime = nextSpawnTime();
+        }
     }
 }

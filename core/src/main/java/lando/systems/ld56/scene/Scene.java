@@ -159,8 +159,6 @@ public class Scene {
         backgroundLayers.clear();
         backgroundLayers.add(Anims.get(Anims.Type.MICROBIOME_BACKGROUND));
         backgroundRectangle = new Rectangle(0, 0, camera.viewportWidth, camera.viewportHeight);
-
-        this.enemies.add(this.spawner.spawn());
     }
 
     private void initNeighborhood() {
@@ -202,7 +200,14 @@ public class Scene {
         physics.update(dt, collidables, influencers);
         player.update(dt, gameEnding);
 
-        enemies.forEach(x -> x.update(dt));
+        for (int i = enemies.size - 1; i >= 0; i--) {
+            var enemy = enemies.get(i);
+            enemy.update(dt);
+            if (enemy.remove) {
+                enemies.removeIndex(i);
+                enemy.dispose();
+            }
+        }
 
         for (int i = structures.size-1; i >=0; i--) {
             Structure structure = structures.get(i);
@@ -231,6 +236,7 @@ public class Scene {
                 player.pickup(follower);
             }
         }
+        spawner.update(dt);
     }
 
     public void render(SpriteBatch batch) {

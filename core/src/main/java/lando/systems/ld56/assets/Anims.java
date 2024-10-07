@@ -90,7 +90,7 @@ public class Anims {
         , BACTERIA       (0.1f, "pets/dog", Animation.PlayMode.LOOP)
         , BIRD           (0.1f, "pets/cat", Animation.PlayMode.LOOP)
         , ANIMAL         (0.1f, "pets/dog", Animation.PlayMode.LOOP)
-        , TRUCK          (0.1f, "pets/cat", Animation.PlayMode.LOOP)
+        , TRUCK          (0.1f, "enemies/truck/plow-a", Animation.PlayMode.LOOP)
         , PERSON         (0.1f, "pets/dog", Animation.PlayMode.LOOP)
         , GOOMBA         (0.1f, "pets/cat", Animation.PlayMode.LOOP)
         , BOWSER         (0.1f, "pets/dog", Animation.PlayMode.LOOP)
