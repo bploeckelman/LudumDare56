@@ -39,7 +39,7 @@ public class FlameEffect extends ParticleEffect {
             layer.add(Particle.initializer(pool.obtain())
                 .keyframe(keyframe)
                 .startPos(params.startX + MathUtils.random(-10f, 10f), params.startY + MathUtils.random(-10f, 10f))
-                .velocity(MathUtils.cosDeg(angle) * speed, MathUtils.sinDeg(angle) * speed)
+                //.velocity(MathUtils.cosDeg(angle) * speed, MathUtils.sinDeg(angle) * speed)
                 .startColor(startingColor)
                 .endColor(startingColor)
                 .startSize(startSize)

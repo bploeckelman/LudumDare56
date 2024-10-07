@@ -561,15 +561,20 @@ public class Player extends Entity {
         switch (scene.type) {
             case MICROBIOME:
                 particleManager.effects.get(ParticleEffectType.BLOOD_SPLAT).spawn(new BloodSplatEffect.Params(targetX, targetY));
+                particleManager.effects.get(ParticleEffectType.BLOOD_FOUNTAIN).spawn(new BloodFountainEffect.Params(targetX, targetY));
+
                 break;
             case NEIGHBORHOOD:
             case CITY:
                 particleManager.effects.get(ParticleEffectType.FLAME).spawn(new FlameEffect.Params(targetX, targetY));
+                particleManager.effects.get(ParticleEffectType.SMOKE).spawn(new SmokeEffect.Params(targetX, targetY, 100f));
+                particleManager.effects.get(ParticleEffectType.SMOKE).spawn(new SmokeEffect.Params(targetX, targetY, 100f));
+                particleManager.effects.get(ParticleEffectType.SMOKE).spawn(new SmokeEffect.Params(targetX, targetY, 100f));
+                Main.game.audioManager.playSound(AudioManager.Sounds.structureDamage);
                 break;
             default:
                 break;
         }
-        particleManager.effects.get(ParticleEffectType.BLOOD_FOUNTAIN).spawn(new BloodFountainEffect.Params(targetX, targetY));
     }
     public String debugString() {
         return Stringf.format("Player: pos(%.1f, %.1f) spd(%.1f, %.1f)", position.x(), position.y(), mover.speed.x, mover.speed.y);
