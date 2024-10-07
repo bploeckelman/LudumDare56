@@ -34,6 +34,18 @@ public class Structures {
         , HOUSE_E  ("images/structures/building-house-e-back_00.png",
             "images/structures/building-house-e-front_00.png",
             3, 7, .5f)
+        , SKYSCRAPER_A  ("images/structures/building-brick-back_00.png",
+            "images/structures/building-brick-front_00.png",
+            8, 3, .5f)
+        , SKYSCRAPER_B  ("images/structures/building-brick-back_upscale_00.png",
+            "images/structures/building-brick-front_upscale_00.png",
+            8, 3, .5f)
+        , SKYSCRAPER_C  ("images/structures/building-tower-back_00.png",
+            "images/structures/building-tower-front_00.png",
+            12, 3, .5f)
+        , SKYSCRAPER_D  ("images/structures/builiding-skyscraper-back_00.png",
+            "images/structures/builiding-skyscraper-front_00.png",
+            16, 3, .5f)
         ;
         public final String internalTextureName;
         public final String externalTextureName;
