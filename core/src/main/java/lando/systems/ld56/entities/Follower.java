@@ -46,6 +46,8 @@ public class Follower extends Entity {
             case CHASE: {
                 if (creatureType == Player.CreatureType.SNAKE) {
                     animation = Anims.get(Anims.Type.BALL_IDLE);
+                } else if (creatureType == Player.CreatureType.ANT) {
+                    animation = Anims.get(Anims.Type.ANT_IDLE);
                 } else {
                     animation = Anims.get(Anims.Type.KITTEN_IDLE);
                 }
@@ -95,6 +97,7 @@ public class Follower extends Entity {
                 mover.speed.add(avoidFollowers(outputVector, AVOID_FOLLOWERS_WEIGHT));
                 mover.speed.add(closeToPlayer(outputVector, CLOSE_TO_PLAYER_WEIGHT));
                 mover.speed.limit(MAX_SWARM_SPEED);
+                animator.facing = player.position.x() > position.x() ? 1 : -1;
                 // directly apply movement speed to position (since mover.update() is only for detached movement)
                 position.add(mover.speed.x * dt, mover.speed.y * dt);
             } else if (player.creatureType.mode == Player.Mode.CHASE) {
@@ -102,6 +105,7 @@ public class Follower extends Entity {
                 // when chasing, always lerp towards the followTarget
                 var x = Interpolation.linear.apply(position.x(), followTarget.x, dt * 10);
                 var y = Interpolation.linear.apply(position.y(), followTarget.y, dt * 10);
+                animator.facing = player.position.x() > position.x() ? 1 : -1;
                 position.set(x, y);
             }
         } else {

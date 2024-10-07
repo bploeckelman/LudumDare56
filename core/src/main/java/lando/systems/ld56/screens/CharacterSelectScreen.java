@@ -103,9 +103,9 @@ public class CharacterSelectScreen extends BaseScreen {
         assets.layout.setText(assets.fontChrustyMd, nextSceneType.creatureTypeB.name());
         assets.fontChrustyMd.draw(batch, assets.layout, windowCamera.viewportWidth * 2f / 3f - assets.layout.width / 2f, windowCamera.viewportHeight - 150);
         // character name
-        assets.layout.setText(assets.fontChrustySm, "Unit");
-        assets.fontChrustySm.draw(batch, assets.layout, windowCamera.viewportWidth / 3f - assets.layout.width / 2f, windowCamera.viewportHeight - 200);
         assets.layout.setText(assets.fontChrustySm, "Swarm");
+        assets.fontChrustySm.draw(batch, assets.layout, windowCamera.viewportWidth / 3f - assets.layout.width / 2f, windowCamera.viewportHeight - 200);
+        assets.layout.setText(assets.fontChrustySm, "Chase");
         assets.fontChrustySm.draw(batch, assets.layout, windowCamera.viewportWidth * 2f / 3f - assets.layout.width / 2f, windowCamera.viewportHeight - 200);
         // character sprites TODO: get the correct animation for nextSceneType.creatureTypeA
         batch.draw(creatureAAnim.getKeyFrame(accum), windowCamera.viewportWidth / 3f - SPRITE_SIZE / 2f, windowCamera.viewportHeight - 500f, SPRITE_SIZE, SPRITE_SIZE);

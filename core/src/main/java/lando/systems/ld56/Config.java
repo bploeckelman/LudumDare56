@@ -11,7 +11,7 @@ public class Config {
         public static boolean logging = true;
         public static boolean frame_by_frame = false;
         public static boolean show_launch_screen = false;
-        public static boolean start_on_game_screen = false;
+        public static boolean start_on_game_screen = true;
 
         public static boolean shouldShowDebugUi() {
             return general || render || ui || logging || frame_by_frame;
