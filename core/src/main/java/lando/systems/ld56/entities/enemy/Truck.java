@@ -37,7 +37,9 @@ public class Truck extends Enemy {
         var playerCollider = collider.check(Collider.Type.player);
         if (playerCollider != null) {
             if (playerCollider.entity instanceof Player) {
-                scene.player.hit(mover.speed, 20);
+                if (!scene.player.isInvicible()) {
+                    scene.player.hit(mover.speed, 20);
+                }
             }
         }
 
