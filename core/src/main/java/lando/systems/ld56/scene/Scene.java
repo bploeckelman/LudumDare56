@@ -76,10 +76,10 @@ public class Scene {
         this.creatureType = creatureType;
 
         init();
-        physics = new PhysicsSystem(new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        collidables.add(new GameBoundSegment(Gdx.graphics.getWidth(), 4 * 16, 0, 4 * 16 ));
-        collidables.add(new GameBoundSegment(0, 4 * 16, 0, Gdx.graphics.getHeight()));
-        collidables.add(new GameBoundSegment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), 4 * 16));
+        physics = new PhysicsSystem(new Rectangle(0, 0, backgroundRectangle.width, backgroundRectangle.height));
+        collidables.add(new GameBoundSegment(backgroundRectangle.width, 4 * 16, 0, 4 * 16 ));
+        collidables.add(new GameBoundSegment(0, 4 * 16, 0, backgroundRectangle.height));
+        collidables.add(new GameBoundSegment(backgroundRectangle.width, backgroundRectangle.height, backgroundRectangle.width, 4 * 16));
     }
 
     private void init() {
