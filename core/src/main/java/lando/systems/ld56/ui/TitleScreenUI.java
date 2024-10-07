@@ -23,6 +23,7 @@ public class TitleScreenUI {
     Button creditButton;
     BitmapFont font;
     SettingsUI settingsUI;
+    boolean isExiting = false;
 
     public enum ButtonOrientation {
         VERTICAL,
@@ -51,9 +52,9 @@ public class TitleScreenUI {
         settingsButton = new Button(settingsBound, "Settings", Patches.get(Patches.Type.PLAIN), Patches.get(Patches.Type.PLAIN_DIM), font);
         creditButton = new Button(creditBound, "Credits", Patches.get(Patches.Type.PLAIN), Patches.get(Patches.Type.PLAIN_DIM), font);
 
-        startGameButton.setOnClickAction(() -> Main.game.setScreen(new IntroScreen()));
+        startGameButton.setOnClickAction(() -> isExiting = isExiting || Main.game.setScreen(new IntroScreen()));
         settingsButton.setOnClickAction(() -> settingsUI.isShown = true);
-        creditButton.setOnClickAction(() -> Main.game.setScreen(new CreditsScreen()));
+        creditButton.setOnClickAction(() -> isExiting = isExiting || Main.game.setScreen(new CreditsScreen()));
     }
 
     public void update(float x, float y) {

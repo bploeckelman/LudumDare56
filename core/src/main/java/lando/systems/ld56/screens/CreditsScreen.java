@@ -32,7 +32,7 @@ public class CreditsScreen extends BaseScreen {
 //    private final Animation<TextureRegion> kittenAnimation;
     private final TextureRegion background;
 
-    private final String title = "{GRADIENT=purple;cyan}Game Name{ENDGRADIENT}";
+    private final String title = "{GRADIENT=purple;cyan}Tiny Rampage{ENDGRADIENT}";
     private final String theme = "{GRADIENT=purple;cyan}Made for Ludum Dare 56: Tiny Creatures{ENDGRADIENT}";
 
     private final String thanks = "{GRADIENT=purple;cyan}Thank you for playing our game!{ENDGRADIENT}";
@@ -90,8 +90,13 @@ public class CreditsScreen extends BaseScreen {
 //ToDo ninePatch        afterCreditsButton = new Button(new Rectangle(worldCamera.viewportWidth - 300f, 0f, 300, 50), "Scrapped Ideas", Assets.NinePatches.glass_yellow, Assets.NinePatches.glass, assets.fontChrustySm);
 
 //ToDo: PV       Main.game.audioManager.playMusic(AudioManager.Musics.outroMusic);
-        var bounds = new Rectangle((windowCamera.viewportWidth /3), 0, (windowCamera.viewportWidth /3), 50);
-        afterCreditsButton = new Button(bounds, "Done", Patches.get(Patches.Type.PLAIN), Patches.get(Patches.Type.PLAIN_GRADIENT), assets.font);
+        var bounds = new Rectangle((windowCamera.viewportWidth /3), 10, (windowCamera.viewportWidth /3), 50);
+        afterCreditsButton = new Button(bounds, "Done", Patches.get(Patches.Type.PLAIN), Patches.get(Patches.Type.PLAIN_DIM), assets.font);
+        afterCreditsButton.setOnClickAction(() -> {
+            if (exitingScreen) return;
+            game.setScreen(new TitleScreen());
+            exitingScreen = true;
+        });
     }
 
 //    @Override
@@ -105,18 +110,14 @@ public class CreditsScreen extends BaseScreen {
             Vector3 mousePos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             windowCamera.unproject(mousePos);
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isTouched()) {
-            if (afterCreditsButton.getBounds().contains(mousePos.x, mousePos.y)) {
-               game.setScreen(new TitleScreen());
+            if (!exitingScreen && afterCreditsButton.getBounds().contains(mousePos.x, mousePos.y)) {
+               afterCreditsButton.onClick();
                exitingScreen = true;
-                return;
+               return;
             }
             var allDone = titleLabel.hasEnded() && themeLabel.hasEnded() && leftCreditLabel.hasEnded() && rightCreditLabel.hasEnded() && thanksLabel.hasEnded() && disclaimerLabel.hasEnded();
             Gdx.app.log("CreditScreen", "allDone: " + allDone);
-            if (allDone) {
-                game.setScreen(new TitleScreen());
-                exitingScreen = true;
-                return;
-            } else {
+            if (!allDone && accum > 1) {
                 titleLabel.skipToTheEnd();
                 themeLabel.skipToTheEnd();
                 leftCreditLabel.skipToTheEnd();
