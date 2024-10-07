@@ -71,7 +71,7 @@ public class StructureDamage extends Entity {
         while (!Config.Debug.free_attack_mode && Calc.inRange(damageOffset, 0, columns)) {
             if (this.damage[damageOffset][yOffset] < 1f) {
                 Main.playSound(AudioManager.Sounds.squelch);
-                Gdx.app.log("Generic Squelch", "true");
+//                Gdx.app.log("Generic Squelch", "true");
                 return false;
             }
             damageOffset -= xMod;
@@ -79,7 +79,7 @@ public class StructureDamage extends Entity {
 
         if (this.damage[xOffset][yOffset] >= 1f) {
             Main.playSound(AudioManager.Sounds.thud);
-            Gdx.app.log("Thud Sound", "true");
+//            Gdx.app.log("Thud Sound", "true");
             return false;
         }
 
@@ -89,15 +89,15 @@ public class StructureDamage extends Entity {
         switch(structure.structureType) {
             case BACTERIA_A:
                 Main.game.audioManager.playSound(AudioManager.Sounds.squelch);
-                Gdx.app.log("Hit Bacteria", "true");
+//                Gdx.app.log("Hit Bacteria", "true");
                 break;
                 case BACTERIA_B:
                 Main.game.audioManager.playSound(AudioManager.Sounds.squelch);
-                Gdx.app.log("Hit Bacteria", "true");
+//                Gdx.app.log("Hit Bacteria", "true");
                 break;
                 case BACTERIA_C:
                 Main.game.audioManager.playSound(AudioManager.Sounds.squelch);
-                Gdx.app.log("Hit Bacteria", "true");
+//                Gdx.app.log("Hit Bacteria", "true");
                 break;
             case HOUSE_A:
                 Main.game.audioManager.playSound(AudioManager.Sounds.impact);

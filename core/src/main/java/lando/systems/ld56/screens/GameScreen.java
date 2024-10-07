@@ -146,7 +146,6 @@ public class GameScreen extends BaseScreen {
         particles.update(delta);
         tardigradeTimer -= delta;
         nematodeTimer -= delta;
-        Gdx.app.log("Tardi timer", String.valueOf(tardigradeTimer));
         if(scene.type == Scene.Type.MICROBIOME) {
             if(tardigradeTimer < 0 && tardigradeHasSpawned == false) {
                 audioManager.playSound(AudioManager.Sounds.tardigradeNarration);

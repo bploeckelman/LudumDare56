@@ -40,7 +40,7 @@ public class CreditsScreen extends BaseScreen {
     private final String artists = "{COLOR=gray}Art by:{COLOR=white}\n {GRADIENT=white;gray}Matt Neumann{ENDGRADIENT}\n {GRADIENT=white;gray}Luke Bain{ENDGRADIENT}\n";
     private final String emotionalSupport = "{COLOR=cyan}Emotional Support:{COLOR=white}\n Asuka, Osha, Cherry, \n Obi, Yoda, Nova, and Roxie";
     private final String music = "{COLOR=gray}Music and Narration:{COLOR=white}\n " +
-        "{GRADIENT=white;gray}Pete Valeo{ENDGRADIENT}\n";
+        "{GRADIENT=white;gray}Pete V{ENDGRADIENT}\n";
     private final String libgdx = "Made with {COLOR=red}<3{COLOR=white}\nand {RAINBOW}LibGDX{ENDRAINBOW}";
     private final String disclaimer = "{GRADIENT=black;gray}Disclaimer:{ENDGRADIENT}  {GRADIENT=gold;yellow}{JUMP=.27} No babies were made in the harming of this game{ENDJUMP}{ENDGRADIENT}";
 
