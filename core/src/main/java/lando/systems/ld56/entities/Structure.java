@@ -77,6 +77,8 @@ public class Structure extends Entity implements XRayable {
                 externals = Structures.get(Structures.Type.BRICK_FRONT);
             } break;
         }
+        this.internals.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        this.externals.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         this.collapsePercent = collapsePercent;
         this.bounds = new Rectangle(gridRect.x, gridRect.y, gridRect.width, gridRect.height);
         this.structureDamage = new StructureDamage(this, destructionRows, destructionCols);

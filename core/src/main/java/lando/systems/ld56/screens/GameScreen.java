@@ -89,7 +89,20 @@ public class GameScreen extends BaseScreen {
             exitingScreen = game.setScreen(new EndingScreen());
         }
         if (!exitingScreen && scene.gameOver() && Gdx.input.justTouched()) {
-            exitingScreen = game.setScreen(new GameScreen(Scene.Type.MICROBIOME));
+            switch (scene.type) {
+                case MICROBIOME:
+                    exitingScreen = game.setScreen(new GameScreen(Scene.Type.NEIGHBORHOOD));
+                    break;
+                case NEIGHBORHOOD:
+                    exitingScreen = game.setScreen(new GameScreen(Scene.Type.CITY));
+                    break;
+                case CITY:
+                    // Go to End Screen
+                    break;
+                case MUSHROOM_KINGDOM:
+                    // no idea
+                    break;
+            }
         }
 
         particles.update(delta);
