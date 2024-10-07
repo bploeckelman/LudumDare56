@@ -95,7 +95,7 @@ public class Player extends Entity {
 
         var scale = 1.5f;
         if (creatureType == CreatureType.PARASITE) {
-            scale = 0.5f;
+            scale = 1f;
         } else if (creatureType == CreatureType.ANT) {
             var grey = 23 / 255f;
             defaultColor.set(grey, grey, grey, 1f);
