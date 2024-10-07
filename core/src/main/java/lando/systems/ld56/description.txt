@@ -1,0 +1,9 @@
+Prepare to unleash havoc at an adorable scale in Tiny Rampage!
+
+Choose from a variety of insects, bugs, and other diminutive critters in this climb-and-destroy action adventure, all the while learning factoids (that may or may not be true) about the various animals along the way.
+
+Destroy each level's structures to advance.
+
+Move your character: WASD
+Attack: Enter
+Jump: Space
