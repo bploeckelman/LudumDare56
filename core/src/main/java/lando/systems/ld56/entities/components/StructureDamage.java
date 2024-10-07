@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import lando.systems.ld56.Config;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.Entity;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.utils.Calc;
+import lando.systems.ld56.utils.Utils;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class StructureDamage extends Entity {
@@ -61,13 +63,12 @@ public class StructureDamage extends Entity {
     public boolean applyDamage(Player player, int posX, int posY) {
         int xOffset = (int)((posX - bounds.getX()) / tileWidth);
         int yOffset = (int)((posY - bounds.getY()) / tileHeight);
-
         // calc offset instead of using bounds
         if (xOffset < 0 || xOffset >= columns || yOffset < 0 || yOffset >= rows) { return false; }
 
         int xMod = player.animator.facing;
         int damageOffset = xOffset - xMod;
-        while (Calc.inRange(damageOffset, 0, columns)) {
+        while (!Config.Debug.free_attack_mode && Calc.inRange(damageOffset, 0, columns)) {
             if (this.damage[damageOffset][yOffset] < 1f) {
                 Main.playSound(AudioManager.Sounds.squelch);
                 Gdx.app.log("Generic Squelch", "true");

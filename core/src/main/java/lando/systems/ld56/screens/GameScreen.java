@@ -65,6 +65,7 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) { Config.Debug.general = !Config.Debug.general; }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) { Config.Debug.render = !Config.Debug.render; }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) { Config.Debug.ui = !Config.Debug.ui; }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) { Config.Debug.free_attack_mode = !Config.Debug.free_attack_mode; }
 
         // collapse structure
         if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
@@ -223,6 +224,13 @@ public class GameScreen extends BaseScreen {
 
                 if (Config.Debug.frame_by_frame) {
                     str = Stringf.format("FrameStep: %s", Config.Debug.frame_by_frame);
+                    layout.setText(font, str, Color.WHITE, targetWidth, Align.left, false);
+                    font.draw(batch, layout, textX, textY);
+                    textY += lineHeight;
+                }
+
+                if (Config.Debug.free_attack_mode) {
+                    str = Stringf.format("Free Attack Mode: %s", Config.Debug.free_attack_mode);
                     layout.setText(font, str, Color.WHITE, targetWidth, Align.left, false);
                     font.draw(batch, layout, textX, textY);
                     textY += lineHeight;
