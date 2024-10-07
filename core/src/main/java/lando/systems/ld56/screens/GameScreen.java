@@ -155,8 +155,19 @@ public class GameScreen extends BaseScreen {
                     audioManager.playSound(AudioManager.Sounds.levelComplete);
                     levelEndSoundHasPlayed = true;
                 }
-                assets.layout.setText(assets.font, "Congratz!\nWe need text here\n Click to continue or something", Color.WHITE, windowCamera.viewportWidth/2f, Align.center, true);
-                assets.font.draw(batch, assets.layout, windowCamera.viewportWidth/4f, windowCamera.viewportHeight/2f);
+                String endText = "Level: Complete\n\nOnwards and Upwards!\n" +
+                    "(Click to continue)";
+
+                // Draw text twice for faux-shadow, to show up against different background
+                // colors
+                assets.layout.setText(assets.font, endText, Color.BLACK, windowCamera.viewportWidth/2f
+                    , Align.center, true);
+                assets.font.draw(batch, assets.layout, windowCamera.viewportWidth/4f,
+                    windowCamera.viewportHeight/1.5f);
+                assets.layout.setText(assets.font, endText, Color.WHITE, windowCamera.viewportWidth/2f
+                    , Align.center, true);
+                assets.font.draw(batch, assets.layout, windowCamera.viewportWidth/4f - 4f,
+                    windowCamera.viewportHeight/1.5f + 4f);
             }
             if (Config.Debug.shouldShowDebugUi()) {
                 var lines = 0;

@@ -23,10 +23,9 @@ public class IntroScreen extends BaseScreen {
     ParticleManager particles;
     String page1 =
         "{COLOR=white}" +
-            "Life comes in all shapes and sizes.\n\n" +
-            "From the smallest of creatures, to the slightly larger ones (that are still quite " +
-            "small by " +
-            "any objective measure),\n\n" +
+//            "Life comes in all shapes and sizes.\n\n" +
+            "From the smallest of creatures, to those that are slightly larger (though " +
+            "still quite small by any reasonable measure), " +
             "the world is a constant struggle for survival.\n\n" +
             "Food additives, micro plastics, and pesticides have mutated the once innocuous creatures of the land\n\n"+
             "They now seek vengeance against their polluting oppressors \n\n";
@@ -57,7 +56,7 @@ public class IntroScreen extends BaseScreen {
         typingLabel = new TypingLabel(font, page1, worldCamera.viewportWidth * .1f,
             worldCamera.viewportHeight * .8f);
         typingLabel.setWidth(Config.Screen.window_width * .8f);
-        typingLabel.setFontScale(1.15f);
+        typingLabel.setFontScale(.9f);
     }
 
     @Override
