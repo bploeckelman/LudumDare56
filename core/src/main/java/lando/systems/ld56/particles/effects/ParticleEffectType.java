@@ -13,4 +13,5 @@ public enum ParticleEffectType {
     BLOOD,
     BLOOD_FOUNTAIN,
     BLOOD_SPLAT,
+    HEART
 }

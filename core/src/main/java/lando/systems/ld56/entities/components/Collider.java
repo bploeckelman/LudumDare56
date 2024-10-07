@@ -14,7 +14,7 @@ import text.formic.Stringf;
 
 public class Collider extends Component {
 
-    public enum Type {solid, climbable, player, structure, player_segment}
+    public enum Type {solid, climbable, player, structure, follower}
     public enum Shape {rect, grid}
 
     public final GridPoint2 origin;
@@ -265,5 +265,44 @@ public class Collider extends Component {
 
         // no overlap detected
         return false;
+    }
+
+    public static boolean rectanglesOverlap(Collider a, Collider b) {
+        var offset = Utils.gridPoint2Pool.obtain().set(0, 0);
+        var overlaps = rectanglesOverlap(a, b, offset);
+        Utils.gridPoint2Pool.free(offset);
+        return overlaps;
+    }
+
+    public static boolean rectanglesOverlap(Collider a, Collider b, GridPoint2 offset) {
+        var entityData = Main.game.entityData;
+
+        var aPos = Utils.gridPoint2Pool.obtain().set(0, 0);
+        var bPos = Utils.gridPoint2Pool.obtain().set(0, 0);
+        var aRect = Utils.rectangleIPool.obtain().set(0, 0, 0, 0);
+        var bRect = Utils.rectangleIPool.obtain().set(0, 0, 0, 0);
+
+        var positionA = entityData.get(a.entity, Position.class);
+        var positionB = entityData.get(b.entity, Position.class);
+        if (positionA != null) aPos.set((int) positionA.x(), (int) positionA.y());
+        if (positionB != null) bPos.set((int) positionB.x(), (int) positionB.y());
+
+        aRect.set(
+            a.origin.x + a.rect.x + aPos.x + offset.x,
+            a.origin.y + a.rect.y + aPos.y + offset.x,
+            a.rect.width, a.rect.height);
+        bRect.set(
+            b.origin.x + b.rect.x + bPos.x,
+            b.origin.y + b.rect.y + bPos.y,
+            b.rect.width, b.rect.height);
+
+        var overlaps = aRect.overlaps(bRect);
+
+        Utils.gridPoint2Pool.free(bPos);
+        Utils.gridPoint2Pool.free(aPos);
+        Utils.rectangleIPool.free(bRect);
+        Utils.rectangleIPool.free(aRect);
+
+        return overlaps;
     }
 }

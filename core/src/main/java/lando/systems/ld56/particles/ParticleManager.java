@@ -42,6 +42,7 @@ public class ParticleManager implements Disposable {
         effects.put(ParticleEffectType.LIGHT,     new LightEffect(this));
         effects.put(ParticleEffectType.BLOOD,     new BloodEffect(this));
         effects.put(ParticleEffectType.BLOOD_FOUNTAIN, new BloodFountainEffect(this));
+        effects.put(ParticleEffectType.HEART,     new HeartEffect(this));
     }
 
     public ParticleEffect randomEffect() {

@@ -5,13 +5,19 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Queue;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.components.*;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.*;
+import lando.systems.ld56.particles.effects.DirtEffect;
+import lando.systems.ld56.particles.effects.HeartEffect;
+import lando.systems.ld56.particles.effects.ParticleEffectType;
+import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
+import lando.systems.ld56.utils.Utils;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import text.formic.Stringf;
 
@@ -41,6 +47,8 @@ public class Player extends Entity {
         }
     }
 
+    private final Scene scene;
+
     public Position position;
     public Animator animator;
     public Collider collider;
@@ -61,9 +69,14 @@ public class Player extends Entity {
 
     private final float jumpHoldDuration = 0.15f;
     private final GridPoint2 offset = new GridPoint2(0, 0);
-    private final Array<PlayerSegment> segments = new Array<>();
 
-    public Player(CreatureType creatureType, float x, float y, ParticleManager particleManager) {
+    private final int maxNumFollowers = 10;
+    private final int followerDistance = 40; // TODO: should be related to the segment's size?
+    public final Array<Follower> followers = new Array<>();
+    public final Queue<GridPoint2> positionHistoryQueue = new Queue<>();
+
+    public Player(Scene scene, CreatureType creatureType, float x, float y, ParticleManager particleManager) {
+        this.scene = scene;
         this.creatureType = creatureType;
         this.particleManager = particleManager;
 
@@ -75,7 +88,17 @@ public class Player extends Entity {
         var scale = 2f;
         animator.scale.set(scale, scale);
         animator.defaultScale.set(scale, scale);
-        mover.speed.y = this.mover.gravity;
+        mover.speed.y = mover.gravity;
+
+
+        for (int i = 0; i < maxNumFollowers; i++) {
+            var pos = Utils.obtainGridPoint2(position);
+            positionHistoryQueue.addFirst(pos);
+
+            var follower = new Follower(this, pos.x, pos.y, scale, 0, 0);
+            follower.attached = true;
+            followers.add(follower);
+        }
     }
 
     public void update(float dt, boolean gameEnding) {
@@ -253,7 +276,9 @@ public class Player extends Entity {
         mover.update(dt);
         animator.update(dt);
 
-        // update flags for next frame
+        updateFollowers(dt);
+
+        // update data for next frame
         wasOnGround = mover.isOnGround();
     }
 
@@ -305,6 +330,9 @@ public class Player extends Entity {
 
     public void render(SpriteBatch batch) {
         animator.render(batch);
+        for (var segment : followers) {
+            segment.render(batch);
+        }
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
@@ -315,6 +343,51 @@ public class Player extends Entity {
         }
 
         position.renderDebug(shapes);
+
+        for (var segment : followers) {
+            segment.renderDebug(batch, shapes);
+        }
+    }
+
+    public void pickup(Follower segment) {
+        scene.detachedFollowers.removeValue(segment, true);
+        followers.add(segment);
+        segment.attached = true;
+
+        var effect = particleManager.effects.get(ParticleEffectType.HEART);
+        effect.spawn(new HeartEffect.Params(false, position.x(), position.y()));
+        // TODO: pv - 'pickup follower' sound here
+    }
+
+    public void launchFollower() {
+        if (followers.isEmpty()) return;
+
+        var lastIndex = followers.size - 1;
+        var follower = followers.get(lastIndex);
+
+        followers.removeIndex(lastIndex);
+        scene.detachedFollowers.add(follower);
+
+        follower.launch();
+
+        var effect = particleManager.effects.get(ParticleEffectType.HEART);
+        effect.spawn(new HeartEffect.Params(true, position.x(), position.y()));
+        // TODO: pv - 'launch follower' sound here (ie. player gets hit and it knocks a follower loose)
+    }
+
+    public void explodeFollowers() {
+        var detachedFollowers = scene.detachedFollowers;
+        for (int i = followers.size - 1; i >= 0; i--) {
+            var follower = followers.get(i);
+            followers.removeIndex(i);
+            detachedFollowers.add(follower);
+
+            follower.launch();
+        }
+
+        var effect = particleManager.effects.get(ParticleEffectType.HEART);
+        effect.spawn(new HeartEffect.Params(true, position.x(), position.y()));
+        // TODO: pv - 'launch follower' sound here (ie. player gets hit and it knocks a follower loose)
     }
 
     public void successfulHitEffect(float targetX, float targetY) {
@@ -360,5 +433,42 @@ public class Player extends Entity {
     }
     public String debugString() {
         return Stringf.format("Player: pos(%.1f, %.1f) spd(%.1f, %.1f)", position.x(), position.y(), mover.speed.x, mover.speed.y);
+    }
+
+    private void updateFollowers(float dt) {
+        // update position queue only when moving...
+        if (mover.speed.x != 0 || mover.speed.y != 0) {
+            // ... and when the current position is far enough away from the last one on either axis
+            var pos = Utils.obtainGridPoint2(position);
+            var lastSavedPos = positionHistoryQueue.first();
+            var isFarEnoughX = (pos.x - lastSavedPos.x) >= followerDistance;
+            var isFarEnoughY = (pos.y - lastSavedPos.y) >= followerDistance;
+            var isFarEnoughAwayDirect = pos.dst(lastSavedPos) >= followerDistance;
+            var isFarEnoughAway = isFarEnoughX || isFarEnoughY || isFarEnoughAwayDirect;
+            if (isFarEnoughAway) {
+                // insert new position
+                positionHistoryQueue.addFirst(pos);
+
+                // if too many positions, pop off last one and return it back to the pool
+                if (positionHistoryQueue.size > maxNumFollowers) {
+                    var gridPoint = positionHistoryQueue.removeLast();
+                    Utils.gridPoint2Pool.free(gridPoint);
+                }
+            } else {
+                Utils.gridPoint2Pool.free(pos);
+            }
+        }
+
+        // update attached follower positions
+        for (int i = 0; i < followers.size; i++) {
+            var follower = followers.get(i);
+            follower.update(dt);
+
+            // update follower position from history
+            if (follower.attached) {
+                var pos = positionHistoryQueue.get(i);
+                follower.followTarget.set(pos);
+            }
+        }
     }
 }

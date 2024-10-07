@@ -15,6 +15,8 @@ public class Icons {
         , TOKEN_HALF_FILLED   ("icons/kenney-board-game/flip_half")
         , TOKEN_CHECKMARK     ("icons/kenney-board-game/flip_head")
         , TOKEN_X             ("icons/kenney-board-game/flip_tails")
+        , HEART               ("icons/heart")
+        , HEART_BROKEN        ("icons/heart-broken")
         ;
         public final String regionName;
         Type(String regionName) {

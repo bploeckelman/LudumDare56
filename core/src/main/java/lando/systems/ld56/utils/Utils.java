@@ -2,13 +2,34 @@ package lando.systems.ld56.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld56.Config;
+import lando.systems.ld56.entities.components.Position;
 
 import java.util.List;
 
 public class Utils {
+
+    public static Pool<GridPoint2> gridPoint2Pool = Pools.get(GridPoint2.class, 1000);
+    public static Pool<RectangleI> rectangleIPool = Pools.get(RectangleI.class, 100);
+
+    // helper methods because it's annoying to use without them
+    public static GridPoint2 obtainGridPoint2() {
+        return gridPoint2Pool.obtain();
+    }
+    public static GridPoint2 obtainGridPoint2(int x, int y) {
+        return obtainGridPoint2().set(x, y);
+    }
+    public static GridPoint2 obtainGridPoint2(float x, float y) {
+        return obtainGridPoint2().set((int)x, (int)y);
+    }
+    public static GridPoint2 obtainGridPoint2(Position position) {
+        return obtainGridPoint2(position.x(), position.y());
+    }
+
     public static void log(String tag, String msg) {
         if (!Config.Debug.logging) return;
         Gdx.app.log(tag, msg);

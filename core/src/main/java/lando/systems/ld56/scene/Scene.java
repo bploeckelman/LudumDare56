@@ -6,18 +6,18 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Structures;
-import lando.systems.ld56.entities.*;
+import lando.systems.ld56.entities.Follower;
+import lando.systems.ld56.entities.LevelMap;
+import lando.systems.ld56.entities.Player;
+import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.particles.ParticleManager;
-import lando.systems.ld56.particles.effects.AsukaEffect;
-import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.physics.base.Collidable;
 import lando.systems.ld56.physics.base.Influencer;
 import lando.systems.ld56.physics.base.PhysicsSystem;
@@ -56,6 +56,7 @@ public class Scene {
     public Array<TextureRegion> backgroundLayers;
     public Rectangle backgroundRectangle;
     public Array<Structure> structures;
+    public Array<Follower> detachedFollowers = new Array<>();
 
     // Debris things
     public PhysicsSystem physics;
@@ -79,7 +80,6 @@ public class Scene {
         collidables.add(new GameBoundSegment(Gdx.graphics.getWidth(), 4 * 16, 0, 4 * 16 ));
         collidables.add(new GameBoundSegment(0, 4 * 16, 0, Gdx.graphics.getHeight()));
         collidables.add(new GameBoundSegment(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), 4 * 16));
-
     }
 
     private void init() {
@@ -114,7 +114,7 @@ public class Scene {
 
         // TODO: change player, npc, enemy setup based on scene type
         var basePixelsY = baseGridY * tileSize;
-        player = new Player(creatureType, (cols * tileSize) / 2f, basePixelsY + (2 * tileSize), particleManager);
+        player = new Player(this, creatureType, (cols * tileSize) / 2f, basePixelsY + (2 * tileSize), particleManager);
 
         int widthNormal = 12 * tileSize;
         int widthNarrow = 6 * tileSize;
@@ -133,9 +133,6 @@ public class Scene {
         structures.add(new Structure(this, gridRect1, Structures.Type.BACTERIA));
         structures.add(new Structure(this, gridRect2, Structures.Type.BACTERIA));
         structures.add(new Structure(this, gridRect3, Structures.Type.HOUSE_A));
-
-
-
 
         levelMap.setBorderSolid();
         levelMap.setRowSolid(baseGridY - 1);
@@ -185,18 +182,12 @@ public class Scene {
             }
         }
 
-        for (int i = playerSegments.size - 1; i >= 0; i--) {
-            var segment = playerSegments.get(i);
-            segment.update(dt);
-            if (!segment.canPickup()) continue;
+        for (int i = detachedFollowers.size - 1; i >= 0; i--) {
+            var follower = detachedFollowers.get(i);
+            follower.update(dt);
 
-            // TODO(brian): I guess the 'Collider.overlapsXY()' methods could probably be made static
-            var overlaps = player.collider.overlapsRectRect(player.collider, segment.collider, offset.set(0, 0));
-            if (overlaps) {
-                var effect = particleManager.effects.get(ParticleEffectType.ASUKA);
-                effect.spawn(new AsukaEffect.Params(segment.position.x(), segment.position.y()));
-                // TODO: pv - 'player segment pickup' sound here
-                playerSegments.removeIndex(i);
+            if (follower.canPickup()) {
+                player.pickup(follower);
             }
         }
     }
@@ -217,8 +208,8 @@ public class Scene {
             }
 //            c.renderDebug(batch);
         }
-        for (var segment : playerSegments) {
-            segment.render(batch);
+        for (var follower : detachedFollowers) {
+            follower.render(batch);
         }
         player.render(batch);
     }
@@ -228,8 +219,8 @@ public class Scene {
         for (Structure structure : structures) {
             structure.renderDebug(batch, shapes);
         }
-        for (var segment : playerSegments) {
-            segment.renderDebug(batch, shapes);
+        for (var follower : detachedFollowers) {
+            follower.renderDebug(batch, shapes);
         }
         player.renderDebug(batch, shapes);
     }
@@ -242,19 +233,6 @@ public class Scene {
 
     public Vector2 getPlayerPosition() {
         return player.position.value;
-    }
-
-    private final Array<PlayerSegment> playerSegments = new Array<>();
-    public void emitPlayerSegment_TEST() {
-        var scale = 2;
-        var x = (int) player.position.x();
-        var y = (int) player.position.y();
-        var angle = MathUtils.random(50, 130);
-        var speed = MathUtils.random(400, 1000);
-        var speedX = (int) (MathUtils.cosDeg(angle) * speed);
-        var speedY = (int) (MathUtils.sinDeg(angle) * speed);
-        var segment = new PlayerSegment(player, x, y, scale, speedX, speedY);
-        playerSegments.add(segment);
     }
 
     public void paintGridAt(int x, int y) {
