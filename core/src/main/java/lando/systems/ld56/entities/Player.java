@@ -308,9 +308,9 @@ public class Player extends Entity {
                             var structureDamage = (StructureDamage) collider.entity;
                             structureDamage.applyDamage(this, x, y);
                             switch (structureDamage.structure.structureType) {
-                                case BACTERIA_A: Main.game.audioManager.playSound(AudioManager.Sounds.squelch); break;
-                                case HOUSE_A: Main.game.audioManager.playSound(AudioManager.Sounds.impact);break;
-                                default: Main.game.audioManager.playSound(AudioManager.Sounds.structureDamage);break;
+                                case BACTERIA_A: Main.game.audioManager.playSound(AudioManager.Sounds.squelch, .5f); break;
+                                case HOUSE_A: Main.game.audioManager.playSound(AudioManager.Sounds.impact, .5f);break;
+                                default: Main.game.audioManager.playSound(AudioManager.Sounds.structureDamage, .5f);break;
                             }
 //                            Main.playSound(AudioManager.Sounds.structureDamage);
                             attackSuccess = true;

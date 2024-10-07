@@ -55,7 +55,7 @@ public class CharacterSelectScreen extends BaseScreen {
                     " oversized head-probe." +
 
                     "\n\nIt appears to have a fair bit of aggression to work through, which is " +
-                    "curious given that it lacks the capacity for complex thought.";
+                    "surprising given its lack of capacity for complex thought.";
                 break;
             case NEIGHBORHOOD:
                 this.background = Anims.get(Anims.Type.NEIGHBORHOOD_OVERLAY);

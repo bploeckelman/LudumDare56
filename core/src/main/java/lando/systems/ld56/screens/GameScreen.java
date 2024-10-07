@@ -45,7 +45,9 @@ public class GameScreen extends BaseScreen {
         var inputMux = new InputMultiplexer(input);
         Gdx.input.setInputProcessor(inputMux);
 
+        audioManager.stopAllSounds();
         audioManager.playMusic(AudioManager.Musics.mainMusic);
+//        audioManager.stopAllSounds();
         switch(creatureType) {
             case ANT:
                 audioManager.playSound(AudioManager.Sounds.antNarration);
@@ -163,7 +165,14 @@ public class GameScreen extends BaseScreen {
             }
 
             assets.font.getData().setScale(1f);
-            assets.layout.setText(assets.font, "Game", Color.WHITE, camera.viewportWidth, Align.center, false);
+            assets.layout.setText(assets.font, "Destroy All Structures!", Color.FIREBRICK,
+                camera.viewportWidth,
+                Align.center, false);
+            assets.font.draw(batch, assets.layout, 4,
+                camera.viewportHeight - assets.layout.height -4);
+            assets.layout.setText(assets.font, "Destroy All Structures!", Color.YELLOW,
+                camera.viewportWidth,
+                Align.center, false);
             assets.font.draw(batch, assets.layout, 0, camera.viewportHeight - assets.layout.height);
             assets.font.getData().setScale(1f);
         }
