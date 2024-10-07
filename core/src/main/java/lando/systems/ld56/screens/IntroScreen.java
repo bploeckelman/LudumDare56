@@ -54,9 +54,10 @@ public class IntroScreen extends BaseScreen {
 
         particles = new ParticleManager(Main.game.assets);
 
-        typingLabel = new TypingLabel(font, page1, worldCamera.viewportWidth * .2f, worldCamera.viewportHeight * .8f);
-        typingLabel.setWidth(Config.Screen.window_width * .7f);
-        typingLabel.setFontScale(1.5f);
+        typingLabel = new TypingLabel(font, page1, worldCamera.viewportWidth * .1f,
+            worldCamera.viewportHeight * .8f);
+        typingLabel.setWidth(Config.Screen.window_width * .8f);
+        typingLabel.setFontScale(1.15f);
     }
 
     @Override

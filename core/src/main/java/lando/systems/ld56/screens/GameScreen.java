@@ -29,10 +29,12 @@ public class GameScreen extends BaseScreen {
     public Scene scene;
     public GridPoint2 mouseGridPos;
     public ParticleManager particles;
+    public boolean levelEndSoundHasPlayed;
 
     public GameScreen(Scene.Type type, Player.CreatureType creatureType) {
         particles = new ParticleManager(assets);
         this.scene = new Scene(this, type, creatureType);
+        levelEndSoundHasPlayed = false;
         worldCamera.position.set(scene.getPlayerPosition(), 0);
         worldCamera.update();
 //        this.scene = new Scene(this, Scene.Type.NEIGHBORHOOD);
@@ -150,6 +152,10 @@ public class GameScreen extends BaseScreen {
         {
 
             if (scene.gameOver()) {
+                if(!levelEndSoundHasPlayed) {
+                    audioManager.playSound(AudioManager.Sounds.levelComplete);
+                    levelEndSoundHasPlayed = true;
+                }
                 assets.layout.setText(assets.font, "Congratz!\nWe need text here\n Click to continue or something", Color.WHITE, windowCamera.viewportWidth/2f, Align.center, true);
                 assets.font.draw(batch, assets.layout, windowCamera.viewportWidth/4f, windowCamera.viewportHeight/2f);
             }
