@@ -304,6 +304,11 @@ public class Player extends Entity {
                      }
                 }
             } break;
+            case KNOCK_OUT: {
+                if (hitInvincibility <= 0) {
+                    setState(State.NORMAL);
+                }
+            }
         }
 
         // variable jump timing, based on how long the button is held
@@ -390,6 +395,9 @@ public class Player extends Entity {
                     attackCollider = null;
                 }
             } break;
+            case KNOCK_OUT: {
+                this.state = newState;
+            }
         }
     }
 
@@ -464,10 +472,9 @@ public class Player extends Entity {
 
     private float hitInvincibility = 0;
     public void hit(Vector2 speed, int power) {
+        mover.speed.set(200 * Calc.sign(speed.x), 200);
         if (!launchFollowers(power)) {
             setState(State.KNOCK_OUT);
-        } else {
-            mover.speed.set(200 * Calc.sign(speed.x), 200);
         }
         hitInvincibility = 5f;
     }

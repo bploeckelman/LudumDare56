@@ -250,8 +250,6 @@ public class Scene {
             structure.render(batch);
         }
 
-        enemies.forEach(x -> x.render(batch));
-
         for (Collidable c : collidables) {
             if (c instanceof Debris) {
                 ((Debris) c).render(batch);
@@ -262,6 +260,8 @@ public class Scene {
             follower.render(batch);
         }
         player.render(batch);
+
+        enemies.forEach(x -> x.render(batch));
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
