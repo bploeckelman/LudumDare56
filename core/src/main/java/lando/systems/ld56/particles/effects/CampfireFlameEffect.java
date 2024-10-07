@@ -34,7 +34,7 @@ public class CampfireFlameEffect extends ParticleEffect {
             var angle = MathUtils.random(60f, 120f);
             var speed = 10;
             var startSize = MathUtils.random(50f, 90f);
-            var ttl = 15f;
+            var ttl = MathUtils.random(1f, 3f);
             layer.add(Particle.initializer(pool.obtain())
                 .keyframe(keyframe)
                 .startPos(params.startX + MathUtils.random(-10f, 10f), params.startY + MathUtils.random(-10f, 10f))
