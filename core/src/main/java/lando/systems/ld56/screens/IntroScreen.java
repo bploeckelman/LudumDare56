@@ -23,19 +23,18 @@ public class IntroScreen extends BaseScreen {
     ParticleManager particles;
     String page1 =
         "{COLOR=white}" +
-            "Life comes in all shapes and sizes.\n\n" +
-            "From the smallest of creatures, to slightly larger ones that are still quite small by " +
-            "any objective measure,\n\n" +
-            "Food additives, micro plastics, and pesticides have mutated the once innocuous creatures of the land\n\n"+
-            "They now seek vengeance against their polluting oppressors \n\n";
+            "Life comes in all shapes and sizes. From the smallest of creatures,\n\n" +
+            "to slightly larger ones that are still quite small by " +
+            "any objective measure,\n\n";
 
     String page2 =
         "{COLOR=white}" +
-            "Exact revenge! Raze their buildings, exter{GRADIENT=black;gray}mini{ENDGRADIENT}ate them!";
+            "Food additives, micro plastics, and pesticides have mutated the once innocuous creatures of the land\n\n"+
+            "They now seek vengeance against their polluting oppressors \n\n";
+
     String page3 =
         "{COLOR=white}" +
-            "Food: roast chicken and fruit\n\n"+
-            "Photographer - stuns, bombs, electrical appliances";
+            "Exact revenge! Raze their buildings, exter{GRADIENT=black;gray}mini{ENDGRADIENT}ate them!";
 
     int currentPage = 0;
     float elapsedTime = 0f;
@@ -53,7 +52,7 @@ public class IntroScreen extends BaseScreen {
 
         typingLabel = new TypingLabel(font, page1, worldCamera.viewportWidth * .2f, worldCamera.viewportHeight * .8f);
         typingLabel.setWidth(Config.Screen.window_width * .7f);
-        typingLabel.setFontScale(1.2f);
+        typingLabel.setFontScale(1.5f);
     }
 
     @Override
