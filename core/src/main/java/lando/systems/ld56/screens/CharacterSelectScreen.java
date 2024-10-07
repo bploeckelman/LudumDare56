@@ -17,6 +17,7 @@ import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.scene.Scene;
+import org.w3c.dom.Text;
 
 public class CharacterSelectScreen extends BaseScreen {
 
@@ -32,6 +33,8 @@ public class CharacterSelectScreen extends BaseScreen {
     Color characterBColor = Color.BLUE;
     float accum = 0f;
     Animation<TextureRegion> background;
+    Animation<TextureRegion> creatureAAnim;
+    Animation<TextureRegion> creatureBAnim;
 
     public CharacterSelectScreen(Scene.Type nextSceneType) {
         font = Main.game.assets.fontChrustyMd;
@@ -41,12 +44,18 @@ public class CharacterSelectScreen extends BaseScreen {
         switch (nextSceneType) {
             case MICROBIOME:
                 this.background = Anims.get(Anims.Type.MICROBIOME_BACKGROUND);
+                this.creatureAAnim = Anims.get(Anims.Type.PHAGE_IDLE);
+                this.creatureBAnim = Anims.get(Anims.Type.PARASITE_WALK);
                 break;
             case NEIGHBORHOOD:
                 this.background = Anims.get(Anims.Type.NEIGHBORHOOD_BACKGROUND);
+                this.creatureAAnim = Anims.get(Anims.Type.WORM_IDLE);
+                this.creatureBAnim = Anims.get(Anims.Type.ANT_PUNCH);
                 break;
             default:
                 this.background = Anims.get(Anims.Type.BACKGROUND_1);
+                this.creatureAAnim = Anims.get(Anims.Type.RAT_WALK);
+                this.creatureBAnim = Anims.get(Anims.Type.CAT);
                 break;
         }
     }
@@ -90,18 +99,18 @@ public class CharacterSelectScreen extends BaseScreen {
         batch.setColor(Color.WHITE);
         assets.fontChrustyLg.draw(batch, "Select your tiny character", windowCamera.viewportWidth / 2, windowCamera.viewportHeight - 50, 0, 1, false);
         // character title
-        assets.layout.setText(assets.fontChrustyMd, "Unit");
+        assets.layout.setText(assets.fontChrustyMd, nextSceneType.creatureTypeA.name());
         assets.fontChrustyMd.draw(batch, assets.layout, windowCamera.viewportWidth / 3f - assets.layout.width / 2f, windowCamera.viewportHeight - 150);
-        assets.layout.setText(assets.fontChrustyMd, "Swarm");
+        assets.layout.setText(assets.fontChrustyMd, nextSceneType.creatureTypeB.name());
         assets.fontChrustyMd.draw(batch, assets.layout, windowCamera.viewportWidth * 2f / 3f - assets.layout.width / 2f, windowCamera.viewportHeight - 150);
         // character name
-        assets.layout.setText(assets.fontChrustySm, nextSceneType.creatureTypeA.name());
+        assets.layout.setText(assets.fontChrustySm, "Unit");
         assets.fontChrustySm.draw(batch, assets.layout, windowCamera.viewportWidth / 3f - assets.layout.width / 2f, windowCamera.viewportHeight - 200);
-        assets.layout.setText(assets.fontChrustySm, nextSceneType.creatureTypeB.name());
+        assets.layout.setText(assets.fontChrustySm, "Swarm");
         assets.fontChrustySm.draw(batch, assets.layout, windowCamera.viewportWidth * 2f / 3f - assets.layout.width / 2f, windowCamera.viewportHeight - 200);
         // character sprites TODO: get the correct animation for nextSceneType.creatureTypeA
-        batch.draw(Anims.get(Anims.Type.PHAGE_IDLE).getKeyFrame(accum), windowCamera.viewportWidth / 3f - SPRITE_SIZE / 2f, windowCamera.viewportHeight - 500f, SPRITE_SIZE, SPRITE_SIZE);
-        batch.draw(Anims.get(Anims.Type.PARASITE_IDLE).getKeyFrame(accum), windowCamera.viewportWidth * 2f / 3f - SPRITE_SIZE / 2f, windowCamera.viewportHeight - 500f, SPRITE_SIZE, SPRITE_SIZE);
+        batch.draw(creatureAAnim.getKeyFrame(accum), windowCamera.viewportWidth / 3f - SPRITE_SIZE / 2f, windowCamera.viewportHeight - 500f, SPRITE_SIZE, SPRITE_SIZE);
+        batch.draw(creatureBAnim.getKeyFrame(accum), windowCamera.viewportWidth * 2f / 3f - SPRITE_SIZE / 2f, windowCamera.viewportHeight - 500f, SPRITE_SIZE, SPRITE_SIZE);
         // buttons to select character
         if (characterAButtonHovered) batch.setColor(characterAColor);
         Patches.get(Patches.Type.PLAIN).draw(batch, characterAButtonBound.x, characterAButtonBound.y, characterAButtonBound.width, characterAButtonBound.height);
