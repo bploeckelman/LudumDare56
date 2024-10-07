@@ -91,7 +91,7 @@ public class Player extends Entity {
         this.collider = Collider.makeRect(this, Collider.Type.player, animType.colliderRect);
         this.mover = new Mover(this, position, collider);
 
-        var scale = 1.5f;
+        var scale = creatureType == CreatureType.PARASITE ? .5f : 1.5f;
         animator.scale.set(scale, scale);
         animator.defaultScale.set(scale, scale);
         mover.speed.y = mover.gravity;
