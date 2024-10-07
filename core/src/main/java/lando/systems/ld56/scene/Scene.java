@@ -192,7 +192,7 @@ public class Scene {
         //  probably 2 or 3 buildings, one very tall, screen should scroll vertically to follow the player (perpendicular to how NEIGHBORHOD works)
         structures.add(new Structure(this, new RectangleI(224, basePixelsY, 192, 384), Structures.Type.SKYSCRAPER_B));
         structures.add(new Structure(this, new RectangleI(592, basePixelsY, 192, 800), Structures.Type.SKYSCRAPER_D));
-        structures.add(new Structure(this, new RectangleI(960, basePixelsY, 192, 768), Structures.Type.SKYSCRAPER_C));
+        structures.add(new Structure(this, new RectangleI(960, basePixelsY, 192, 640), Structures.Type.SKYSCRAPER_C));
     }
 
     public void update(float dt, boolean gameEnding) {
