@@ -34,6 +34,8 @@ public class CharacterSelectScreen extends BaseScreen {
     Animation<TextureRegion> background;
     Animation<TextureRegion> creatureAAnim;
     Animation<TextureRegion> creatureBAnim;
+    String characterDescriptionA;
+    String characterDescriptionB;
 
     public CharacterSelectScreen(Scene.Type nextSceneType) {
         font = Main.game.assets.fontChrustyMd;
@@ -44,17 +46,38 @@ public class CharacterSelectScreen extends BaseScreen {
             case MICROBIOME:
                 this.background = Anims.get(Anims.Type.MICROBIOME_BACKGROUND);
                 this.creatureAAnim = Anims.get(Anims.Type.PHAGE_IDLE);
+                this.characterDescriptionA = "This phage is built to destroy bacteria. \n\nIt " +
+                    "punctures cellular structures with its razor-sharp butt-spike, which is " +
+                    "unsettling but also " +
+                    "slightly intriguing.";
                 this.creatureBAnim = Anims.get(Anims.Type.PARASITE_IDLE);
+                this.characterDescriptionB = "This parasite bludgeons offending bacteria with its" +
+                    " oversized head-probe." +
+
+                    "\n\nIt appears to have a fair bit of aggression to work through, which is " +
+                    "curious given that it lacks the capacity for complex thought.";
                 break;
             case NEIGHBORHOOD:
                 this.background = Anims.get(Anims.Type.NEIGHBORHOOD_OVERLAY);
                 this.creatureAAnim = Anims.get(Anims.Type.WORM_IDLE);
+                this.characterDescriptionA = "This worm's long, extended body makes it an " +
+                    "excellent choice for people who enjoy string cheese, red rope licorice, and " +
+                    "other long, tube-like treats.";
                 this.creatureBAnim = Anims.get(Anims.Type.ANT_WALK);
+                this.characterDescriptionB = "This humble insect is small, but intense.\n\n" +
+                    "Do you want ants? Because this is how you get ants.";
                 break;
             default:
                 this.background = Anims.get(Anims.Type.BACKGROUND_1);
                 this.creatureAAnim = Anims.get(Anims.Type.RAT_WALK);
+                this.characterDescriptionA = "This rodent known for its long, hairless tail is " +
+                    " the undisputed world champion when it comes to spreading plague via " +
+                    "infected fleas.";
                 this.creatureBAnim = Anims.get(Anims.Type.SNAKE_IDLE);
+                this.characterDescriptionB = "Don't let the character image's resemblance to a " +
+                    "velociraptor" +
+                    " fool you:\n\n" +
+                    "This is absolutely a snake.";
                 break;
         }
     }
@@ -130,7 +153,17 @@ public class CharacterSelectScreen extends BaseScreen {
 
         // description off to the side
         Patches.get(Patches.Type.PLAIN).draw(batch, 30, 100, 250, 400);
+//        assets.fontChrustyMd.draw(batch,"text",
+//            windowCamera.viewportWidth / 3f - assets.layout.width / 2f, 110 + assets.layout.height * 2f);
         Patches.get(Patches.Type.PLAIN).draw(batch, windowCamera.viewportWidth - 280, 100, 250, 400);
+        assets.fontChrustySm.draw(batch,characterDescriptionA,
+            45, windowCamera.viewportHeight - 235, 200, -1, true);
+        assets.fontChrustySm.draw(batch,characterDescriptionB,
+            1040, windowCamera.viewportHeight - 235, 200, 2, true);
+
+
+
+//        assets.layout.setText(assets.fontChrustyMd, "Test",);
 
         //TODO: add character descriptions
 
