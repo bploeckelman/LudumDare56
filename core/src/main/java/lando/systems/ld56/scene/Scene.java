@@ -176,15 +176,15 @@ public class Scene {
     }
 
     private void initNeighborhoodStructures(int basePixelsY) {
-        structures.add(new Structure(this, new RectangleI(224, basePixelsY, 192, 256), Structures.Type.HOUSE_A));
-        structures.add(new Structure(this, new RectangleI(592, basePixelsY, 192, 256), Structures.Type.HOUSE_B));
+//        structures.add(new Structure(this, new RectangleI(224, basePixelsY, 192, 256), Structures.Type.HOUSE_A));
+//        structures.add(new Structure(this, new RectangleI(592, basePixelsY, 192, 256), Structures.Type.HOUSE_B));
         structures.add(new Structure(this, new RectangleI(960, basePixelsY, 192, 256), Structures.Type.HOUSE_C));
         structures.add(new Structure(this, new RectangleI(1328, basePixelsY, 192, 256), Structures.Type.HOUSE_D));
         structures.add(new Structure(this, new RectangleI(1696, basePixelsY, 192, 256), Structures.Type.HOUSE_E));
         structures.add(new Structure(this, new RectangleI(2064, basePixelsY, 192, 256), Structures.Type.HOUSE_B));
         structures.add(new Structure(this, new RectangleI(2432, basePixelsY, 192, 256), Structures.Type.HOUSE_D));
-        structures.add(new Structure(this, new RectangleI(2800, basePixelsY, 192, 256), Structures.Type.HOUSE_A));
-        structures.add(new Structure(this, new RectangleI(3168, basePixelsY, 192, 256), Structures.Type.HOUSE_C));
+//        structures.add(new Structure(this, new RectangleI(2800, basePixelsY, 192, 256), Structures.Type.HOUSE_A));
+//        structures.add(new Structure(this, new RectangleI(3168, basePixelsY, 192, 256), Structures.Type.HOUSE_C));
     }
 
     private void initCityStructures(int basePixelsY) {

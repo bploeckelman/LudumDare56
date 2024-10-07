@@ -72,7 +72,7 @@ public class CharacterSelectScreen extends BaseScreen {
             default:
                 this.background = Anims.get(Anims.Type.CITY_BACKGROUND);
                 this.creatureAAnim = Anims.get(Anims.Type.RAT_WALK);
-                this.characterDescriptionA = "This rodent known for its long, hairless tail is " +
+                this.characterDescriptionA = "This rodent known for its long, hairless tail is" +
                     " the undisputed world champion when it comes to spreading plague via " +
                     "infected fleas.";
                 this.creatureBAnim = Anims.get(Anims.Type.SNAKE_IDLE);

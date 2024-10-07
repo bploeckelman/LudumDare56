@@ -491,7 +491,7 @@ public class Player extends Entity {
             setState(State.KNOCK_OUT);
             scene.particleManager.effects.get(ParticleEffectType.BLOOD_FOUNTAIN).spawn(new BloodFountainEffect.Params(position.x(), position.y()));
         }
-        hitInvincibility = 2.5f;
+        hitInvincibility = 1.5f;
     }
 
     public boolean isInvicible() {
