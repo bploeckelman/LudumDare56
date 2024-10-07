@@ -168,25 +168,34 @@ public class Collider extends Component {
     private final Rectangle checkRect = new Rectangle();
     private final Rectangle intersectionRect = new Rectangle();
     public Collider check(Type type) {
-        Collider overlap = null;
+        var entityData = Main.game.entityData;
+        Collider mostOverlappedCollider = null;
+        var offset = Utils.obtainGridPoint2();
+
         float maxArea = 0;
+        var colliders = entityData.getComponents(Collider.class);
+        for (var other : colliders) {
+            if (other == this) continue;
+            if (other.type != type) continue;
 
-        srcRect.set(this.rectA.x, this.rectA.y, this.rectA.width, this.rectA.height);
+            // this is a little silly, but it makes sure that collider.rectA is populated for both this and other
+            var overlaps = other.overlapsRectRect(other, this, offset);  // populate other.rectA
+            checkRect.set(other.rectA.x, other.rectA.y, other.rectA.width, other.rectA.height);
 
-        var colliders = Main.game.entityData.getComponents(Collider.class);
-        for (var collider : colliders) {
-            if (collider == this) continue;
-            if (collider.type != type) continue;
-
-            checkRect.set(collider.rectA.x, collider.rectA.y, collider.rectA.width, collider.rectA.height);
-            if (Intersector.intersectRectangles(srcRect, checkRect, intersectionRect)) {
-                if (intersectionRect.area() > maxArea) {
-                    maxArea = intersectionRect.area();
-                    overlap = collider;
+            overlaps = this.overlapsRectRect(this, other, offset); // populate this.rectA
+            srcRect.set(this.rectA.x, this.rectA.y, this.rectA.width, this.rectA.height);
+            if (overlaps) {
+                // safe to use rectA/B now since they were just populated in overlapsRectRect(...)
+                if (Intersector.intersectRectangles(srcRect, checkRect, intersectionRect)) {
+                    if (intersectionRect.area() > maxArea) {
+                        maxArea = intersectionRect.area();
+                        mostOverlappedCollider = other;
+                    }
                 }
             }
         }
-        return overlap;
+        Utils.gridPoint2Pool.free(offset);
+        return mostOverlappedCollider;
     }
 
     public boolean overlaps(Collider other, GridPoint2 offset, Type type) {
@@ -218,7 +227,7 @@ public class Collider extends Component {
 
         rectA.set(
             a.origin.x + a.rect.x + pointA.x + offset.x,
-            a.origin.y + a.rect.y + pointA.y + offset.x,
+            a.origin.y + a.rect.y + pointA.y + offset.y,
             a.rect.width, a.rect.height);
         rectB.set(
             b.origin.x + b.rect.x + pointB.x,

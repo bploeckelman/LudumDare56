@@ -4,17 +4,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.audio.AudioManager;
-import lando.systems.ld56.entities.components.*;
+import lando.systems.ld56.entities.components.Animator;
+import lando.systems.ld56.entities.components.Collider;
+import lando.systems.ld56.entities.components.Mover;
+import lando.systems.ld56.entities.components.Position;
+import lando.systems.ld56.entities.components.StructureDamage;
 import lando.systems.ld56.particles.ParticleManager;
-import lando.systems.ld56.particles.effects.*;
+import lando.systems.ld56.particles.effects.AsukaEffect;
+import lando.systems.ld56.particles.effects.BiteEffect;
+import lando.systems.ld56.particles.effects.BloodEffect;
+import lando.systems.ld56.particles.effects.BloodFountainEffect;
 import lando.systems.ld56.particles.effects.DirtEffect;
+import lando.systems.ld56.particles.effects.FlameEffect;
 import lando.systems.ld56.particles.effects.HeartEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
+import lando.systems.ld56.particles.effects.ScratchEffect;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.utils.Calc;
 import lando.systems.ld56.utils.Utils;
@@ -24,17 +34,17 @@ import text.formic.Stringf;
 public class Player extends Entity {
 
     public enum State { NORMAL, ATTACK }
-    public enum Mode { SWARM, SNAKE }
+    public enum Mode { SWARM, CHASE}
     public enum CreatureType {
         // Microbiome
           PHAGE(Mode.SWARM)
-        , PARASITE(Mode.SNAKE)
+        , PARASITE(Mode.CHASE)
         // Neighborhood
         , WORM(Mode.SWARM)
-        , ANT(Mode.SNAKE)
+        , ANT(Mode.CHASE)
         // City
         , RAT(Mode.SWARM)
-        , SNAKE(Mode.SNAKE)
+        , SNAKE(Mode.CHASE)
         // Mushroom Kingdom
         , MARIO(Mode.SWARM)
         , LUIGI(Mode.SWARM)
@@ -55,7 +65,7 @@ public class Player extends Entity {
     public Mover mover;
 
     private State state = State.NORMAL;
-    private final CreatureType creatureType;
+    public final CreatureType creatureType;
     private final ParticleManager particleManager;
 
     private boolean wasOnGround = false;
@@ -90,10 +100,11 @@ public class Player extends Entity {
         animator.defaultScale.set(scale, scale);
         mover.speed.y = mover.gravity;
 
-
-
         for (int i = 0; i < maxNumFollowers; i++) {
             var pos = Utils.obtainGridPoint2(position);
+            var nudgeX = MathUtils.random(-20, 20);
+            var nudgeY = MathUtils.random(-20, 20);
+            pos.add(nudgeX, nudgeY);
             positionHistoryQueue.addFirst(pos);
 
             var follower = new Follower(this, pos.x, pos.y, scale, 0, 0);
@@ -221,21 +232,17 @@ public class Player extends Entity {
                 } else if (!attackSuccess) {
                     var collider = attackCollider.check(Collider.Type.structure);
                     if (collider != null) {
+                        // safe(ish) to use rectA now since it was just populated inside check()
                         int x = collider.rectA.x + collider.rectA.width / 2;
                         int y = collider.rectA.y + collider.rectA.height / 2;
 
                         if (collider.entity instanceof StructureDamage) {
-                            ((StructureDamage)collider.entity).applyDamage(this, x, y);
-                            switch (((StructureDamage)collider.entity).structure.structureType) {
-                                case BACTERIA_A:
-                                    Main.game.audioManager.playSound(AudioManager.Sounds.squelch);
-                                    break;
-                                case HOUSE_A:
-                                    Main.game.audioManager.playSound(AudioManager.Sounds.impact);
-                                    break;
-                                default:
-                                    Main.game.audioManager.playSound(AudioManager.Sounds.structureDamage);
-                                    break;
+                            var structureDamage = (StructureDamage) collider.entity;
+                            structureDamage.applyDamage(this, x, y);
+                            switch (structureDamage.structure.structureType) {
+                                case BACTERIA_A: Main.game.audioManager.playSound(AudioManager.Sounds.squelch); break;
+                                case HOUSE_A: Main.game.audioManager.playSound(AudioManager.Sounds.impact);break;
+                                default: Main.game.audioManager.playSound(AudioManager.Sounds.structureDamage);break;
                             }
 //                            Main.playSound(AudioManager.Sounds.structureDamage);
                             attackSuccess = true;

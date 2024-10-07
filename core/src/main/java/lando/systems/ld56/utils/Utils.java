@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld56.Config;
@@ -15,10 +16,11 @@ public class Utils {
 
     public static Pool<GridPoint2> gridPoint2Pool = Pools.get(GridPoint2.class, 1000);
     public static Pool<RectangleI> rectangleIPool = Pools.get(RectangleI.class, 100);
+    public static Pool<Vector2> vector2Pool = Pools.get(Vector2.class, 100);
 
     // helper methods because it's annoying to use without them
     public static GridPoint2 obtainGridPoint2() {
-        return gridPoint2Pool.obtain();
+        return gridPoint2Pool.obtain().set(0, 0);
     }
     public static GridPoint2 obtainGridPoint2(int x, int y) {
         return obtainGridPoint2().set(x, y);

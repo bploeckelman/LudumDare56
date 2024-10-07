@@ -6,7 +6,7 @@ public class Config {
 
     public static class Debug {
         public static boolean general = false;
-        public static boolean render = true;
+        public static boolean render = false;
         public static boolean ui = false;
         public static boolean logging = true;
         public static boolean frame_by_frame = false;
