@@ -13,7 +13,7 @@ public class Structures {
           BACTERIA_BACK  ("images/structures/building-bacteria-back_00.png")
         , BACTERIA_FRONT ("images/structures/building-bacteria-front_00.png")
         , BRICK_BACK     ("images/structures/building-brick-back_upscale_00.png")
-        , BRICK_FRONT    ("images/structures/building-brick-front_00.png")
+        , BRICK_FRONT    ("images/structures/building-brick-front_upscale_00.png")
         ;
         public final String textureName;
         Type(String textureName) {

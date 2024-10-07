@@ -125,7 +125,7 @@ public class Assets implements Disposable {
 
             mgr.load("images/structures/building-bacteria-front_00.png", Texture.class);
             mgr.load("images/structures/building-bacteria-back_00.png", Texture.class);
-            mgr.load("images/structures/building-brick-front_00.png", Texture.class);
+            mgr.load("images/structures/building-brick-front_upscale_00.png", Texture.class);
             mgr.load("images/structures/building-brick-back_upscale_00.png", Texture.class);
 
             mgr.load("audio/music/intro-music.ogg", Music.class);
