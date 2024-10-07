@@ -130,14 +130,14 @@ public class Structure extends Entity implements XRayable {
         float height = bounds.height/ structureDamage.rows;
         for (int y = 0; y < structureDamage.rows; y++) {
             for (int x = 0; x < structureDamage.columns; x++) {
-                if (structureDamage.damage[x][y] < 1f) {
+                if (structureDamage.damage[x][y] < .1f) {
                     for (int ix = 0; ix < subdivisions; ix++) {
                         for (int iy = 0; iy < subdivisions; iy++) {
                             float du = 1f/ (structureDamage.columns * subdivisions);
                             float dv = 1f/ (structureDamage.rows * subdivisions);
                             Debris d = new Debris(new Vector2(bounds.x + width * x + ix * width / (subdivisions) + width / (subdivisions *2f), bounds.y + height * y + iy * height / (subdivisions *2f) + height / (subdivisions * 2f)),
                                 width/subdivisions, height/subdivisions,
-                                new TextureRegion(externals, (ix + x * subdivisions) * (du), 1f - (iy + y * subdivisions) * (dv), (1 + ix + x * subdivisions) * (du), 1f - (1 + iy + y * subdivisions) * (dv)));
+                                new TextureRegion(externals, (ix + x * subdivisions) * (du), 1f-(1 +iy + y * subdivisions) * (dv), (1 + ix + x * subdivisions) * (du), 1f- ( iy + y * subdivisions) * (dv)));
                             scene.collidables.add(d);
                         }
                     }

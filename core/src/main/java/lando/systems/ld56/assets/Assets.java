@@ -131,10 +131,10 @@ public class Assets implements Disposable {
             mgr.load("images/libgdx.png", Texture.class);
             mgr.load("images/noise.png", Texture.class);
 
-            mgr.load("images/structures/building-bacteria-front_00.png", Texture.class);
-            mgr.load("images/structures/building-bacteria-back_00.png", Texture.class);
-            mgr.load("images/structures/building-brick-front_upscale_00.png", Texture.class);
-            mgr.load("images/structures/building-brick-back_upscale_00.png", Texture.class);
+//            mgr.load("images/structures/building-bacteria-front_00.png", Texture.class);
+//            mgr.load("images/structures/building-bacteria-back_00.png", Texture.class);
+//            mgr.load("images/structures/building-brick-front_upscale_00.png", Texture.class);
+//            mgr.load("images/structures/building-brick-back_upscale_00.png", Texture.class);
 
             mgr.load("audio/music/intro-music.ogg", Music.class);
             mgr.load("audio/music/main-music.ogg", Music.class);
@@ -152,6 +152,11 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.Squelch1, Sound.class);
             mgr.load(SoundRes.Squelch2, Sound.class);
             mgr.load(SoundRes.Squelch3, Sound.class);
+
+            for (Structures.Type type : Structures.Type.values()){
+                mgr.load(type.externalTextureName, Texture.class);
+                mgr.load(type.internalTextureName, Texture.class);
+            }
         }
 
         if (load == Load.SYNC) {

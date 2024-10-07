@@ -116,23 +116,21 @@ public class Scene {
         var basePixelsY = baseGridY * tileSize;
         player = new Player(this, creatureType, (cols * tileSize) / 2f, basePixelsY + (2 * tileSize), particleManager);
 
-        int widthNormal = 12 * tileSize;
-        int widthNarrow = 6 * tileSize;
-        int heightNormal = 16 * tileSize;
-        int heightTall = 20 * tileSize;
 
-        // these are pixel positions that align with the LevelMap grid
-        int left   = (int) Calc.floor(((1 / 4f) * camera.viewportWidth - (widthNormal / 2f)));
-        int middle = (int) Calc.floor(((2 / 4f) * camera.viewportWidth - (widthNarrow / 2f)));
-        int right  = (int) Calc.floor(((3 / 4f) * camera.viewportWidth - (widthNormal / 2f)));
+        // Create Structures
+        switch (type) {
+            case MICROBIOME:
+                initMicroBiomeStructures(basePixelsY);
+                break;
+            case NEIGHBORHOOD:
+                initNeighborhoodStructures(basePixelsY);
+                break;
+            case CITY:
+                break;
+            case MUSHROOM_KINGDOM:
+                break;
+        }
 
-        var gridRect1 = new RectangleI(left, basePixelsY, widthNormal, heightNormal);
-        var gridRect2 = new RectangleI(middle, basePixelsY, widthNarrow, heightTall);
-        var gridRect3 = new RectangleI(right, basePixelsY, widthNormal, heightNormal);
-
-        structures.add(new Structure(this, gridRect1, Structures.Type.BACTERIA));
-        structures.add(new Structure(this, gridRect2, Structures.Type.BACTERIA));
-        structures.add(new Structure(this, gridRect3, Structures.Type.HOUSE_A));
 
         levelMap.setBorderSolid();
         levelMap.setRowSolid(baseGridY - 1);
@@ -147,6 +145,8 @@ public class Scene {
         backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
     }
 
+
+
     private void initNeighborhood() {
         backgroundLayers.clear();
         backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-neighborhood-sky").first());
@@ -157,6 +157,27 @@ public class Scene {
     private void initCity() {
         backgroundLayers.clear();
         backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-biome").first());        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
+    }
+
+    private void initMicroBiomeStructures(int basePixelsY) {
+        structures.add(new Structure(this, new RectangleI(224, basePixelsY, 192, 256), Structures.Type.BACTERIA));
+        structures.add(new Structure(this, new RectangleI(592, basePixelsY, 96, 320), Structures.Type.BACTERIA));
+        structures.add(new Structure(this, new RectangleI(864, basePixelsY, 192, 256), Structures.Type.BACTERIA));
+
+
+    }
+
+    private void initNeighborhoodStructures(int basePixelsY) {
+        structures.add(new Structure(this, new RectangleI(224, basePixelsY, 192, 256), Structures.Type.HOUSE_A));
+        structures.add(new Structure(this, new RectangleI(592, basePixelsY, 192, 256), Structures.Type.HOUSE_B));
+        structures.add(new Structure(this, new RectangleI(960, basePixelsY, 192, 256), Structures.Type.HOUSE_C));
+        structures.add(new Structure(this, new RectangleI(1328, basePixelsY, 192, 256), Structures.Type.HOUSE_D));
+        structures.add(new Structure(this, new RectangleI(1696, basePixelsY, 192, 256), Structures.Type.HOUSE_E));
+        structures.add(new Structure(this, new RectangleI(2064, basePixelsY, 192, 256), Structures.Type.HOUSE_B));
+        structures.add(new Structure(this, new RectangleI(2432, basePixelsY, 192, 256), Structures.Type.HOUSE_D));
+        structures.add(new Structure(this, new RectangleI(2800, basePixelsY, 192, 256), Structures.Type.HOUSE_A));
+        structures.add(new Structure(this, new RectangleI(3168, basePixelsY, 192, 256), Structures.Type.HOUSE_C));
+
     }
 
     public void update(float dt, boolean gameEnding) {

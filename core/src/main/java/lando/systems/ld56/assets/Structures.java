@@ -13,9 +13,21 @@ public class Structures {
           BACTERIA  ("images/structures/building-bacteria-back_00.png",
               "images/structures/building-bacteria-front_00.png",
               6, 3, .5f)
-        , HOUSE_A  ("images/structures/building-bacteria-back_00.png",
-            "images/structures/building-bacteria-front_00.png",
-            8, 3, .5f)
+        , HOUSE_A  ("images/structures/building-house-a-back_00.png",
+            "images/structures/building-house-a-front_00.png",
+            3, 3, .5f)
+        , HOUSE_B  ("images/structures/building-house-b-back_00.png",
+            "images/structures/building-house-b-front_00.png",
+            5, 3, .5f)
+        , HOUSE_C  ("images/structures/building-house-c-back_00.png",
+            "images/structures/building-house-c-front_00.png",
+            5, 6, .5f)
+        , HOUSE_D  ("images/structures/building-house-d-back_00.png",
+            "images/structures/building-house-d-front_00.png",
+            3, 5, .5f)
+        , HOUSE_E  ("images/structures/building-house-e-back_00.png",
+            "images/structures/building-house-e-front_00.png",
+            3, 7, .5f)
         ;
         public final String internalTextureName;
         public final String externalTextureName;
