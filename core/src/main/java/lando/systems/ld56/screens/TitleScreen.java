@@ -1,11 +1,11 @@
 package lando.systems.ld56.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.ui.TitleScreenUI;
 
 public class TitleScreen extends BaseScreen {
@@ -13,6 +13,7 @@ public class TitleScreen extends BaseScreen {
     public TitleScreen() {
         super();
         titleScreenUI = new TitleScreenUI(100, 100, 200, 50, assets.font, TitleScreenUI.ButtonOrientation.HORIZONTAL);
+        audioManager.playMusic(AudioManager.Musics.introMusic);
     }
 
     @Override
