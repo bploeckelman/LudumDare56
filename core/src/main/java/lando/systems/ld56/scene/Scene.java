@@ -12,10 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Structures;
-import lando.systems.ld56.entities.Follower;
-import lando.systems.ld56.entities.LevelMap;
-import lando.systems.ld56.entities.Player;
-import lando.systems.ld56.entities.Structure;
+import lando.systems.ld56.entities.*;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.physics.base.Collidable;
@@ -58,6 +55,9 @@ public class Scene {
     public Array<Structure> structures;
     public Array<Follower> detachedFollowers = new Array<>();
 
+    // enemies
+    public Array<Npc> enemies = new Array<>();
+
     // Debris things
     public PhysicsSystem physics;
     public Array<Collidable> collidables = new Array<>();
@@ -89,6 +89,12 @@ public class Scene {
         backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-level-1").first());
         backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
 
+        int tileSize = 16;
+        int baseGridY = 4;
+        int cols  = (int) Calc.ceiling(backgroundRectangle.width  / tileSize);
+        int rows = (int) Calc.ceiling(backgroundRectangle.height / tileSize);
+        levelMap = new LevelMap(tileSize, cols, rows);
+
         // Set up Backgrounds
         switch (type) {
             case MICROBIOME: {
@@ -105,12 +111,6 @@ public class Scene {
                 // TODO: create background for this level
             } break;
         }
-
-        int tileSize = 16;
-        int baseGridY = 4;
-        int cols  = (int) Calc.ceiling(backgroundRectangle.width  / tileSize);
-        int rows = (int) Calc.ceiling(backgroundRectangle.height / tileSize);
-        levelMap = new LevelMap(tileSize, cols, rows);
 
         // TODO: change player, npc, enemy setup based on scene type
         var basePixelsY = baseGridY * tileSize;
@@ -143,6 +143,7 @@ public class Scene {
         backgroundLayers.clear();
         backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-biome").first());
         backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
+        enemies.add(Enemy.createTardigrade(levelMap));
     }
 
 
@@ -184,6 +185,8 @@ public class Scene {
         physics.update(dt, collidables, influencers);
         player.update(dt, gameEnding);
 
+        enemies.forEach(x -> x.update(dt));
+
         for (int i = structures.size-1; i >=0; i--) {
             Structure structure = structures.get(i);
             structure.update(dt);
@@ -223,6 +226,9 @@ public class Scene {
         for (Structure structure : structures) {
             structure.render(batch);
         }
+
+        enemies.forEach(x -> x.render(batch));
+
         for (Collidable c : collidables) {
             if (c instanceof Debris) {
                 ((Debris) c).render(batch);
@@ -243,6 +249,8 @@ public class Scene {
         for (var follower : detachedFollowers) {
             follower.renderDebug(batch, shapes);
         }
+
+        enemies.forEach(x -> x.renderDebug(shapes));
         player.renderDebug(batch, shapes);
     }
 

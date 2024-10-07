@@ -9,10 +9,12 @@ import text.formic.Stringf;
 
 public class LevelMap extends Entity {
 
+    public final int tileSize;
     public final Collider solidCollider;
     public final Collider climbableCollider;
 
     public LevelMap(int tileSize, int cols, int rows) {
+        this.tileSize = tileSize;
         this.solidCollider = Collider.makeGrid(this, Collider.Type.solid, 0, 0, tileSize, cols, rows);
         this.climbableCollider = Collider.makeGrid(this, Collider.Type.climbable, 0, 0, tileSize, cols, rows);
     }

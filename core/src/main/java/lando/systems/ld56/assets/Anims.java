@@ -64,6 +64,12 @@ public class Anims {
         // TODO: add these animations - using 'idle' as a placeholder for now
         , RAT_JUMP       (0.1f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
         , RAT_FALL       (0.1f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
+        // enemies
+        , TARDIGRADE     (0.1f, "pets/cat", Animation.PlayMode.LOOP)
+
+
+
+
         // snake character ---------------------------------------------------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------
         ;

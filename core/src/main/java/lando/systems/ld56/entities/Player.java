@@ -91,6 +91,7 @@ public class Player extends Entity {
         mover.speed.y = mover.gravity;
 
 
+
         for (int i = 0; i < maxNumFollowers; i++) {
             var pos = Utils.obtainGridPoint2(position);
             positionHistoryQueue.addFirst(pos);

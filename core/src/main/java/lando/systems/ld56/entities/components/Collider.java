@@ -14,7 +14,7 @@ import text.formic.Stringf;
 
 public class Collider extends Component {
 
-    public enum Type {solid, climbable, player, structure, follower}
+    public enum Type {solid, climbable, player, structure, follower, enemy}
     public enum Shape {rect, grid}
 
     public final GridPoint2 origin;

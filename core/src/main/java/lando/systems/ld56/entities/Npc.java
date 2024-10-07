@@ -14,11 +14,10 @@ public class Npc extends Entity {
     public Animator animator;
 
     public Npc(int x, int y, Anims.Type animType) {
-        var scale = 2;
         this.position = new Position(this, x, y);
-        this.collider = Collider.makeRect(this, Collider.Type.solid, scale * -36, 0, scale * 72, scale * 50);
         this.animator = new Animator(this, position, Anims.get(animType));
-        this.animator.defaultScale.set(scale, scale);
+        int width = animator.keyframe.getRegionWidth();
+        this.collider = Collider.makeRect(this, Collider.Type.enemy, -width / 2, 0, width, animator.keyframe.getRegionHeight());
     }
 
     public void update(float dt) {
