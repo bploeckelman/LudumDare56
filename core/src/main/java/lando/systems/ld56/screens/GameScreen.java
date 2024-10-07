@@ -186,7 +186,7 @@ public class GameScreen extends BaseScreen {
         batch.begin();
         {
 
-            String structuresToDestroy = "Destroy All Structures! " + scene.structures.size + " left.";
+            String structuresToDestroy = "Structures left: " + scene.structures.size;
             assets.font.getData().setScale(1f);
             assets.layout.setText(assets.font, structuresToDestroy, Color.FIREBRICK,
                 camera.viewportWidth,
