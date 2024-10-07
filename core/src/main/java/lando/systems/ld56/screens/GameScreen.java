@@ -31,11 +31,13 @@ public class GameScreen extends BaseScreen {
     public GridPoint2 mouseGridPos;
     public ParticleManager particles;
     public boolean levelEndSoundHasPlayed;
+    public boolean tardigradeHasSpawned;
 
     public GameScreen(Scene.Type type, Player.CreatureType creatureType) {
         particles = new ParticleManager(assets);
         this.scene = new Scene(this, type, creatureType);
         levelEndSoundHasPlayed = false;
+        this.tardigradeHasSpawned = false;
         worldCamera.position.set(scene.getPlayerPosition(), 0);
         worldCamera.update();
         this.mouseGridPos = new GridPoint2();
