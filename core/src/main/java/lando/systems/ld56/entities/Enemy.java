@@ -1,7 +1,5 @@
 package lando.systems.ld56.entities;
 
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.MathUtils;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.entities.components.Mover;
@@ -49,12 +47,12 @@ public class Enemy extends Npc {
             }
         }
 
-        var follower = collider.check(Collider.Type.follower);
-        if (follower != null) {
-            if (follower.entity instanceof Follower) {
-                Follower f = (Follower)follower.entity;
-                f.launch(false);
-                moveX(-speed);
+        var followerCollider = collider.check(Collider.Type.follower);
+        if (followerCollider != null) {
+            if (followerCollider.entity instanceof Follower) {
+                var follower = (Follower) followerCollider.entity;
+                follower.detach();
+                follower.launch(false);
             }
         }
 

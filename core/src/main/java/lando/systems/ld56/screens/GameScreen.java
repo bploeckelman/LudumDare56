@@ -73,12 +73,6 @@ public class GameScreen extends BaseScreen {
                 structure.collapse();
             }
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-            scene.player.explodeFollowers();
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-            scene.player.launchFollower();
-        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             game.setScreen(new IntroScreen());
         }

@@ -23,8 +23,16 @@ public class Collider extends Component {
     public final RectangleI rect;
     public final Grid grid;
 
+    public static Collider makeRect(Entity entity, Type type, float x, float y, float width, float height) {
+        return new Collider(entity, type, (int) x, (int) y, (int) width, (int) height);
+    }
+
     public static Collider makeRect(Entity entity, Type type, int x, int y, int width, int height) {
         return new Collider(entity, type, x, y, width, height);
+    }
+
+    public static Collider makeRect(Entity entity, Type type, RectangleI rect) {
+        return new Collider(entity, type, rect.x, rect.y, rect.width, rect.height);
     }
 
     public static Collider makeGrid(Entity entity, Type type, int originX, int originY, int tileSize, int cols, int rows) {

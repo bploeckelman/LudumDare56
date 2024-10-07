@@ -30,7 +30,7 @@ public class HeartEffect extends ParticleEffect {
         var layer = particleManager.activeParticles.get(ParticleManager.Layer.FOREGROUND);
         var pool = particleManager.particlePool;
 
-        var amount = 10;
+        var amount = 1;
         var iconType = params.broken ? Icons.Type.HEART_BROKEN : Icons.Type.HEART;
         var keyframe = Icons.get(iconType);
 

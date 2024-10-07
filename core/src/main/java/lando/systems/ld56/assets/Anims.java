@@ -3,6 +3,7 @@ package lando.systems.ld56.assets;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.ld56.entities.Player;
+import lando.systems.ld56.utils.RectangleI;
 import lando.systems.ld56.utils.Utils;
 import text.formic.Stringf;
 
@@ -29,13 +30,13 @@ public class Anims {
         , NEIGHBORHOOD_OVERLAY(0.1f, "backgrounds/background-neighborhood-overlay", Animation.PlayMode.LOOP)
         , NEIGHBORHOOD_SKY(0.1f, "backgrounds/background-neighborhood-sky", Animation.PlayMode.LOOP)
         // phage character ---------------------------------------------------------------------------------------------
-        , PHAGE_IDLE     (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)
-        , PHAGE_WALK     (0.1f, "creatures/phage/phage-walk/player-phage-walk", Animation.PlayMode.LOOP)
-        , PHAGE_JUMP     (0.1f, "creatures/phage/phage-jump/player-phage-jump", Animation.PlayMode.NORMAL)
-        , PHAGE_FALL     (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP) // TODO: setup a custom anim with frames from jump/idle
-        , PHAGE_STICK    (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL)
-        , PHAGE_HURT     (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL)
-        , PHAGE_ATTACK   (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL)
+        , PHAGE_IDLE     (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP, new RectangleI(-8, 6, 16, 50))
+        , PHAGE_WALK     (0.1f, "creatures/phage/phage-walk/player-phage-walk", Animation.PlayMode.LOOP, new RectangleI(-8, 6, 16, 50))
+        , PHAGE_JUMP     (0.1f, "creatures/phage/phage-jump/player-phage-jump", Animation.PlayMode.NORMAL, new RectangleI(-8, 14, 16, 50))
+        , PHAGE_FALL     (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP, new RectangleI(-8, 10, 16, 50)) // TODO: setup a custom anim with frames from jump/idle
+        , PHAGE_STICK    (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL, new RectangleI(-8, 0, 16, 45))
+        , PHAGE_HURT     (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL, new RectangleI(-8, 4, 16, 45))
+        , PHAGE_ATTACK   (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL, new RectangleI(-10, 6, 20, 40))
         // parasite character ------------------------------------------------------------------------------------------
         // TODO: placeholder anims
         , PARASITE_IDLE  (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)
@@ -73,16 +74,23 @@ public class Anims {
         // snake character ---------------------------------------------------------------------------------------------
         // -------------------------------------------------------------------------------------------------------------
         ;
+
         public final float frameDuration;
         public final String regionsName;
         public final Animation.PlayMode playMode;
+        public final RectangleI colliderRect;
         Type(float frameDuration, String regionsName, Animation.PlayMode playMode) {
+            this(frameDuration, regionsName, playMode, Anims.defaultColliderRect);
+        }
+        Type(float frameDuration, String regionsName, Animation.PlayMode playMode, RectangleI colliderRect) {
             this.frameDuration = frameDuration;
             this.regionsName = regionsName;
             this.playMode = playMode;
+            this.colliderRect = colliderRect;
         }
     }
 
+    public static final RectangleI defaultColliderRect = new RectangleI(-16, 0, 32, 32);
     private static final Map<Type, Animation<TextureRegion>> animations = new HashMap<>();
     private static final Map<Player.CreatureType, Map<State, Type>> creatureAnims = new HashMap<>();
 
@@ -140,5 +148,19 @@ public class Anims {
             }
         }
         return animation;
+    }
+
+    public static Anims.Type getType(Player.CreatureType creatureType, Anims.State state) {
+        Anims.Type animType = null;
+        var animStates = creatureAnims.get(creatureType);
+        if (animStates == null) {
+            Utils.log("Animations", Stringf.format("Animations for creature type '%s' not found", creatureType));
+        } else {
+            animType = animStates.get(state);
+            if (animType == null) {
+                Utils.log("Animations", Stringf.format("No anim types found for creature type '%s' and anim state '%s'", creatureType, state));
+            }
+        }
+        return animType;
     }
 }

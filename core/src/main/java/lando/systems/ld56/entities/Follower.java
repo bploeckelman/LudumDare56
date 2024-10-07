@@ -1,9 +1,13 @@
 package lando.systems.ld56.entities;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.entities.components.Animator;
@@ -24,33 +28,51 @@ public class Follower extends Entity {
     public GridPoint2 followTarget;
 
     public boolean attached;
-    private float pickupDelay = 1f;
+    public float pickupDelay = 1f;
 
     // swarm behavior constants
-    private static final float SEPARATION_RADIUS = 100;
-    private static final float ALIGNMENT_RADIUS = 150;
-    private static final float COHESION_RADIUS = 200;
-    private static final float MAX_FORCE = 50;
-    private static final float MAX_SPEED = 100;
+    private static float MAX_SWARM_SPEED = 200f;
+    private static float AVOID_FOLLOWERS_WEIGHT = 0.4f;
+    private static float CLOSE_TO_PLAYER_WEIGHT = 0.6f;
 
     public Follower(Player player, int x, int y, float scale, int speedX, int speedY) {
-        // TEMP - for testing
-        var animation = Anims.get(Anims.Type.KITTEN_IDLE);
-
         this.player = player;
+
+        Animation<TextureRegion> animation;
+        var creatureType = player.creatureType;
+        switch (creatureType.mode) {
+            case SWARM: animation = Anims.get(creatureType, Anims.State.IDLE); break;
+            // TODO: fetch appropriate anim based on creature type
+            case CHASE:
+            default:
+                animation = Anims.get(Anims.Type.KITTEN_IDLE); break;
+        }
+
+        var frame = animation.getKeyFrame(0);
+        var width = scale * frame.getRegionWidth();
+        var height = scale * frame.getRegionHeight();
+        var margin = 0.1f * Math.max(width, height);
+        var rect = new Rectangle(
+            -width / 2f + margin,
+            scale + margin,
+            width - 2 * margin,
+            height - 2 * margin);
+
         this.position = new Position(this, x, y);
         this.animator = new Animator(this, position, animation);
-        this.collider = Collider.makeRect(this, Collider.Type.follower, (int) (scale * -8), (int) (scale * 1), (int) (scale * 16), (int) (scale * 12));
+        this.collider = Collider.makeRect(this, Collider.Type.follower, rect.x, rect.y, rect.width, rect.height);
         this.mover = new Mover(this, position, collider);
         this.followTarget = new GridPoint2(x, y);
 
+        mover.speed.set(speedX, speedY);
         animator.defaultScale.set(scale, scale);
         animator.scale.set(scale, scale);
-        mover.speed.set(speedX, speedY);
     }
 
     public void update(float dt) {
         if (!attached) {
+            animator.tint.set(Color.WHITE);
+
             pickupDelay -= dt;
             if (pickupDelay <= 0) {
                 pickupDelay = 0f;
@@ -59,17 +81,17 @@ public class Follower extends Entity {
 
         if (attached) {
             if (player.creatureType.mode == Player.Mode.SWARM) {
-                // when swarming, use 'boids' constraints to simulate flocking behavior: https://en.wikipedia.org/wiki/Boids
-                mover.speed.add(separation());
-                mover.speed.add(alignment());
-                mover.speed.add(cohesion());
-
-                // constrain to max speed
-                mover.speed.limit(MAX_SPEED);
-
+                var gray = 128 / 255f;
+                animator.tint.set(gray, gray, gray, 1);
+                // apply constraints to speed
+                var outputVector = Utils.vector2Pool.obtain().setZero();
+                mover.speed.add(avoidFollowers(outputVector, AVOID_FOLLOWERS_WEIGHT));
+                mover.speed.add(closeToPlayer(outputVector, CLOSE_TO_PLAYER_WEIGHT));
+                mover.speed.limit(MAX_SWARM_SPEED);
                 // directly apply movement speed to position (since mover.update() is only for detached movement)
                 position.add(mover.speed.x * dt, mover.speed.y * dt);
             } else if (player.creatureType.mode == Player.Mode.CHASE) {
+                animator.tint.set(Color.WHITE);
                 // when chasing, always lerp towards the followTarget
                 var x = Interpolation.linear.apply(position.x(), followTarget.x, dt * 4);
                 var y = Interpolation.linear.apply(position.y(), followTarget.y, dt * 4);
@@ -85,6 +107,7 @@ public class Follower extends Entity {
 
     public void render(SpriteBatch batch) {
         animator.render(batch);
+        batch.setColor(Color.WHITE);
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
@@ -96,8 +119,8 @@ public class Follower extends Entity {
     }
 
     public void detach() {
-        attached = false;
-        pickupDelay = 1f;
+        if (!attached) return;
+        player.detach(this);
     }
 
     public void launch() {
@@ -105,8 +128,6 @@ public class Follower extends Entity {
     }
 
     public void launch(boolean fromPlayer) {
-        detach();
-
         var x = fromPlayer ? (int) player.position.x() : (int)position.x();
         var y = fromPlayer ? (int) player.position.y() : (int)position.y();
         var angle = MathUtils.random(50, 130);
@@ -120,98 +141,42 @@ public class Follower extends Entity {
         mover.speed.set(speedX, speedY);
     }
 
-    // avoid crowding other followers
-    private final Vector2 separationForce = new Vector2();
-    private Vector2 separation() {
-        separationForce.setZero();
+    private Vector2 avoidFollowers(Vector2 output, float weight) {
+        // rename out param for clarity
+        var avoid = output;
+        avoid.setZero();
 
-        int count = 0;
+        // add up vectors towards other followers who are too close
+        var tooCloseRadius = 20f;
         for (var other : player.followers) {
-            if (other == this) continue;
-
-            float dist = position.value.dst(other.position.value);
-            if (dist > 0 && dist < SEPARATION_RADIUS) {
-                var diff = Utils.vector2Pool.obtain();
-                diff.set(position.value).sub(other.position.value)
-                    .nor().scl(1f / dist);
-                separationForce.add(diff);
-                Utils.vector2Pool.free(diff);
-                count++;
+            if (this == other) continue;
+            var dist = this.position.dst(other.position);
+            if (dist <= tooCloseRadius) {
+                avoid.x += other.position.x() - this.position.x();
+                avoid.y += other.position.y() - this.position.y();
             }
         }
 
-        if (count > 0) {
-            separationForce.scl(1f / count);
-        }
+        // 'avoid' is now the average direction towards the other followers
+        // inverting it turns it into the average direction away from others
+        avoid.scl(-1f);
 
-        if (separationForce.len() > 0) {
-            separationForce.nor().scl(MAX_FORCE);
-            separationForce.sub(mover.speed);
-        }
-
-        return separationForce;
+        // apply specified weight
+        avoid.scl(weight);
+        return avoid;
     }
 
-    // move towards average speed of nearby followers
-    private final Vector2 alignmentForce = new Vector2();
-    private Vector2 alignment() {
-        var sum = Utils.vector2Pool.obtain().setZero();
-
-        int count = 0;
-        for (var other : player.followers) {
-            if (other == this) continue;
-
-            float dist = position.value.dst(other.position.value);
-            if (dist > 0 && dist < ALIGNMENT_RADIUS) {
-                sum.add(other.mover.speed);
-                count++;
-            }
+    private Vector2 closeToPlayer(Vector2 output, float weight) {
+        // rename out param for clarity
+        var close = output;
+        close.setZero();
+        var tooFarRadius = 40f;
+        var dist = this.position.dst(player.position);
+        if (dist >= tooFarRadius) {
+            close.x += player.position.x() - this.position.x();
+            close.y += player.position.y() - this.position.y();
         }
-
-        if (count > 0) {
-            sum.scl(1f / count); // avg vel
-            sum.nor().scl(MAX_FORCE);
-            alignmentForce.set(sum).sub(mover.speed).limit(MAX_FORCE);
-        }
-
-        Utils.vector2Pool.free(sum);
-        return alignmentForce;
-    }
-
-    private final Vector2 cohesionForce = new Vector2();
-    private Vector2 cohesion() {
-        var sum = Utils.vector2Pool.obtain().setZero();
-        // start with player's pos
-        sum.set(player.position.value);
-
-        // count the player as one
-        int count = 1;
-        for (var other : player.followers) {
-            if (other == this) continue;
-
-            float dist = position.value.dst(other.position.value);
-            if (dist > 0 && dist < COHESION_RADIUS) {
-                sum.add(other.position.value);
-                count++;
-            }
-        }
-
-        if (count > 0) {
-            sum.scl(1f / count); // avg vel
-            cohesionForce.set(seek(sum));
-        }
-
-        Utils.vector2Pool.free(sum);
-        return cohesionForce;
-    }
-
-    private final Vector2 seek = new Vector2();
-    private Vector2 seek(Vector2 target) {
-        var desired = Utils.vector2Pool.obtain();
-        desired.set(target).sub(player.position.value);
-        desired.nor().scl(MAX_SPEED);
-        seek.set(desired).sub(mover.speed).limit(MAX_SPEED);
-        Utils.vector2Pool.free(desired);
-        return seek;
+        close.scl(weight);
+        return close;
     }
 }

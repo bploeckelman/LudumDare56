@@ -57,7 +57,7 @@ public class Player extends Entity {
         }
     }
 
-    private final Scene scene;
+    public final Scene scene;
 
     public Position position;
     public Animator animator;
@@ -77,11 +77,12 @@ public class Player extends Entity {
     private Collider attackCollider;
     private float accum = 0f;
 
-    private final float jumpHoldDuration = 0.15f;
+    private final float jumpHoldDuration = 0.1f;
     private final GridPoint2 offset = new GridPoint2(0, 0);
 
-    private final int maxNumFollowers = 10;
-    private final int followerDistance = 40; // TODO: should be related to the segment's size?
+    private final int maxNumFollowersChase = 10;
+    private final int maxNumFollowersSwarm = 30;
+    private final int chaseFollowerDistance = 40; // TODO: should be related to the followers's size?
     public final Array<Follower> followers = new Array<>();
     public final Queue<GridPoint2> positionHistoryQueue = new Queue<>();
 
@@ -89,25 +90,36 @@ public class Player extends Entity {
         this.scene = scene;
         this.creatureType = creatureType;
         this.particleManager = particleManager;
+        var animType = Anims.getType(creatureType, Anims.State.IDLE);
 
         this.position = new Position(this, x, y);
-        this.animator = new Animator(this, position, Anims.get(creatureType, Anims.State.IDLE));
-        this.collider = Collider.makeRect(this, Collider.Type.player, -10, 0, 24, 20);
+        this.animator = new Animator(this, position, Anims.get(animType));
+        this.collider = Collider.makeRect(this, Collider.Type.player, animType.colliderRect);
         this.mover = new Mover(this, position, collider);
 
-        var scale = 2f;
+        var scale = 1.5f;
         animator.scale.set(scale, scale);
         animator.defaultScale.set(scale, scale);
         mover.speed.y = mover.gravity;
 
-        for (int i = 0; i < maxNumFollowers; i++) {
+        var numFollowers = creatureType.mode == Mode.SWARM ? maxNumFollowersSwarm : maxNumFollowersChase;
+        for (int i = 0; i < numFollowers; i++) {
             var pos = Utils.obtainGridPoint2(position);
             var nudgeX = MathUtils.random(-20, 20);
             var nudgeY = MathUtils.random(-20, 20);
             pos.add(nudgeX, nudgeY);
             positionHistoryQueue.addFirst(pos);
 
-            var follower = new Follower(this, pos.x, pos.y, scale, 0, 0);
+            var speedX = 0;
+            var speedY = 0;
+            if (creatureType.mode == Mode.SWARM) {
+                scale = 0.5f;
+                var angle = MathUtils.random(0, 365);
+                var speed = MathUtils.random(25, 150);
+                speedX = (int) (MathUtils.cosDeg(angle) * speed);
+                speedY = (int) (MathUtils.sinDeg(angle) * speed);
+            }
+            var follower = new Follower(this, pos.x, pos.y, scale, speedX, speedY);
             follower.attached = true;
             followers.add(follower);
         }
@@ -338,10 +350,10 @@ public class Player extends Entity {
     }
 
     public void render(SpriteBatch batch) {
-        animator.render(batch);
-        for (var segment : followers) {
-            segment.render(batch);
+        for (var follower : followers) {
+            follower.render(batch);
         }
+        animator.render(batch);
     }
 
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
@@ -358,26 +370,21 @@ public class Player extends Entity {
         }
     }
 
-    public void pickup(Follower segment) {
-        scene.detachedFollowers.removeValue(segment, true);
-        followers.add(segment);
-        segment.attached = true;
+    public void pickup(Follower follower) {
+        scene.detachedFollowers.removeValue(follower, true);
+        followers.add(follower);
+        follower.attached = true;
 
         var effect = particleManager.effects.get(ParticleEffectType.HEART);
         effect.spawn(new HeartEffect.Params(false, position.x(), position.y()));
         Main.game.audioManager.playSound(AudioManager.Sounds.collectFollower);
     }
 
-    public void launchFollower() {
-        if (followers.isEmpty()) return;
-
-        var lastIndex = followers.size - 1;
-        var follower = followers.get(lastIndex);
-
-        followers.removeIndex(lastIndex);
+    public void detach(Follower follower) {
+        follower.attached = false;
+        follower.pickupDelay = 1f;
+        followers.removeValue(follower, true);
         scene.detachedFollowers.add(follower);
-
-        follower.launch();
 
         var effect = particleManager.effects.get(ParticleEffectType.HEART);
         effect.spawn(new HeartEffect.Params(true, position.x(), position.y()));
@@ -385,12 +392,9 @@ public class Player extends Entity {
     }
 
     public void explodeFollowers() {
-        var detachedFollowers = scene.detachedFollowers;
         for (int i = followers.size - 1; i >= 0; i--) {
             var follower = followers.get(i);
-            followers.removeIndex(i);
-            detachedFollowers.add(follower);
-
+            detach(follower);
             follower.launch();
         }
 
@@ -450,16 +454,16 @@ public class Player extends Entity {
             // ... and when the current position is far enough away from the last one on either axis
             var pos = Utils.obtainGridPoint2(position);
             var lastSavedPos = positionHistoryQueue.first();
-            var isFarEnoughX = (pos.x - lastSavedPos.x) >= followerDistance;
-            var isFarEnoughY = (pos.y - lastSavedPos.y) >= followerDistance;
-            var isFarEnoughAwayDirect = pos.dst(lastSavedPos) >= followerDistance;
+            var isFarEnoughX = (pos.x - lastSavedPos.x) >= chaseFollowerDistance;
+            var isFarEnoughY = (pos.y - lastSavedPos.y) >= chaseFollowerDistance;
+            var isFarEnoughAwayDirect = pos.dst(lastSavedPos) >= chaseFollowerDistance;
             var isFarEnoughAway = isFarEnoughX || isFarEnoughY || isFarEnoughAwayDirect;
             if (isFarEnoughAway) {
                 // insert new position
                 positionHistoryQueue.addFirst(pos);
 
                 // if too many positions, pop off last one and return it back to the pool
-                if (positionHistoryQueue.size > maxNumFollowers) {
+                if (positionHistoryQueue.size > maxNumFollowersSwarm) {
                     var gridPoint = positionHistoryQueue.removeLast();
                     Utils.gridPoint2Pool.free(gridPoint);
                 }

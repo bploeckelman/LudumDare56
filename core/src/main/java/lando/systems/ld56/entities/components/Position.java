@@ -31,6 +31,10 @@ public class Position extends Component {
         return (int) value.y;
     }
 
+    public float dst(Position other) {
+        return this.value.dst(other.value);
+    }
+
     public Position x(float x) {
         value.x = x;
         return this;
