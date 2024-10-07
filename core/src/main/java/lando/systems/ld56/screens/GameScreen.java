@@ -7,6 +7,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
@@ -31,6 +33,8 @@ public class GameScreen extends BaseScreen {
     public GameScreen(Scene.Type type, Player.CreatureType creatureType) {
         particles = new ParticleManager(assets);
         this.scene = new Scene(this, type, creatureType);
+        worldCamera.position.set(scene.getPlayerPosition(), 0);
+        worldCamera.update();
 //        this.scene = new Scene(this, Scene.Type.NEIGHBORHOOD);
 //        this.scene = new Scene(this, Scene.Type.CITY);
         this.mouseGridPos = new GridPoint2();
@@ -87,6 +91,8 @@ public class GameScreen extends BaseScreen {
             var particleEffect = particles.effects.get(ParticleEffectType.BITE);
             particleEffect.spawn(new BiteEffect.Params(vec3.x, vec3.y));
         }
+
+        lockCamera(scene.getPlayerPosition());
 
         var goToEndScreen = false; // TODO: set true based on 'completing' the game, whatever that will mean
         if (!exitingScreen && goToEndScreen) {
@@ -212,6 +218,20 @@ public class GameScreen extends BaseScreen {
             }
         }
         batch.end();
+    }
+
+    private void lockCamera(Vector2 lookAtPosition) {
+        float x = worldCamera.position.x;
+        float y = worldCamera.position.y;
+
+        float dx = (lookAtPosition.x - x) *.03f;
+        float dy = (lookAtPosition.y - y) * .03f;
+
+        x = MathUtils.clamp(x + dx, scene.backgroundRectangle.x + worldCamera.viewportWidth/2f, scene.backgroundRectangle.x + scene.backgroundRectangle.width - worldCamera.viewportWidth/2f);
+        y = MathUtils.clamp(y + dy, scene.backgroundRectangle.y + worldCamera.viewportHeight/2f, scene.backgroundRectangle.y + scene.backgroundRectangle.height - worldCamera.viewportHeight/2f);
+
+        worldCamera.position.set(x, y, 0);
+        worldCamera.update();
     }
 
     @Override

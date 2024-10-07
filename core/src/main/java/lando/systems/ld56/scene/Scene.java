@@ -10,12 +10,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Assets;
-import lando.systems.ld56.entities.LevelMap;
-import lando.systems.ld56.entities.Player;
-import lando.systems.ld56.entities.PlayerSegment;
-import lando.systems.ld56.entities.Structure;
-import lando.systems.ld56.entities.TestXRay;
+import lando.systems.ld56.entities.*;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.AsukaEffect;
@@ -55,7 +52,8 @@ public class Scene {
     public Player player;
     public Player.CreatureType creatureType;
     public LevelMap levelMap;
-    public TextureRegion background;
+    public Array<TextureRegion> backgroundLayers;
+    public Rectangle backgroundRectangle;
     public Array<Structure> structures;
 
     // Debris things
@@ -84,10 +82,33 @@ public class Scene {
     }
 
     private void init() {
+        Main.game.entityData.clearAllComponents(Collider.class);
+
+        backgroundLayers = new Array<>();
+        backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-level-1").first());
+        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
+
+        // Set up Backgrounds
+        switch (type) {
+            case MICROBIOME: {
+                initMicroBiome();
+            } break;
+            case NEIGHBORHOOD:
+                initNeighborhood();
+                break;
+            case CITY: // TODO: create background for this level
+                initCity();
+                break;
+            case MUSHROOM_KINGDOM: // TODO: create background for this level
+            {
+                // TODO: create background for this level
+            } break;
+        }
+
         int tileSize = 16;
         int baseGridY = 4;
-        int cols  = (int) Calc.ceiling(camera.viewportWidth  / tileSize);
-        int rows = (int) Calc.ceiling(camera.viewportHeight / tileSize);
+        int cols  = (int) Calc.ceiling(backgroundRectangle.width  / tileSize);
+        int rows = (int) Calc.ceiling(backgroundRectangle.height / tileSize);
         levelMap = new LevelMap(tileSize, cols, rows);
 
         // TODO: change player, npc, enemy setup based on scene type
@@ -112,25 +133,32 @@ public class Scene {
         structures.add(new Structure(this, gridRect2));
         structures.add(new Structure(this, gridRect3));
 
-        switch (type) {
-            case MICROBIOME: {
-                // TODO: animated background
-                background = assets.atlas.findRegions("backgrounds/background-biome").first();
-            } break;
-            case NEIGHBORHOOD:
-            case CITY: // TODO: create background for this level
-            case MUSHROOM_KINGDOM: // TODO: create background for this level
-            {
-                // TODO: create background for this level
-                background = assets.atlas.findRegions("backgrounds/background-level-1").first();
-            } break;
-        }
+
+
 
         levelMap.setBorderSolid();
         levelMap.setRowSolid(baseGridY - 1);
         for (Structure structure : structures) {
             levelMap.setClimbable(structure);
         }
+    }
+
+    private void initMicroBiome() {
+        backgroundLayers.clear();
+        backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-biome").first());
+        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
+    }
+
+    private void initNeighborhood() {
+        backgroundLayers.clear();
+        backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-neighborhood-sky").first());
+        backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-neighborhood-overlay").first());
+        backgroundRectangle = new Rectangle(0,0, 3840, 720);
+    }
+
+    private void initCity() {
+        backgroundLayers.clear();
+        backgroundLayers.add(assets.atlas.findRegions("backgrounds/background-biome").first());        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
     }
 
     public void update(float dt, boolean gameEnding) {
@@ -173,7 +201,9 @@ public class Scene {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
+        for (TextureRegion background : backgroundLayers) {
+            batch.draw(background, backgroundRectangle.x, backgroundRectangle.y, backgroundRectangle.width, backgroundRectangle.height);
+        }
 
         particleManager.draw(batch, ParticleManager.Layer.BACKGROUND);
 
@@ -207,6 +237,10 @@ public class Scene {
         for (Structure structure : structures) {
             structure.renderFrameBuffers(batch);
         }
+    }
+
+    public Vector2 getPlayerPosition() {
+        return player.position.value;
     }
 
     private final Array<PlayerSegment> playerSegments = new Array<>();

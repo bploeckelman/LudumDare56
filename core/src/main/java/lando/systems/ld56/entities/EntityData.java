@@ -41,4 +41,9 @@ public class EntityData {
         getComponents(componentClass).removeValue(component, true);
         return this;
     }
+
+    public <T extends Component> EntityData clearAllComponents(Class<T> componentClass) {
+        getComponents(componentClass).clear();
+        return this;
+    }
 }
