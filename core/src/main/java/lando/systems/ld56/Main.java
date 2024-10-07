@@ -98,7 +98,7 @@ public class Main extends ApplicationAdapter {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            setScreen(new GameScreen(Scene.Type.MICROBIOME, Player.CreatureType.PHAGE), Transition.Type.DOOMDRIP, 1f);
+            nextScreen();
             return;
         }
 
@@ -157,5 +157,15 @@ public class Main extends ApplicationAdapter {
 
     public static void playSound(AudioManager.Sounds soundOption) {
         Main.game.audioManager.playSound(soundOption);
+    }
+
+    // debug code
+    private int sceneIndex = -1;
+    private void nextScreen() {
+        // last screen doesn't work at all
+        if (++sceneIndex == Scene.Type.values().length -1) {
+            sceneIndex = 0;
+        }
+        setScreen(new CharacterSelectScreen(Scene.Type.values()[sceneIndex]));
     }
 }
