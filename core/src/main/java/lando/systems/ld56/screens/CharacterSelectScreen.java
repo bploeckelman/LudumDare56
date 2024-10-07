@@ -68,7 +68,7 @@ public class CharacterSelectScreen extends BaseScreen {
                     "Do you want ants? Because this is how you get ants.";
                 break;
             default:
-                this.background = Anims.get(Anims.Type.BACKGROUND_1);
+                this.background = Anims.get(Anims.Type.CITY_BACKGROUND);
                 this.creatureAAnim = Anims.get(Anims.Type.RAT_WALK);
                 this.characterDescriptionA = "This rodent known for its long, hairless tail is " +
                     " the undisputed world champion when it comes to spreading plague via " +

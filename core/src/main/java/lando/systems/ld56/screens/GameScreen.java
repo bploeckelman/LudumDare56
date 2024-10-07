@@ -137,9 +137,9 @@ public class GameScreen extends BaseScreen {
                 case CITY:
                     exitingScreen = game.setScreen(new EndingScreen());
                     break;
-                case MUSHROOM_KINGDOM:
+                //case MUSHROOM_KINGDOM:
                     // no idea
-                    break;
+                //    break;
             }
         }
 

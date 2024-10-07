@@ -38,7 +38,7 @@ public class Scene {
           MICROBIOME        (Player.CreatureType.PHAGE, Player.CreatureType.PARASITE)
         , NEIGHBORHOOD      (Player.CreatureType.WORM, Player.CreatureType.ANT)
         , CITY              (Player.CreatureType.RAT, Player.CreatureType.SNAKE)
-        , MUSHROOM_KINGDOM  (Player.CreatureType.MARIO, Player.CreatureType.LUIGI)
+        //, MUSHROOM_KINGDOM  (Player.CreatureType.MARIO, Player.CreatureType.LUIGI)
         ;
         public final Player.CreatureType creatureTypeA;
         public final Player.CreatureType creatureTypeB;
@@ -116,10 +116,10 @@ public class Scene {
             case CITY: // TODO: create background for this level
                 initCity();
                 break;
-            case MUSHROOM_KINGDOM: // TODO: create background for this level
-            {
-                // TODO: create background for this level
-            } break;
+//            case MUSHROOM_KINGDOM: // TODO: create background for this level
+//            {
+//                // TODO: create background for this level
+//            } break;
         }
 
 
@@ -140,7 +140,7 @@ public class Scene {
             case MICROBIOME: initMicroBiomeStructures(basePixelsY); break;
             case NEIGHBORHOOD: initNeighborhoodStructures(basePixelsY); break;
             case CITY: initCityStructures(basePixelsY); break;
-            case MUSHROOM_KINGDOM: /* T_T */ break;
+//            case MUSHROOM_KINGDOM: /* T_T */ break;
         }
 
         levelMap.setBorderSolid();

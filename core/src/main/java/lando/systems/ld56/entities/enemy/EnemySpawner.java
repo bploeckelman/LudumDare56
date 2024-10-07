@@ -28,7 +28,8 @@ public class EnemySpawner {
         MICROBIOME_ENEMIES (Scene.Type.MICROBIOME, EnemyType.TARDIGRADE, EnemyType.BACTERIA),
         NEIGHBORHOOD_ENEMIES (Scene.Type.NEIGHBORHOOD, EnemyType.BIRD, EnemyType.ANIMAL),
         CITY_ENEMIES (Scene.Type.CITY, EnemyType.BIRD, EnemyType.PERSON, EnemyType.TRUCK),
-        MUSHROOM_KINGDOM_ENEMIES (Scene.Type.MUSHROOM_KINGDOM, EnemyType.GOOMBA, EnemyType.BOWSER);
+//        MUSHROOM_KINGDOM_ENEMIES (Scene.Type.MUSHROOM_KINGDOM, EnemyType.GOOMBA, EnemyType.BOWSER)
+        ;
 
         public final Scene.Type biome;
         public final EnemyType[] enemyTypes;
@@ -57,10 +58,10 @@ public class EnemySpawner {
                 minSpawnTime = 0.4f;
                 maxSpawnTime = 3;
                 break;
-            case MUSHROOM_KINGDOM:
-                minSpawnTime = 0.4f;
-                maxSpawnTime = 3;
-                break;
+//            case MUSHROOM_KINGDOM:
+//                minSpawnTime = 0.4f;
+//                maxSpawnTime = 3;
+//                break;
             case NEIGHBORHOOD:
             default:
                 minSpawnTime = 0.4f;
@@ -78,8 +79,8 @@ public class EnemySpawner {
                 return spawn(random(BiomeEnemy.MICROBIOME_ENEMIES));
             case CITY:
                 return spawn(random(BiomeEnemy.CITY_ENEMIES));
-            case MUSHROOM_KINGDOM:
-                return spawn(random(BiomeEnemy.MUSHROOM_KINGDOM_ENEMIES));
+//            case MUSHROOM_KINGDOM:
+//                return spawn(random(BiomeEnemy.MUSHROOM_KINGDOM_ENEMIES));
             case NEIGHBORHOOD:
             default:
                 return spawn(random(BiomeEnemy.NEIGHBORHOOD_ENEMIES));
