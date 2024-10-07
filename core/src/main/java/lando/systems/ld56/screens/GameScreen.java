@@ -178,23 +178,26 @@ public class GameScreen extends BaseScreen {
                 scene.renderDebug(batch, assets.shapes);
             }
 
-            assets.font.getData().setScale(1f);
-            assets.layout.setText(assets.font, "Destroy All Structures!", Color.FIREBRICK,
-                camera.viewportWidth,
-                Align.center, false);
-            assets.font.draw(batch, assets.layout, 4,
-                camera.viewportHeight - assets.layout.height -4);
-            assets.layout.setText(assets.font, "Destroy All Structures!", Color.YELLOW,
-                camera.viewportWidth,
-                Align.center, false);
-            assets.font.draw(batch, assets.layout, 0, camera.viewportHeight - assets.layout.height);
-            assets.font.getData().setScale(1f);
+
         }
         batch.end();
 
         batch.setProjectionMatrix(windowCamera.combined);
         batch.begin();
         {
+
+            String structuresToDestroy = "Destroy All Structures! " + scene.structures.size + " left.";
+            assets.font.getData().setScale(1f);
+            assets.layout.setText(assets.font, structuresToDestroy, Color.FIREBRICK,
+                camera.viewportWidth,
+                Align.center, false);
+            assets.font.draw(batch, assets.layout, 4,
+                camera.viewportHeight - assets.layout.height -4);
+            assets.layout.setText(assets.font, structuresToDestroy, Color.YELLOW,
+                camera.viewportWidth,
+                Align.center, false);
+            assets.font.draw(batch, assets.layout, 0, camera.viewportHeight - assets.layout.height);
+            assets.font.getData().setScale(1f);
 
             if (scene.gameOver()) {
                 if(!levelEndSoundHasPlayed) {
