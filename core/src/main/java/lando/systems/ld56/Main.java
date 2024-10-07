@@ -118,7 +118,7 @@ public class Main extends ApplicationAdapter {
                 return;
             }
         }
-        Time.millis += (long) Time.delta;
+        Time.millis += Time.delta;
         Time.previous_elapsed = Time.elapsed_millis();
 
         currentScreen.update(delta);

@@ -56,7 +56,7 @@ public class Time {
 
     private static long start_millis = 0;
 
-    public static long millis = 0;
+    public static double millis = 0;
     public static long previous_elapsed = 0;
     public static float delta = 0;
     public static float pause_timer = 0;

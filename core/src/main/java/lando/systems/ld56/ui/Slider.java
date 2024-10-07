@@ -1,16 +1,18 @@
 package lando.systems.ld56.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld56.assets.Anims;
+import lando.systems.ld56.utils.Time;
 import lando.systems.ld56.utils.Utils;
 
 public class Slider {
-    private TextureRegion backgroundTexture;
-    private TextureRegion knobTexture;
+    private Animation<TextureRegion> backgroundAnimation;
+    private Animation<TextureRegion> knobAnimation;
     private Rectangle backgroundBounds;
     private Rectangle knobBounds;
     private float sliderValue; // Value between 0 and 1
@@ -19,8 +21,8 @@ public class Slider {
     private final float knobSize = 50f;
 
     public Slider(float x, float y, float width, float height, float initialValue, Anims.Type backgroudType, Anims.Type knobType) {
-        backgroundTexture = Anims.get(backgroudType).getKeyFrame(0f); // Replace with your image
-        knobTexture = Anims.get(knobType).getKeyFrame(0f); // Replace with your image
+        backgroundAnimation = Anims.get(backgroudType);
+        knobAnimation = Anims.get(knobType);
         backgroundBounds = new Rectangle(x, y, width, height);
         knobBounds = new Rectangle(x + (backgroundBounds.width - knobSize) * initialValue, y, knobSize, knobSize);
         sliderValue = initialValue;
@@ -51,8 +53,8 @@ public class Slider {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(backgroundTexture, backgroundBounds.x, backgroundBounds.y, backgroundBounds.width, backgroundBounds.height);
-        batch.draw(knobTexture, knobBounds.x, knobBounds.y, knobBounds.width, knobBounds.height);
+        batch.draw(backgroundAnimation.getKeyFrame((float) Time.millis), backgroundBounds.x, backgroundBounds.y, backgroundBounds.width, backgroundBounds.height);
+        batch.draw(knobAnimation.getKeyFrame((float) Time.millis), knobBounds.x, knobBounds.y, knobBounds.width, knobBounds.height);
     }
 
     public float getValue() {
