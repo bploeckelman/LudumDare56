@@ -26,6 +26,7 @@ public class Follower extends Entity {
     public Collider collider;
     public Mover mover;
     public GridPoint2 followTarget;
+    public Color defaultTint = Color.WHITE.cpy();
 
     public boolean attached;
     public float pickupDelay = 1f;
@@ -80,11 +81,16 @@ public class Follower extends Entity {
         mover.speed.set(speedX, speedY);
         animator.defaultScale.set(scale, scale);
         animator.scale.set(scale, scale);
+
+        if (creatureType == Player.CreatureType.ANT) {
+            var grey = 23 / 255f;
+            defaultTint.set(grey, grey, grey, 1f);
+        }
     }
 
     public void update(float dt) {
         if (!attached) {
-            animator.tint.set(Color.WHITE);
+            animator.tint.set(defaultTint);
 
             pickupDelay -= dt;
             if (pickupDelay <= 0) {
@@ -96,6 +102,7 @@ public class Follower extends Entity {
             var gray = .75f;
             if (player.creatureType.mode == Player.Mode.SWARM) {
                 animator.tint.set(gray, gray, gray, 1);
+
                 // apply constraints to speed
                 var outputVector = Utils.vector2Pool.obtain().setZero();
                 mover.speed.add(avoidFollowers(outputVector, AVOID_FOLLOWERS_WEIGHT));
@@ -105,7 +112,8 @@ public class Follower extends Entity {
                 // directly apply movement speed to position (since mover.update() is only for detached movement)
                 position.add(mover.speed.x * dt, mover.speed.y * dt);
             } else if (player.creatureType.mode == Player.Mode.CHASE) {
-                animator.tint.set(gray, gray, gray, 1);
+                animator.tint.set(defaultTint);
+
                 // when chasing, always lerp towards the followTarget
                 var x = Interpolation.linear.apply(position.x(), followTarget.x, dt * 10);
                 var y = Interpolation.linear.apply(position.y(), followTarget.y, dt * 10);

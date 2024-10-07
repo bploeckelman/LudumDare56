@@ -8,7 +8,7 @@ public class Config {
         public static boolean general = false;
         public static boolean render = false;
         public static boolean ui = false;
-        public static boolean logging = true;
+        public static boolean logging = false;
         public static boolean frame_by_frame = false;
         public static boolean show_launch_screen = false;
         public static boolean start_on_game_screen = false;

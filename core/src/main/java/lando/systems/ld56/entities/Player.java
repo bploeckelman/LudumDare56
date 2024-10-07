@@ -57,6 +57,7 @@ public class Player extends Entity {
     public Animator animator;
     public Collider collider;
     public Mover mover;
+    public Color defaultColor = Color.WHITE.cpy();
 
     private State state = State.NORMAL;
     public final CreatureType creatureType;
@@ -93,6 +94,14 @@ public class Player extends Entity {
         this.mover = new Mover(this, position, collider);
 
         var scale = 1.5f;
+        if (creatureType == CreatureType.PARASITE) {
+            scale = 0.5f;
+        } else if (creatureType == CreatureType.ANT) {
+            var grey = 23 / 255f;
+            defaultColor.set(grey, grey, grey, 1f);
+            scale = 2f;
+        }
+
         animator.scale.set(scale, scale);
         animator.defaultScale.set(scale, scale);
         mover.speed.y = mover.gravity;
@@ -118,6 +127,8 @@ public class Player extends Entity {
             }
             if (creatureType == Player.CreatureType.SNAKE) {
                 scale = 1;
+            } else if (creatureType == CreatureType.ANT) {
+                scale = 1f;
             }
             if (creatureType == CreatureType.PARASITE) {
                 scale = 0.5f;
@@ -375,7 +386,7 @@ public class Player extends Entity {
     }
 
     private void setInvincibilityColor() {
-        animator.tint = hitInvincibility > 0 ? Color.RED : Color.WHITE;
+        animator.tint = hitInvincibility > 0 ? Color.RED : defaultColor;
     }
 
     private void setState(State newState) {
