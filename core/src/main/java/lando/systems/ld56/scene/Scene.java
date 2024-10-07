@@ -97,9 +97,11 @@ public class Scene {
         Main.game.entityData.clearAllComponents(Collider.class);
 
         backgroundLayers = new Array<>();
-        backgroundLayers.add(Anims.get(Anims.Type.BACKGROUND_1));
+//        backgroundLayers.add(Anims.get(Anims.Type.BACKGROUND_1));
+        var frames = new Array<TextureRegion>();
+        frames.add(assets.pixelRegion);
+        backgroundLayers.add(new Animation<>(1f, frames, Animation.PlayMode.LOOP));
         backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
-
 
         this.spawner = new EnemySpawner(this);
 
@@ -135,18 +137,11 @@ public class Scene {
 
         // Create Structures
         switch (type) {
-            case MICROBIOME:
-                initMicroBiomeStructures(basePixelsY);
-                break;
-            case NEIGHBORHOOD:
-                initNeighborhoodStructures(basePixelsY);
-                break;
-            case CITY:
-                break;
-            case MUSHROOM_KINGDOM:
-                break;
+            case MICROBIOME: initMicroBiomeStructures(basePixelsY); break;
+            case NEIGHBORHOOD: initNeighborhoodStructures(basePixelsY); break;
+            case CITY: initCityStructures(basePixelsY); break;
+            case MUSHROOM_KINGDOM: /* T_T */ break;
         }
-
 
         levelMap.setBorderSolid();
         levelMap.setRowSolid(baseGridY - 1);
@@ -170,7 +165,7 @@ public class Scene {
 
     private void initCity() {
         backgroundLayers.clear();
-        backgroundLayers.add(Anims.get(Anims.Type.BACKGROUND_1));
+        backgroundLayers.add(Anims.get(Anims.Type.CITY_BACKGROUND));
         backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
     }
 
@@ -178,8 +173,6 @@ public class Scene {
         structures.add(new Structure(this, new RectangleI(224, basePixelsY, 192, 256), Structures.Type.BACTERIA_A));
         structures.add(new Structure(this, new RectangleI(592, basePixelsY, 192, 320), Structures.Type.BACTERIA_B));
         structures.add(new Structure(this, new RectangleI(864, basePixelsY, 192, 256), Structures.Type.BACTERIA_C));
-
-
     }
 
     private void initNeighborhoodStructures(int basePixelsY) {
@@ -192,7 +185,11 @@ public class Scene {
         structures.add(new Structure(this, new RectangleI(2432, basePixelsY, 192, 256), Structures.Type.HOUSE_D));
         structures.add(new Structure(this, new RectangleI(2800, basePixelsY, 192, 256), Structures.Type.HOUSE_A));
         structures.add(new Structure(this, new RectangleI(3168, basePixelsY, 192, 256), Structures.Type.HOUSE_C));
+    }
 
+    private void initCityStructures(int basePixelsY) {
+        // TODO: rossman, do stuff like in the above two methods, x,y,w,h should be multiples of 16 (LevelMap.tileSize),
+        //  probably 2 or 3 buildings, one very tall, screen should scroll vertically to follow the player (perpendicular to how NEIGHBORHOD works)
     }
 
     public void update(float dt, boolean gameEnding) {
