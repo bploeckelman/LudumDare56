@@ -166,7 +166,7 @@ public class Scene {
     private void initCity() {
         backgroundLayers.clear();
         backgroundLayers.add(Anims.get(Anims.Type.CITY_BACKGROUND));
-        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
+        backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, 2f *camera.viewportHeight);
     }
 
     private void initMicroBiomeStructures(int basePixelsY) {
