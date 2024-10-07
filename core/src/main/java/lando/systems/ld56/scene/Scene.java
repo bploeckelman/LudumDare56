@@ -35,7 +35,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 public class Scene {
 
     public enum Type {
-          MICROBIOME        (Player.CreatureType.PHAGE, Player.CreatureType.SNAKE) // TEMP: snek
+          MICROBIOME        (Player.CreatureType.PHAGE, Player.CreatureType.PARASITE)
         , NEIGHBORHOOD      (Player.CreatureType.WORM, Player.CreatureType.ANT)
         , CITY              (Player.CreatureType.RAT, Player.CreatureType.SNAKE)
         , MUSHROOM_KINGDOM  (Player.CreatureType.MARIO, Player.CreatureType.LUIGI)

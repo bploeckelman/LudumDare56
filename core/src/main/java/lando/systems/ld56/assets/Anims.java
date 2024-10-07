@@ -47,14 +47,13 @@ public class Anims {
         , PARASITE_HURT  (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL)
         , PARASITE_ATTACK(0.1f, "creatures/phage/phage-headbutt/player-phage-headbutt", Animation.PlayMode.NORMAL)
         // worm character ----------------------------------------------------------------------------------------------
-        // TODO: placeholder anims
-        , WORM_IDLE      (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)
-        , WORM_WALK      (0.1f, "creatures/phage/phage-walk/player-phage-walk", Animation.PlayMode.LOOP)
-        , WORM_JUMP      (0.1f, "creatures/phage/phage-jump/player-phage-jump", Animation.PlayMode.NORMAL)
-        , WORM_FALL      (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP) // TODO: setup a custom anim with frames from jump/idle
-        , WORM_STICK     (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL)
-        , WORM_HURT      (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL)
-        , WORM_ATTACK    (0.1f, "creatures/phage/phage-headbutt/player-phage-headbutt", Animation.PlayMode.NORMAL)
+        , WORM_IDLE      (0.1f, "creatures/worm/worm-idle/worm-idle", Animation.PlayMode.LOOP_PINGPONG)
+        , WORM_WALK      (0.1f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.LOOP_PINGPONG)
+        , WORM_JUMP      (0.05f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.NORMAL)
+        , WORM_FALL      (0.05f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.REVERSED) // TODO: setup a custom anim with frames from jump/idle
+        , WORM_STICK     (0.1f, "creatures/worm/worm-attack/worm-attack", Animation.PlayMode.NORMAL)
+        , WORM_HURT      (0.1f, "creatures/worm/worm-attack/worm-attack", Animation.PlayMode.NORMAL)
+        , WORM_ATTACK    (0.25f, "creatures/worm/worm-attack/worm-attack", Animation.PlayMode.NORMAL)
         // snake character ----------------------------------------------------------------------------------------------
         // TODO: placeholder anims
         , SNAKE_IDLE      (0.1f, "creatures/snake/player-snake-head", Animation.PlayMode.LOOP)
