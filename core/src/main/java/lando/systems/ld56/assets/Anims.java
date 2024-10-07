@@ -37,22 +37,29 @@ public class Anims {
         , PHAGE_STICK    (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL, new RectangleI(-8, 0, 16, 45))
         , PHAGE_HURT     (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL, new RectangleI(-8, 4, 16, 45))
         , PHAGE_ATTACK   (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL, new RectangleI(-10, 6, 20, 40))
-        // parasite character ------------------------------------------------------------------------------------------
+        // parasite character ----------------------------------------------------------------------------------------------
         // TODO: placeholder anims
-        , PARASITE_IDLE  (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)
-        , PARASITE_WALK  (0.1f, "creatures/phage/phage-walk/player-phage-walk", Animation.PlayMode.LOOP)
-        , PARASITE_JUMP  (0.1f, "creatures/phage/phage-jump/player-phage-jump", Animation.PlayMode.NORMAL)
-        , PARASITE_FALL  (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP) // TODO: setup a custom anim with frames from jump/idle
-        , PARASITE_STICK (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL)
-        , PARASITE_HURT  (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL)
-        , PARASITE_ATTACK(0.1f, "creatures/phage/phage-headbutt/player-phage-headbutt", Animation.PlayMode.NORMAL)
+        , PARASITE_IDLE      (0.1f, "creatures/parasite/player-parasite-head", Animation.PlayMode.LOOP)
+        , PARASITE_WALK      (0.1f, "creatures/parasite/player-parasite-head", Animation.PlayMode.LOOP)
+        , PARASITE_JUMP      (0.1f, "creatures/parasite/player-parasite-head", Animation.PlayMode.LOOP)
+        , PARASITE_FALL      (0.1f, "creatures/parasite/player-parasite-head", Animation.PlayMode.LOOP)
+        , PARASITE_STICK     (0.1f, "creatures/parasite/player-parasite-head", Animation.PlayMode.LOOP)
+        , PARASITE_HURT      (0.1f, "creatures/parasite/player-parasite-head", Animation.PlayMode.LOOP)
+        , PARASITE_ATTACK    (0.1f, "creatures/parasite/player-parasite-head", Animation.PlayMode.LOOP)
+        , SEGMENT_IDLE      (0.1f, "creatures/parasite/player-parasite-ball", Animation.PlayMode.LOOP)
+        , SEGMENT_WALK      (0.1f, "creatures/parasite/player-parasite-ball", Animation.PlayMode.LOOP)
+        , SEGMENT_JUMP      (0.1f, "creatures/parasite/player-parasite-ball", Animation.PlayMode.LOOP)
+        , SEGMENT_FALL      (0.1f, "creatures/parasite/player-parasite-ball", Animation.PlayMode.LOOP)
+        , SEGMENT_STICK     (0.1f, "creatures/parasite/player-parasite-ball", Animation.PlayMode.LOOP)
+        , SEGMENT_HURT      (0.1f, "creatures/parasite/player-parasite-ball", Animation.PlayMode.LOOP)
+        , SEGMENT_ATTACK    (0.1f, "creatures/parasite/player-parasite-ball", Animation.PlayMode.LOOP)
         // worm character ----------------------------------------------------------------------------------------------
         , WORM_IDLE      (0.1f, "creatures/worm/worm-idle/worm-idle", Animation.PlayMode.LOOP_PINGPONG)
         , WORM_WALK      (0.05f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.LOOP_PINGPONG)
         , WORM_JUMP      (0.05f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.NORMAL)
         , WORM_FALL      (0.05f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.REVERSED) // TODO: setup a custom anim with frames from jump/idle
         , WORM_STICK     (0.1f, "creatures/worm/worm-attack/worm-attack", Animation.PlayMode.NORMAL)
-        , WORM_HURT      (0.1f, "creatures/worm/worm-attack/worm-attack", Animation.PlayMode.NORMAL)
+        , WORM_HURT      (0.1f, "creatures/worm/worm-hurt/worm-hurt", Animation.PlayMode.NORMAL)
         , WORM_ATTACK    (0.25f, "creatures/worm/worm-attack/worm-attack", Animation.PlayMode.NORMAL)
         // snake character ----------------------------------------------------------------------------------------------
         // TODO: placeholder anims
