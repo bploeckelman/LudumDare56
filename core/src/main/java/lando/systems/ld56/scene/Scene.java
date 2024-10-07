@@ -100,11 +100,6 @@ public class Scene {
         backgroundLayers.add(Anims.get(Anims.Type.BACKGROUND_1));
         backgroundRectangle = new Rectangle(0,0, camera.viewportWidth, camera.viewportHeight);
 
-        int tileSize = 16;
-        int baseGridY = 4;
-        int cols  = (int) Calc.ceiling(backgroundRectangle.width  / tileSize);
-        int rows = (int) Calc.ceiling(backgroundRectangle.height / tileSize);
-        levelMap = new LevelMap(tileSize, cols, rows);
 
         this.spawner = new EnemySpawner(this);
 
@@ -124,6 +119,14 @@ public class Scene {
                 // TODO: create background for this level
             } break;
         }
+
+
+        int tileSize = 16;
+        int baseGridY = 4;
+        int cols  = (int) Calc.ceiling(backgroundRectangle.width  / tileSize);
+        int rows = (int) Calc.ceiling(backgroundRectangle.height / tileSize);
+        levelMap = new LevelMap(tileSize, cols, rows);
+
 
         // TODO: change player, npc, enemy setup based on scene type
         var basePixelsY = baseGridY * tileSize;
