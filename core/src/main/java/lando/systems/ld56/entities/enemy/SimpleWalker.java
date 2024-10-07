@@ -1,16 +1,24 @@
 package lando.systems.ld56.entities.enemy;
 
+import com.badlogic.gdx.math.MathUtils;
+import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.entities.Follower;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.components.Collider;
+import lando.systems.ld56.scene.Scene;
 
-public class DumbEnemy extends Enemy {
+public class SimpleWalker extends Enemy {
 
     private float speed = 0;
+    private float randomSwitch = 0;
 
-    public DumbEnemy(Anims.Type animType) {
+    private final Scene scene;
+
+    public SimpleWalker(Scene scene, Anims.Type animType) {
         super(animType);
+
+        this.scene = scene;
     }
 
     public void moveX(float speed) {
@@ -19,6 +27,8 @@ public class DumbEnemy extends Enemy {
         mover.speed.x = speed;
 
         animator.facing = speed > 0 ? -1 : 1;
+
+        randomSwitch = MathUtils.random(1f, 2.5f);
     }
 
     public void switchDirection() {
@@ -46,8 +56,17 @@ public class DumbEnemy extends Enemy {
             }
         }
 
-        if (mover.speed.x == 0) {
+        if (isMovingAwayFromPlayer()) {
+            randomSwitch -= dt;
+        }
+
+        if (mover.speed.x == 0 || randomSwitch < 0) {
             switchDirection();
         }
+    }
+
+    private boolean isMovingAwayFromPlayer() {
+        float xDif = position.x() - scene.player.position.x();
+        return (mover.speed.x < 0) ? xDif < 0 : xDif > 0;
     }
 }
