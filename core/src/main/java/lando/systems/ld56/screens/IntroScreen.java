@@ -28,7 +28,7 @@ public class IntroScreen extends BaseScreen {
             "still quite small by any reasonable measure), " +
             "life is a constant struggle to survive.\n\n" +
             "For many of these diminutive animals, the best defense is a good offense. "+
-            "And the destruction is the main tool in their toolbox. \n\n" +
+            "And destruction is the main tool in their toolbox. \n\n" +
             "Let us see what kind of tricks these {GRADIENT=black;gray}tiny " +
             "creatures{ENDGRADIENT} have " +
             "up" +
