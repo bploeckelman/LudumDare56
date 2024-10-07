@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
 import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.audio.AudioManager;
+import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.BiteEffect;
@@ -27,9 +28,9 @@ public class GameScreen extends BaseScreen {
     public GridPoint2 mouseGridPos;
     public ParticleManager particles;
 
-    public GameScreen(Scene.Type type) {
+    public GameScreen(Scene.Type type, Player.CreatureType creatureType) {
         particles = new ParticleManager(assets);
-        this.scene = new Scene(this, type);
+        this.scene = new Scene(this, type, creatureType);
 //        this.scene = new Scene(this, Scene.Type.NEIGHBORHOOD);
 //        this.scene = new Scene(this, Scene.Type.CITY);
         this.mouseGridPos = new GridPoint2();
@@ -91,10 +92,10 @@ public class GameScreen extends BaseScreen {
         if (!exitingScreen && scene.gameOver() && Gdx.input.justTouched()) {
             switch (scene.type) {
                 case MICROBIOME:
-                    exitingScreen = game.setScreen(new GameScreen(Scene.Type.NEIGHBORHOOD));
+                    exitingScreen = game.setScreen(new CharacterSelectScreen(Scene.Type.NEIGHBORHOOD));
                     break;
                 case NEIGHBORHOOD:
-                    exitingScreen = game.setScreen(new GameScreen(Scene.Type.CITY));
+                    exitingScreen = game.setScreen(new CharacterSelectScreen(Scene.Type.CITY));
                     break;
                 case CITY:
                     exitingScreen = game.setScreen(new EndingScreen());

@@ -53,6 +53,7 @@ public class Scene {
     public final Type type;
 
     public Player player;
+    public Player.CreatureType creatureType;
     public LevelMap levelMap;
     public TextureRegion background;
     public Array<Structure> structures;
@@ -65,13 +66,14 @@ public class Scene {
     // working data
     private final GridPoint2 offset = new GridPoint2(0, 0);
 
-    public Scene(GameScreen screen, Type type) {
+    public Scene(GameScreen screen, Type type, Player.CreatureType creatureType) {
         this.screen = screen;
         this.assets = screen.assets;
         this.camera = screen.worldCamera;
         this.particleManager = screen.particles;
         this.type = type;
         this.structures = new Array<>();
+        this.creatureType = creatureType;
 
         init();
         physics = new PhysicsSystem(new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -90,7 +92,6 @@ public class Scene {
 
         // TODO: change player, npc, enemy setup based on scene type
         var basePixelsY = baseGridY * tileSize;
-        var creatureType = type.creatureTypeA;
         player = new Player(creatureType, (cols * tileSize) / 2f, basePixelsY + (2 * tileSize), particleManager);
 
         int widthNormal = 12 * tileSize;

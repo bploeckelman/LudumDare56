@@ -85,7 +85,7 @@ public class Main extends ApplicationAdapter {
         var showLaunchScreen = (Gdx.app.getType() == Application.ApplicationType.WebGL || Config.Debug.show_launch_screen);
         var startingScreen = showLaunchScreen ? new LaunchScreen() : new TitleScreen();
         if (Config.Debug.start_on_game_screen) {
-            startingScreen = new GameScreen(Scene.Type.MICROBIOME);
+            startingScreen = new CharacterSelectScreen(Scene.Type.MICROBIOME);
         }
         setScreen(startingScreen);
     }
