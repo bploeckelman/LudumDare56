@@ -27,17 +27,17 @@ public class CampfireFlameEffect extends ParticleEffect {
         var layer = particleManager.activeParticles.get(ParticleManager.Layer.FOREGROUND);
         var pool = particleManager.particlePool;
 
-        var amount = 20;
+        var amount = 40;
 
         for (int i = 0; i < amount; i++) {
             var keyframe = Particles.get(Particles.Type.FLAME).getKeyFrame(MathUtils.random());
             var angle = MathUtils.random(60f, 120f);
-            var speed = 10;
+            var speed = MathUtils.random(100f, 200f);
             var startSize = MathUtils.random(50f, 90f);
             var ttl = MathUtils.random(1f, 3f);
             layer.add(Particle.initializer(pool.obtain())
                 .keyframe(keyframe)
-                .startPos(params.startX + MathUtils.random(-10f, 10f), params.startY + MathUtils.random(-10f, 10f))
+                .startPos(params.startX + MathUtils.random(-50f, 50f), params.startY + MathUtils.random(-50f, 50f))
                 .velocity(MathUtils.cosDeg(angle) * speed, MathUtils.sinDeg(angle) * speed)
                 .startColor(MathUtils.random(.7f, 1f), MathUtils.random(.8f), MathUtils.random(.0f, .2f), 1f)
                 .endColor(Color.CLEAR)
