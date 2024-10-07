@@ -489,6 +489,7 @@ public class Player extends Entity {
         mover.speed.set(200 * Calc.sign(speed.x), 200);
         if (!launchFollowers(power)) {
             setState(State.KNOCK_OUT);
+            scene.particleManager.effects.get(ParticleEffectType.BLOOD_FOUNTAIN).spawn(new BloodFountainEffect.Params(position.x(), position.y()));
         }
         hitInvincibility = 5f;
     }
