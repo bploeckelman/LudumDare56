@@ -2,15 +2,14 @@ package lando.systems.ld56.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
+import lando.systems.ld56.assets.InputPrompts;
 import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.assets.Transition;
 import lando.systems.ld56.audio.AudioManager;
@@ -19,6 +18,7 @@ import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.scene.Scene;
 
 public class CharacterSelectScreen extends BaseScreen {
+    public static boolean showTutorial = true;
 
     BitmapFont font;
     ParticleManager particles;
@@ -36,6 +36,8 @@ public class CharacterSelectScreen extends BaseScreen {
     Animation<TextureRegion> creatureBAnim;
     String characterDescriptionA;
     String characterDescriptionB;
+
+    public Rectangle modalRect = new Rectangle(50, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
 
     public CharacterSelectScreen(Scene.Type nextSceneType) {
         font = Main.game.assets.fontChrustyMd;
@@ -103,12 +105,17 @@ public class CharacterSelectScreen extends BaseScreen {
             characterAButtonHovered = false;
             characterBButtonHovered = false;
         }
-        if (Gdx.input.justTouched()) {
-            if (characterAButtonHovered) {
-                launchGame(nextSceneType, nextSceneType.creatureTypeA);
+        if (showTutorial){
+            if (Gdx.input.justTouched()) {
+                showTutorial = false;
             }
-            else if (characterBButtonHovered) {
-                launchGame(nextSceneType, nextSceneType.creatureTypeB);
+            } else {
+                if (Gdx.input.justTouched()) {
+                    if (characterAButtonHovered) {
+                    launchGame(nextSceneType, nextSceneType.creatureTypeA);
+                } else if (characterBButtonHovered) {
+                    launchGame(nextSceneType, nextSceneType.creatureTypeB);
+                }
             }
         }
         particles.update(dt);
@@ -185,6 +192,9 @@ public class CharacterSelectScreen extends BaseScreen {
         batch.draw(background.getKeyFrame(accum), 0, 0, windowCamera.viewportWidth, windowCamera.viewportHeight);
         renderCharacterSelection(batch);
         particles.draw(batch, ParticleManager.Layer.FOREGROUND);
+        if (showTutorial){
+            renderTutorial(batch);
+        }
         batch.end();
     }
 
@@ -194,5 +204,43 @@ public class CharacterSelectScreen extends BaseScreen {
             game.setScreen(new GameScreen(sceneType, creatureType), Transition.Type.DOOMDRIP, 2f);
 
         }
+    }
+
+    Color modalColor = new Color(1f, 1f, 1f, .95f);
+    Color fontColor = new Color(1f, 1f, 1f, .95f);
+    private void renderTutorial(SpriteBatch batch) {
+        batch.setColor(.5f, .5f, 1f, .95f );
+        Patches.get(Patches.Type.PLAIN).draw(batch, modalRect.x, modalRect.y, modalRect.width, modalRect.height);
+        batch.setColor(modalColor);
+        GlyphLayout layout = assets.layout;
+        BitmapFont font = assets.font;
+        BitmapFont lgFont = assets.fontChrustyLg;
+        BitmapFont smFont = assets.fontChrustySm;
+        layout.setText(lgFont, "How to Play:", fontColor, modalRect.width, Align.center, true);
+        lgFont.draw(batch, layout, modalRect.x, modalRect.y + modalRect.height - 20);
+        batch.draw(assets.inputPrompts.get(InputPrompts.Type.key_light_key_w), modalRect.x + 150, modalRect.y + modalRect.height - 180, 75, 75);
+        batch.draw(assets.inputPrompts.get(InputPrompts.Type.key_light_key_a), modalRect.x + 70, modalRect.y + modalRect.height - 260, 75, 75);
+        batch.draw(assets.inputPrompts.get(InputPrompts.Type.key_light_key_s), modalRect.x + 150, modalRect.y + modalRect.height - 260, 75, 75);
+        batch.draw(assets.inputPrompts.get(InputPrompts.Type.key_light_key_d), modalRect.x + 230, modalRect.y + modalRect.height - 260, 75, 75);
+        font.getData().setScale(.8f);layout.setText(font, "W to climb up\nS to climb down\nA/D move left and right", fontColor, modalRect.width/2f, Align.center, true);
+        font.draw(batch, layout, modalRect.x + modalRect.width/3f,modalRect.y + modalRect.height - 120 );
+
+
+        batch.draw(assets.inputPrompts.get(InputPrompts.Type.key_light_key_space), modalRect.x + 120, modalRect.y + 250, 150, 75);
+        layout.setText(font, "Space to jump", fontColor, modalRect.width/2f, Align.center, true);
+        font.draw(batch, layout, modalRect.x + modalRect.width/3f,modalRect.y + 270 + layout.height);
+
+        float enterTileSize = 50f;
+        batch.draw(assets.inputPrompts.get(InputPrompts.Type.enter_1), modalRect.x + 120, modalRect.y + 150, enterTileSize, enterTileSize);
+        batch.draw(assets.inputPrompts.get(InputPrompts.Type.enter_2), modalRect.x + 120 + enterTileSize, modalRect.y + 150, enterTileSize, enterTileSize);
+        batch.draw(assets.inputPrompts.get(InputPrompts.Type.enter_3), modalRect.x + 120, modalRect.y + 150 - enterTileSize, enterTileSize, enterTileSize);
+        batch.draw(assets.inputPrompts.get(InputPrompts.Type.enter_4), modalRect.x + 120 + enterTileSize, modalRect.y + 150 -enterTileSize, enterTileSize, enterTileSize);
+
+        layout.setText(font, "Enter to Attack", fontColor, modalRect.width/2f, Align.center, true);
+        font.draw(batch, layout, modalRect.x + modalRect.width/3f, modalRect.y + 120 + layout.height);
+
+        font.getData().setScale(1f);
+        layout.setText(smFont, "CLick to continue", fontColor, modalRect.width, Align.center, true);
+        smFont.draw(batch, layout, modalRect.x, modalRect.y + layout.height + 10);
     }
 }

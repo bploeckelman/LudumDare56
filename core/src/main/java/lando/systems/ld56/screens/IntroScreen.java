@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
 import lando.systems.ld56.Main;
+import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.assets.Transition;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.particles.ParticleManager;
@@ -21,6 +23,7 @@ public class IntroScreen extends BaseScreen {
     Texture parchmentTexture;
     BitmapFont font;
     ParticleManager particles;
+    Rectangle skipButton = new Rectangle(Gdx.graphics.getWidth() - 200, 20, 180, 80);
     String page1 =
         "{COLOR=white}" +
 //            "Life comes in all shapes and sizes.\n\n" +
@@ -88,7 +91,6 @@ public class IntroScreen extends BaseScreen {
             } else if (!typingLabel.hasEnded()) {
                 typingLabel.skipToTheEnd();
             } else {
-                audioManager.stopSound(AudioManager.Sounds.introNarration);
                 launchGame();
 //                currentPage++;
 //                if (currentPage == 1) {
@@ -133,11 +135,14 @@ public class IntroScreen extends BaseScreen {
         typingLabel.render(batch);
 
         particles.draw(batch, ParticleManager.Layer.FOREGROUND);
+
+//        Patches.get(Patches.Type.PLAIN).draw(batch, skipButton.x, skipButton.y, skipButton.width, skipButton.height);
         batch.end();
     }
 
     void launchGame() {
         if (!exitingScreen){
+            audioManager.stopSound(AudioManager.Sounds.introNarration);
             exitingScreen = true;
             game.setScreen(new CharacterSelectScreen(Scene.Type.MICROBIOME), Transition.Type.DOOMDRIP, 2f);
 //            game.setScreen(new EndingScreen(), Transition.Type.DOOMDRIP, 2f);

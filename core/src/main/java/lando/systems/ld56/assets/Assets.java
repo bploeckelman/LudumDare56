@@ -127,6 +127,9 @@ public class Assets implements Disposable {
     public Music mainMusic;
     public Music introMusic;
 
+    public InputPrompts inputPrompts;
+
+
     public Assets() {
         this(Load.SYNC);
     }
@@ -300,6 +303,9 @@ public class Assets implements Disposable {
         Particles.init(this);
         Structures.init(this);
         Transition.init();
+
+        inputPrompts = new InputPrompts(this);
+
 
         xRayShader = loadShader("shaders/default.vert", "shaders/xray.frag");
         debrisShader = loadShader("shaders/default.vert", "shaders/debris.frag");
