@@ -45,7 +45,7 @@ public class LightEffect extends ParticleEffect {
                 .endSize(endSize)
                 .interpolation(Interpolation.fastSlow)
                 .timeToLive(ttl) // when looping is enabled, this will act as the time between loops
-                .looping() // this will live until particleManager is destroyed
+//                .looping() // this will live until particleManager is destroyed
                 .init()
             );
         }

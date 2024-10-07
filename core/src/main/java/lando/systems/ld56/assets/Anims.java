@@ -72,6 +72,9 @@ public class Anims {
         , BALL_HURT      (0.1f, "creatures/snake/player-snake-ball", Animation.PlayMode.LOOP)
         , BALL_ATTACK    (0.1f, "creatures/snake/player-snake-ball", Animation.PlayMode.LOOP)
         // ant character -----------------------------------------------------------------------------------------------
+        , ANT_IDLE       (0.1f, "creatures/ant/player-ant-idle", Animation.PlayMode.LOOP)
+        , ANT_WALK       (0.1f, "creatures/ant/player-ant-walk", Animation.PlayMode.LOOP)
+        , ANT_ATTACK     (0.1f, "creatures/ant/player-ant-bite", Animation.PlayMode.NORMAL)
         , ANT_PUNCH      (0.075f, "creatures/ant/player-ant-punch", Animation.PlayMode.LOOP)
         , ANT_CLIMB_PUNCH(0.075f, "creatures/ant/player-ant-up-punch", Animation.PlayMode.LOOP)
         // rat character -----------------------------------------------------------------------------------------------
