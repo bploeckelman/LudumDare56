@@ -254,8 +254,7 @@ public class Player extends Entity {
                     attackTimer = animator.play(creatureType, Anims.State.ATTACK) / 3;
 //                    Main.playSound(AudioManager.Sounds.ratAttack);
                     Main.playSound(AudioManager.Sounds.swipe);
-                    int attackX = animator.facing == -1 ? -30 : 10;
-                    attackCollider = Collider.makeRect(this, Collider.Type.player, attackX, 25, 20, 20);
+                    attackCollider = getAttackCollider();
                     attackSuccess = false;
                 }
             } break;
@@ -268,6 +267,29 @@ public class Player extends Entity {
                 }
             } break;
         }
+    }
+
+    private Collider getAttackCollider() {
+        int x, y, width, height;
+
+        switch (creatureType) {
+            case PHAGE:
+                y = -20;
+                x = -10;
+                width = height = 20;
+                break;
+            case PARASITE:
+                y = 48;
+                x = animator.facing == -1 ? -60 :25;
+                width = height = 40;
+                break;
+            default:
+                x = animator.facing == -1 ? -30 : 10;
+                y = 0;
+                width = height = 20;
+                break;
+        }
+        return Collider.makeRect(this, Collider.Type.player, x, y, width, height);
     }
 
     public void render(SpriteBatch batch) {
