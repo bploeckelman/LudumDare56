@@ -14,7 +14,12 @@ import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Structures;
-import lando.systems.ld56.entities.*;
+import lando.systems.ld56.entities.Enemy;
+import lando.systems.ld56.entities.Follower;
+import lando.systems.ld56.entities.LevelMap;
+import lando.systems.ld56.entities.Npc;
+import lando.systems.ld56.entities.Player;
+import lando.systems.ld56.entities.Structure;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.physics.base.Collidable;
@@ -30,7 +35,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 public class Scene {
 
     public enum Type {
-          MICROBIOME        (Player.CreatureType.PHAGE, Player.CreatureType.PARASITE)
+          MICROBIOME        (Player.CreatureType.PHAGE, Player.CreatureType.SNAKE) // TEMP: snek
         , NEIGHBORHOOD      (Player.CreatureType.WORM, Player.CreatureType.ANT)
         , CITY              (Player.CreatureType.RAT, Player.CreatureType.SNAKE)
         , MUSHROOM_KINGDOM  (Player.CreatureType.MARIO, Player.CreatureType.LUIGI)

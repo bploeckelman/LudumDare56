@@ -14,13 +14,14 @@ public class Mover extends Component {
 
     // constants
     public float friction = 500f;
-    public float gravity = -200f;
-    public float gravityDefault = -200f;
+    public float frictionClimb = 1000f;
+    public float gravity = -500f;
+    public float gravityDefault = -500f;
     public float airAccel = 500f;
     public float groundAccel = 1000f;
     public float climbSpeed = 100f;
     public float jumpImpulse = 300f;
-    public float maxFallSpeedY = -600f;
+    public float maxFallSpeedY = -1000f;
     public float maxAirSpeedX = 500f;
     public float maxGroundSpeedX = 200f;
 

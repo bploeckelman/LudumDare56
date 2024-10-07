@@ -36,8 +36,6 @@ public class GameScreen extends BaseScreen {
         levelEndSoundHasPlayed = false;
         worldCamera.position.set(scene.getPlayerPosition(), 0);
         worldCamera.update();
-//        this.scene = new Scene(this, Scene.Type.NEIGHBORHOOD);
-//        this.scene = new Scene(this, Scene.Type.CITY);
         this.mouseGridPos = new GridPoint2();
 
         var inputMux = new InputMultiplexer(input);

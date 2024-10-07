@@ -82,7 +82,7 @@ public class Player extends Entity {
 
     private final int maxNumFollowersChase = 10;
     private final int maxNumFollowersSwarm = 30;
-    private final int chaseFollowerDistance = 40; // TODO: should be related to the followers's size?
+    private final int chaseFollowerDistance = 20; // TODO: should be related to the followers's size?
     public final Array<Follower> followers = new Array<>();
     public final Queue<GridPoint2> positionHistoryQueue = new Queue<>();
 
@@ -105,9 +105,11 @@ public class Player extends Entity {
         var numFollowers = creatureType.mode == Mode.SWARM ? maxNumFollowersSwarm : maxNumFollowersChase;
         for (int i = 0; i < numFollowers; i++) {
             var pos = Utils.obtainGridPoint2(position);
-            var nudgeX = MathUtils.random(-20, 20);
-            var nudgeY = MathUtils.random(-20, 20);
-            pos.add(nudgeX, nudgeY);
+            if (i != 0) {
+                var nudgeX = MathUtils.random(-20, 20);
+                var nudgeY = MathUtils.random(-20, 20);
+                pos.add(nudgeX, nudgeY);
+            }
             positionHistoryQueue.addFirst(pos);
 
             var speedX = 0;
@@ -118,6 +120,9 @@ public class Player extends Entity {
                 var speed = MathUtils.random(25, 150);
                 speedX = (int) (MathUtils.cosDeg(angle) * speed);
                 speedY = (int) (MathUtils.sinDeg(angle) * speed);
+            }
+            if (creatureType == Player.CreatureType.SNAKE) {
+                scale = 1;
             }
             var follower = new Follower(this, pos.x, pos.y, scale, speedX, speedY);
             follower.attached = true;
@@ -135,15 +140,19 @@ public class Player extends Entity {
         var attackJustPressed = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
         var jumpJustPressed = Gdx.input.isKeyJustPressed(Input.Keys.SPACE);
         var jumpHeld = Gdx.input.isKeyPressed(Input.Keys.SPACE);
-        var climbHeld = Gdx.input.isKeyPressed(Input.Keys.W)
-                     || Gdx.input.isKeyPressed(Input.Keys.UP)
-                     || Gdx.input.isKeyPressed(Input.Keys.DPAD_UP);
+        var climbUpHeld = Gdx.input.isKeyPressed(Input.Keys.W)
+                       || Gdx.input.isKeyPressed(Input.Keys.UP)
+                       || Gdx.input.isKeyPressed(Input.Keys.DPAD_UP);
+        var climbDownHeld = Gdx.input.isKeyPressed(Input.Keys.S)
+                         || Gdx.input.isKeyPressed(Input.Keys.DOWN)
+                         || Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN);
 
         if (gameEnding) {
             inputMoveDirX = 0;
             jumpJustPressed = false;
             jumpHeld = false;
-            climbHeld = false;
+            climbUpHeld = false;
+            climbDownHeld = false;
             attackJustPressed = false;
         }
 
@@ -178,13 +187,13 @@ public class Player extends Entity {
 
                 // horizontal movement
                 {
-                    // apply acceleration based on input
-                    if (!climbing) {
-                        var accel = (isOnGround && !climbing) ? mover.groundAccel : mover.airAccel;
-                        mover.speed.x += inputMoveDirX * accel * dt;
-                    } else {
-                        mover.stopX();
+                    // apply acceleration based on input, and adjust the speed if we're climbing so its 'grippier'
+                    var climbAdjust = 1f;
+                    if (climbing) {
+                        climbAdjust = 0.25f;
                     }
+                    var accel = climbAdjust * ((isOnGround) ? mover.groundAccel : mover.airAccel);
+                    mover.speed.x += inputMoveDirX * accel * dt;
 
                     // cap movement speed at a maximum by lerping hard towards the max if we're over it
                     if (Calc.abs(mover.speed.x) > mover.maxGroundSpeedX) {
@@ -192,26 +201,23 @@ public class Player extends Entity {
                     }
 
                     // apply friction
-                    if (inputMoveDirX == 0 && isOnGround && !climbing) {
-                        mover.speed.x  = Calc.approach(mover.speed.x, 0, mover.friction * dt);
-                    }
-
-                    // update facing
-                    if (inputMoveDirX != 0 && isOnGround) {
-                        animator.facing = inputMoveDirX;
+                    if (inputMoveDirX == 0 && (isOnGround || climbing)) {
+                        var friction = climbing ? mover.frictionClimb : mover.friction;
+                        mover.speed.x  = Calc.approach(mover.speed.x, 0, friction * dt);
                     }
                 }
 
                 // vertical movement
                 {
-                    // stop climbing
-                    if (climbing && jumpJustPressed) {
-                        climbing = false;
-                        mover.gravity = mover.gravityDefault;
-                    }
-
                     // trigger a jump
-                    if (jumpJustPressed && isOnGround) {
+                    if (jumpJustPressed && (isOnGround || climbing)) {
+                        // stop climbing
+                        if (climbing) {
+                            climbing = false;
+                            mover.gravity = mover.gravityDefault;
+                            animator.rotation = 0;
+                        }
+
                         // start jumping
                         jumpHoldTimer = jumpHoldDuration;
                         Main.game.audioManager.playSound(AudioManager.Sounds.jump);
@@ -225,11 +231,47 @@ public class Player extends Entity {
                     }
 
                     // trigger a climb
-                    var canClimb = collider.check(offset.set(-1, 0), Collider.Type.climbable)
-                                || collider.check(offset.set(+1, 0), Collider.Type.climbable);
-                    if (climbHeld && canClimb) {
+                    var canClimb = collider.check(offset.set(0, 1), Collider.Type.climbable);
+                    if (climbUpHeld && canClimb) {
                         climbing = true;
+                        // gravity doesn't apply while climbing
                         mover.gravity = 0;
+                        // cancel horiz movement on climb start
+                        mover.stopX();
+
+                        // figure out which side of a climbable structure we're on
+                        int dir = 0;
+                        float edge = 0f;
+                        var structure = collider.check(Collider.Type.structure);
+                        if (structure != null) {
+                            if (structure.entity instanceof StructureDamage) {
+                                var structureDamage = (StructureDamage) structure.entity;
+                                var bounds = structureDamage.structure.bounds;
+
+                                // are we closer to left or right side?
+                                var distToLeftEdge = Calc.abs(position.x() - bounds.x);
+                                var distToRightEdge = Calc.abs(position.x() - (bounds.x + bounds.width));
+                                if (distToLeftEdge < distToRightEdge) {
+                                    dir = 1;
+                                    edge = bounds.x;
+                                } else {
+                                    dir = -1;
+                                    edge = bounds.x + bounds.width;
+                                }
+                            }
+                        }
+
+                        // rotate to correct orientation, and move to the horizontal edge
+                        if (dir != 0) {
+                            position.x(edge);
+
+                            animator.facing = dir;
+                            if (dir == 1) {
+                                animator.rotation = 90;
+                            } else {
+                                animator.rotation = -90;
+                            }
+                        }
                     }
                 }
 
@@ -266,23 +308,36 @@ public class Player extends Entity {
 
         // variable jump timing, based on how long the button is held
         if (jumpHoldTimer > 0) {
-            jumpHoldTimer -= dt;
-            if (jumpHoldTimer < 0) {
+            // maintain full jump impulse while button is held and timer not expired
+            if (!jumpHeld) {
                 jumpHoldTimer = 0;
+                mover.speed.y = 0;
+            } else {
+                mover.speed.y = mover.jumpImpulse;
             }
 
-            // maintain full jump impulse while button is held and timer not expired
-            mover.speed.y = mover.jumpImpulse;
-            if (!jumpHeld) {
+            jumpHoldTimer -= dt;
+            if (jumpHoldTimer < 0) {
                 jumpHoldTimer = 0;
             }
         }
 
         // climbing movement
         if (climbing) {
-            // TODO(brian): check for reached top
-            if (climbHeld) {
-                mover.speed.y = mover.climbSpeed;
+            var canClimb = collider.check(offset.set(0, 0), Collider.Type.climbable);
+            if (!canClimb) {
+                climbing = false;
+                mover.gravity = mover.gravityDefault;
+                animator.rotation = 0;
+            }
+
+            if (canClimb && (climbUpHeld || climbDownHeld)) {
+                if (climbUpHeld) {
+                    mover.speed.y = mover.climbSpeed;
+                }
+                if (climbDownHeld) {
+                    mover.speed.y = -2 * mover.climbSpeed;
+                }
             } else {
                 mover.stopY();
             }
@@ -292,6 +347,11 @@ public class Player extends Entity {
         //   - invincibility timer
         //   - 'hurt' check
         //   - ???
+
+        var facing = (int) Calc.sign(mover.speed.x);
+        if (facing != 0) {
+            animator.facing = facing;
+        }
 
         // update components
         mover.update(dt);

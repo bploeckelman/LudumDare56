@@ -43,9 +43,16 @@ public class Follower extends Entity {
         switch (creatureType.mode) {
             case SWARM: animation = Anims.get(creatureType, Anims.State.IDLE); break;
             // TODO: fetch appropriate anim based on creature type
-            case CHASE:
-            default:
-                animation = Anims.get(Anims.Type.KITTEN_IDLE); break;
+            case CHASE: {
+                if (creatureType == Player.CreatureType.SNAKE) {
+                    animation = Anims.get(Anims.Type.BALL_IDLE);
+                } else {
+                    animation = Anims.get(Anims.Type.KITTEN_IDLE);
+                }
+            } break;
+            default: {
+                animation = Anims.get(Anims.Type.KITTEN_IDLE);
+            } break;
         }
 
         var frame = animation.getKeyFrame(0);
@@ -93,8 +100,8 @@ public class Follower extends Entity {
             } else if (player.creatureType.mode == Player.Mode.CHASE) {
                 animator.tint.set(Color.WHITE);
                 // when chasing, always lerp towards the followTarget
-                var x = Interpolation.linear.apply(position.x(), followTarget.x, dt * 4);
-                var y = Interpolation.linear.apply(position.y(), followTarget.y, dt * 4);
+                var x = Interpolation.linear.apply(position.x(), followTarget.x, dt * 10);
+                var y = Interpolation.linear.apply(position.y(), followTarget.y, dt * 10);
                 position.set(x, y);
             }
         } else {
@@ -110,8 +117,9 @@ public class Follower extends Entity {
         batch.setColor(Color.WHITE);
     }
 
+    private final Color debugColor = new Color(1, 1, 0, 0.1f);
     public void renderDebug(SpriteBatch batch, ShapeDrawer shapes) {
-        collider.render(shapes);
+        collider.render(shapes, debugColor);
     }
 
     public boolean canPickup() {

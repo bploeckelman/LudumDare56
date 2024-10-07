@@ -86,6 +86,12 @@ public class Collider extends Component {
     }
 
     public void render(ShapeDrawer shapes) {
+        render(shapes, Color.WHITE);
+    }
+
+    private final Color debugColor = Color.YELLOW.cpy();
+    public void render(ShapeDrawer shapes, Color color) {
+        debugColor.set(color);
         var pos = Main.game.entityData.get(entity, Position.class);
         int x = (pos != null) ? (int) pos.value.x : 0;
         int y = (pos != null) ? (int) pos.value.y : 0;
@@ -93,7 +99,7 @@ public class Collider extends Component {
             x + this.origin.x + this.rect.x,
             y + this.origin.y + this.rect.y,
             this.rect.width, this.rect.height);
-        shapes.rectangle(rectA.x, rectA.y, rectA.width, rectA.height, Color.YELLOW, 1);
+        shapes.rectangle(rectA.x, rectA.y, rectA.width, rectA.height, debugColor, 1);
     }
 
     public Grid.Tile getGridTile(int x, int y) {

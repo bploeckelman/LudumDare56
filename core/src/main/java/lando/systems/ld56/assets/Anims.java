@@ -55,6 +55,22 @@ public class Anims {
         , WORM_STICK     (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL)
         , WORM_HURT      (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL)
         , WORM_ATTACK    (0.1f, "creatures/phage/phage-headbutt/player-phage-headbutt", Animation.PlayMode.NORMAL)
+        // snake character ----------------------------------------------------------------------------------------------
+        // TODO: placeholder anims
+        , SNAKE_IDLE      (0.1f, "creatures/snake/player-snake-head", Animation.PlayMode.LOOP)
+        , SNAKE_WALK      (0.1f, "creatures/snake/player-snake-head", Animation.PlayMode.LOOP)
+        , SNAKE_JUMP      (0.1f, "creatures/snake/player-snake-head", Animation.PlayMode.LOOP)
+        , SNAKE_FALL      (0.1f, "creatures/snake/player-snake-head", Animation.PlayMode.LOOP)
+        , SNAKE_STICK     (0.1f, "creatures/snake/player-snake-head", Animation.PlayMode.LOOP)
+        , SNAKE_HURT      (0.1f, "creatures/snake/player-snake-head", Animation.PlayMode.LOOP)
+        , SNAKE_ATTACK    (0.1f, "creatures/snake/player-snake-head-bite", Animation.PlayMode.LOOP)
+        , BALL_IDLE      (0.1f, "creatures/snake/player-snake-ball", Animation.PlayMode.LOOP)
+        , BALL_WALK      (0.1f, "creatures/snake/player-snake-ball", Animation.PlayMode.LOOP)
+        , BALL_JUMP      (0.1f, "creatures/snake/player-snake-ball", Animation.PlayMode.LOOP)
+        , BALL_FALL      (0.1f, "creatures/snake/player-snake-ball", Animation.PlayMode.LOOP)
+        , BALL_STICK     (0.1f, "creatures/snake/player-snake-ball", Animation.PlayMode.LOOP)
+        , BALL_HURT      (0.1f, "creatures/snake/player-snake-ball", Animation.PlayMode.LOOP)
+        , BALL_ATTACK    (0.1f, "creatures/snake/player-snake-ball", Animation.PlayMode.LOOP)
         // ant character -----------------------------------------------------------------------------------------------
         , ANT_PUNCH      (0.075f, "creatures/ant/player-ant-punch", Animation.PlayMode.LOOP)
         , ANT_CLIMB_PUNCH(0.075f, "creatures/ant/player-ant-up-punch", Animation.PlayMode.LOOP)

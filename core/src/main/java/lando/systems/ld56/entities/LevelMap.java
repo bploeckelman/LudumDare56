@@ -37,8 +37,9 @@ public class LevelMap extends Entity {
         climbableCollider.setGridTilesClimbable(right - 1, bottom, 1, h, climbable);
 
         // TODO(brian): not really the right place for this, but the tops of structures should probably be walkable?
+        //   even better would be a 'jumpthru' type for the roofs, best of both worlds, can walk on it and jump through it from below
         var solid = true;
-        solidCollider.setGridTilesSolid(left + 1, top - 1, w - 1, 1, solid);
+        solidCollider.setGridTilesSolid(left + 1, top - 1, w - 2, 1, solid);
     }
 
     public void removeStructure(Structure structure) {
