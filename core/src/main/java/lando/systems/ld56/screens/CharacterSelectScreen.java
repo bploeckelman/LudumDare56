@@ -45,6 +45,9 @@ public class CharacterSelectScreen extends BaseScreen {
     @Override
     public void update(float dt) {
         accum += dt;
+        if (accum < 1f) {
+            return;
+        }
         Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
         windowCamera.unproject(touchPos);
         if (characterAButtonBound.contains(touchPos.x, touchPos.y)) {
