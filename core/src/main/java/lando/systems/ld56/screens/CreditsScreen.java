@@ -68,7 +68,7 @@ public class CreditsScreen extends BaseScreen {
         leftCreditLabel.setLineAlign(Align.left);
         leftCreditLabel.setFontScale(.75f);
 
-        background = assets.pixelRegion;
+        background = assets.atlas.findRegion("backgrounds/rampage-gameplay");
 
         rightCreditLabel = new TypingLabel(assets.fontChrustyMd, artists.toLowerCase() + "\n" + music.toLowerCase() + "\n" + libgdx.toLowerCase(), Config.Screen.window_width / 2 + 75f, Config.Screen.window_height / 2f + 135f);
         rightCreditLabel.setWidth(Config.Screen.window_width / 2f - 150f);
@@ -152,6 +152,7 @@ public class CreditsScreen extends BaseScreen {
         batch.setProjectionMatrix(windowCamera.combined);
         batch.begin();
         {
+            batch.setColor(.5f, .5f, .5f, .9f);
             batch.draw(background, 0, 0, Config.Screen.window_width, Config.Screen.window_height);
 
             batch.setColor(0f, 0f, 0f, .6f);
