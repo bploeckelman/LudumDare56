@@ -61,8 +61,8 @@ public class AudioManager implements Disposable {
         putSound(Sounds.impact, assets.impact3);
         putSound(Sounds.impact, assets.impact4);
 
-        musicVolume = new MutableFloat(0.8f);
-        soundVolume = new MutableFloat(0.8f);
+        musicVolume = new MutableFloat(0.5f);
+        soundVolume = new MutableFloat(0.5f);
 
         isMusicMuted = false;
         isSoundMuted = false;
