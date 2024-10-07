@@ -34,7 +34,7 @@ public class FlameEffect extends ParticleEffect {
             var angle = MathUtils.random(60f, 120f);
             var speed = 10;
             var startSize = MathUtils.random(20f, 50f);
-            var ttl = MathUtils.random(1f, 3f);
+            var ttl = 15f;
             var startingColor = new Color(MathUtils.random(.7f, 1f), MathUtils.random(.4f), MathUtils.random(.4f), 1);
             layer.add(Particle.initializer(pool.obtain())
                 .keyframe(keyframe)
