@@ -30,7 +30,7 @@ public class Anims {
         , PHAGE_FALL     (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP) // TODO: setup a custom anim with frames from jump/idle
         , PHAGE_STICK    (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL)
         , PHAGE_HURT     (0.1f, "creatures/phage/phage-hurt/player-phage-hurt", Animation.PlayMode.NORMAL)
-        , PHAGE_ATTACK   (0.1f, "creatures/phage/phage-headbutt/player-phage-headbutt", Animation.PlayMode.NORMAL)
+        , PHAGE_ATTACK   (0.1f, "creatures/phage/phage-stick/player-phage-stick", Animation.PlayMode.NORMAL)
         // parasite character ------------------------------------------------------------------------------------------
         // TODO: placeholder anims
         , PARASITE_IDLE  (0.1f, "creatures/phage/phage-idle/player-phage-idle", Animation.PlayMode.LOOP)
@@ -55,7 +55,7 @@ public class Anims {
         // rat character -----------------------------------------------------------------------------------------------
         , RAT_IDLE       (0.2f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
         , RAT_WALK       (0.1f, "creatures/rat/player-rat-walk", Animation.PlayMode.LOOP)
-        , RAT_BITE       (0.1f, "creatures/rat/player-rat-bite", Animation.PlayMode.NORMAL)
+        , RAT_ATTACK       (0.1f, "creatures/rat/player-rat-bite", Animation.PlayMode.NORMAL)
         // TODO: add these animations - using 'idle' as a placeholder for now
         , RAT_JUMP       (0.1f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
         , RAT_FALL       (0.1f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
@@ -120,7 +120,7 @@ public class Anims {
         } else {
             var animType = animStates.get(state);
             if (animType == null) {
-                Utils.log("Animations", Stringf.format("No anim types found for creature type '%s' and anim state 's'", creatureType, state));
+                Utils.log("Animations", Stringf.format("No anim types found for creature type '%s' and anim state '%s'", creatureType, state));
             } else {
                 animation = get(animType);
                 if (animation == null) {
