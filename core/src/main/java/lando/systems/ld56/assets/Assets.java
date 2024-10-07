@@ -86,6 +86,7 @@ public class Assets implements Disposable {
         public static final String Tardigrade1 = "audio/sounds/tardigrade1.ogg";
         public static final String Nematode1 = "audio/sounds/nematode1.ogg";
         public static final String Earthworm1 = "audio/sounds/earthworm1.ogg";
+        public static final String Parasite1 = "audio/sounds/parasite1.ogg";
     }
 
     public Sound coin;
@@ -114,6 +115,7 @@ public class Assets implements Disposable {
     public Sound phage1;
     public Sound snake1;
     public Sound earthworm1;
+    public Sound parasite1;
 
     public Music mainMusic;
     public Music introMusic;
@@ -192,6 +194,7 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.Snake1, Sound.class);
             mgr.load(SoundRes.Earthworm1, Sound.class);
             mgr.load(SoundRes.Thud1, Sound.class);
+            mgr.load(SoundRes.Parasite1, Sound.class);
 
             for (Structures.Type type : Structures.Type.values()){
                 mgr.load(type.externalTextureName, Texture.class);
@@ -274,6 +277,7 @@ public class Assets implements Disposable {
         phage1 = mgr.get(SoundRes.Phage1, Sound.class);
         snake1 = mgr.get(SoundRes.Snake1, Sound.class);
         earthworm1 = mgr.get(SoundRes.Earthworm1, Sound.class);
+        parasite1 = mgr.get(SoundRes.Parasite1, Sound.class);
 
 
         // initialize static asset classes

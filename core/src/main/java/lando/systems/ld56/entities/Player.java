@@ -126,7 +126,7 @@ public class Player extends Entity {
     public void update(float dt, boolean gameEnding) {
         accum += dt;
         detachSoundCountdownTimer -= dt;
-        Gdx.app.log("Detach timer", String.valueOf(detachSoundCountdownTimer));
+//        Gdx.app.log("Detach timer", String.valueOf(detachSoundCountdownTimer));
         // collect input
         var inputMoveDirX = 0;
         if      (Gdx.input.isKeyPressed(Input.Keys.A)) inputMoveDirX = -1;
@@ -445,7 +445,7 @@ public class Player extends Entity {
         effect.spawn(new HeartEffect.Params(true, position.x(), position.y()));
         if(detachSoundCountdownTimer < 0) {
             Main.game.audioManager.playSound(AudioManager.Sounds.boing);
-            detachSoundCountdownTimer = .5f;
+            detachSoundCountdownTimer = 1f;
         }
 
     }

@@ -43,6 +43,7 @@ public class AudioManager implements Disposable {
         , phageNarration
         , tardigradeNarration
         , earthwormNarration
+        , parasiteNarration
     }
 
     public enum Musics {
@@ -93,6 +94,7 @@ public class AudioManager implements Disposable {
         putSound(Sounds.tardigradeNarration, assets.tardigrade1);
         putSound(Sounds.antNarration, assets.ant1);
         putSound(Sounds.earthwormNarration, assets.earthworm1);
+        putSound(Sounds.parasiteNarration, assets.parasite1);
 
         musicVolume = new MutableFloat(0.5f);
         soundVolume = new MutableFloat(0.7f);

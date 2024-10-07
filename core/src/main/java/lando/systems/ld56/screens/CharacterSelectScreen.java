@@ -96,7 +96,8 @@ public class CharacterSelectScreen extends BaseScreen {
         batch.setColor(1f, 1f, 1f, 0.75f);
         Patches.get(Patches.Type.PLAIN).draw(batch, 0, 0, windowCamera.viewportWidth, windowCamera.viewportHeight);
         batch.setColor(Color.WHITE);
-        assets.fontChrustyLg.draw(batch, "Select your tiny character", windowCamera.viewportWidth / 2, windowCamera.viewportHeight - 50, 0, 1, false);
+        assets.fontChrustyLg.draw(batch, "Select your tiny creature",
+            windowCamera.viewportWidth / 2, windowCamera.viewportHeight - 50, 0, 1, false);
         // character title
         assets.layout.setText(assets.fontChrustyMd, nextSceneType.creatureTypeA.name());
         assets.fontChrustyMd.draw(batch, assets.layout, windowCamera.viewportWidth / 3f - assets.layout.width / 2f, windowCamera.viewportHeight - 150);

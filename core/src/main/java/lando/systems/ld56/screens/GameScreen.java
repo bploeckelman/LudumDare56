@@ -51,6 +51,9 @@ public class GameScreen extends BaseScreen {
             case PHAGE:
                 audioManager.playSound(AudioManager.Sounds.phageNarration);
                 break;
+            case PARASITE:
+                audioManager.playSound(AudioManager.Sounds.parasiteNarration);
+                break;
             case RAT:
                 audioManager.playSound(AudioManager.Sounds.ratNarration);
                 break;
