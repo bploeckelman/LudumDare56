@@ -35,7 +35,7 @@ public class GameScreen extends BaseScreen {
         this.scene = new Scene(this, type, creatureType);
         levelEndSoundHasPlayed = false;
         this.tardigradeHasSpawned = false;
-        this.tardigradeTimer = 300f;
+        this.tardigradeTimer = 30f;
         worldCamera.position.set(scene.getPlayerPosition(), 0);
         worldCamera.update();
         this.mouseGridPos = new GridPoint2();
@@ -140,6 +140,14 @@ public class GameScreen extends BaseScreen {
         }
 
         particles.update(delta);
+        tardigradeTimer -= delta;
+        Gdx.app.log("Tardi timer", String.valueOf(tardigradeTimer));
+        if(scene.type == Scene.Type.MICROBIOME) {
+            if(tardigradeTimer < 0 && tardigradeHasSpawned == false) {
+                audioManager.playSound(AudioManager.Sounds.tardigradeNarration);
+                tardigradeHasSpawned = true;
+            }
+        }
         scene.update(delta, scene.gameOver());
 
         if (Config.Debug.general) {
