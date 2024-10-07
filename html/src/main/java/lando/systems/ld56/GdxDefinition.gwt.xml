@@ -33,6 +33,7 @@
   <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.utils.typinglabel.effects" />
   <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.utils.typinglabel.TypingGlyph" />
   <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.particles.Particle" />
+  <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld56.physics.base.Collision" />
 
 
     <!-- You must change this if you rename packages later, or rename GwtLauncher. -->
