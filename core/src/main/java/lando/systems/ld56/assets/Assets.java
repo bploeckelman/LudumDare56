@@ -73,6 +73,10 @@ public class Assets implements Disposable {
         public static final String Squelch1 = "audio/sounds/squelch1.ogg";
         public static final String Squelch2 = "audio/sounds/squelch2.ogg";
         public static final String Squelch3 = "audio/sounds/squelch3.ogg";
+        public static final String CollectFollower1 = "audio/sounds/collectFollower1.ogg";
+        public static final String Boing1 = "audio/sounds/boing1.ogg";
+        public static final String Jump1 = "audio/sounds/jump1.ogg";
+        public static final String Thud1 = "audio/sounds/thud1.ogg";
     }
 
     public Sound coin;
@@ -88,6 +92,10 @@ public class Assets implements Disposable {
     public Sound squelch1;
     public Sound squelch2;
     public Sound squelch3;
+    public Sound collectFollower1;
+    public Sound boing1;
+    public Sound jump1;
+    public Sound thud1;
 
     public Music mainMusic;
     public Music introMusic;
@@ -152,6 +160,10 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.Squelch1, Sound.class);
             mgr.load(SoundRes.Squelch2, Sound.class);
             mgr.load(SoundRes.Squelch3, Sound.class);
+            mgr.load(SoundRes.CollectFollower1, Sound.class);
+            mgr.load(SoundRes.Boing1, Sound.class);
+            mgr.load(SoundRes.Jump1, Sound.class);
+            mgr.load(SoundRes.Thud1, Sound.class);
 
             for (Structures.Type type : Structures.Type.values()){
                 mgr.load(type.externalTextureName, Texture.class);
@@ -221,6 +233,11 @@ public class Assets implements Disposable {
         squelch1 = mgr.get(SoundRes.Squelch1, Sound.class);
         squelch2 = mgr.get(SoundRes.Squelch2, Sound.class);
         squelch3 = mgr.get(SoundRes.Squelch3, Sound.class);
+        collectFollower1 = mgr.get(SoundRes.CollectFollower1, Sound.class);
+        boing1 = mgr.get(SoundRes.Boing1, Sound.class);
+        jump1 = mgr.get(SoundRes.Jump1, Sound.class);
+        thud1 = mgr.get(SoundRes.Thud1, Sound.class);
+
 
         // initialize static asset classes
         Icons.init(this);

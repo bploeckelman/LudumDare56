@@ -191,6 +191,7 @@ public class Player extends Entity {
                     if (jumpJustPressed && isOnGround) {
                         // start jumping
                         jumpHoldTimer = jumpHoldDuration;
+                        Main.game.audioManager.playSound(AudioManager.Sounds.jump);
 
                         // update animation - stretch on jump
                         animator.play(creatureType, Anims.State.JUMP);
@@ -357,7 +358,7 @@ public class Player extends Entity {
 
         var effect = particleManager.effects.get(ParticleEffectType.HEART);
         effect.spawn(new HeartEffect.Params(false, position.x(), position.y()));
-        // TODO: pv - 'pickup follower' sound here
+        Main.game.audioManager.playSound(AudioManager.Sounds.collectFollower);
     }
 
     public void launchFollower() {
@@ -373,7 +374,7 @@ public class Player extends Entity {
 
         var effect = particleManager.effects.get(ParticleEffectType.HEART);
         effect.spawn(new HeartEffect.Params(true, position.x(), position.y()));
-        // TODO: pv - 'launch follower' sound here (ie. player gets hit and it knocks a follower loose)
+        Main.game.audioManager.playSound(AudioManager.Sounds.boing);
     }
 
     public void explodeFollowers() {
@@ -388,7 +389,7 @@ public class Player extends Entity {
 
         var effect = particleManager.effects.get(ParticleEffectType.HEART);
         effect.spawn(new HeartEffect.Params(true, position.x(), position.y()));
-        // TODO: pv - 'launch follower' sound here (ie. player gets hit and it knocks a follower loose)
+        Main.game.audioManager.playSound(AudioManager.Sounds.boing);
     }
 
     public void successfulHitEffect(float targetX, float targetY) {

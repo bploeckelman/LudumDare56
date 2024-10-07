@@ -1,9 +1,11 @@
 package lando.systems.ld56.entities.components;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld56.Main;
+import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.Entity;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.Structure;
@@ -67,16 +69,46 @@ public class StructureDamage extends Entity {
         int damageOffset = xOffset - xMod;
         while (Calc.inRange(damageOffset, 0, columns)) {
             if (this.damage[damageOffset][yOffset] < 1f) {
+                Main.playSound(AudioManager.Sounds.squelch);
+                Gdx.app.log("Generic Squelch", "true");
                 return false;
             }
             damageOffset -= xMod;
         }
 
-        if (this.damage[xOffset][yOffset] >= 1f) { return false; }
+        if (this.damage[xOffset][yOffset] >= 1f) {
+            Main.playSound(AudioManager.Sounds.thud);
+            Gdx.app.log("Thud Sound", "true");
+            return false;
+        }
 
         // get amount of damage from player
         this.damage[xOffset][yOffset] = Calc.clampf(this.damage[xOffset][yOffset] + player.attackStrength, 0f, 1f);
         player.successfulHitEffect(posX, posY);
+        switch(structure.structureType) {
+            case BACTERIA_A:
+                Main.game.audioManager.playSound(AudioManager.Sounds.squelch);
+                Gdx.app.log("Hit Bacteria", "true");
+                break;
+                case BACTERIA_B:
+                Main.game.audioManager.playSound(AudioManager.Sounds.squelch);
+                Gdx.app.log("Hit Bacteria", "true");
+                break;
+                case BACTERIA_C:
+                Main.game.audioManager.playSound(AudioManager.Sounds.squelch);
+                Gdx.app.log("Hit Bacteria", "true");
+                break;
+            case HOUSE_A:
+                Main.game.audioManager.playSound(AudioManager.Sounds.impact);
+                break;
+            case HOUSE_B:
+                Main.game.audioManager.playSound(AudioManager.Sounds.impact);
+                break;
+            default:
+                Main.game.audioManager.playSound(AudioManager.Sounds.thud);
+                break;
+        }
+
         if (this.damage[xOffset][yOffset] >= 1f) { player.successfulDestroyEffect(posX, posY); }
         return true;
     }

@@ -1,6 +1,7 @@
 package lando.systems.ld56.entities;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -62,6 +63,7 @@ public class Structure extends Entity implements XRayable {
 
     public void damage(Player player, int x, int y) {
         if (!isCollapsing && structureDamage.applyDamage(player, x, y)) {
+
 
         }
     }

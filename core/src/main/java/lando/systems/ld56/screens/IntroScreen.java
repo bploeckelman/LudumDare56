@@ -26,14 +26,13 @@ public class IntroScreen extends BaseScreen {
 //            "Life comes in all shapes and sizes.\n\n" +
             "From the smallest of creatures, to those that are slightly larger (though " +
             "still quite small by any reasonable measure), " +
-            "the world is a constant struggle for survival.\n\n" +
-            "Food additives, micro plastics, and pesticides have mutated the once innocuous creatures of the land\n\n"+
-            "They now seek vengeance against their polluting oppressors \n\n";
+            "life is a constant struggle to survive.\n\n";
 
     String page2 =
         "{COLOR=white}" +
-            "Food additives, micro plastics, and pesticides have mutated the once innocuous creatures of the land\n\n"+
-            "They now seek vengeance against their polluting oppressors \n\n";
+            "For many of these tiny creatures, the best defense "+
+            "is a good offense." +
+            "And the destruction is the main tool in their toolbox. \n\n";
 
     String page3 =
         "{COLOR=white}" +
