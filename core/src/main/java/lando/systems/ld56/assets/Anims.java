@@ -48,7 +48,7 @@ public class Anims {
         , PARASITE_ATTACK(0.1f, "creatures/phage/phage-headbutt/player-phage-headbutt", Animation.PlayMode.NORMAL)
         // worm character ----------------------------------------------------------------------------------------------
         , WORM_IDLE      (0.1f, "creatures/worm/worm-idle/worm-idle", Animation.PlayMode.LOOP_PINGPONG)
-        , WORM_WALK      (0.1f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.LOOP_PINGPONG)
+        , WORM_WALK      (0.05f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.LOOP_PINGPONG)
         , WORM_JUMP      (0.05f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.NORMAL)
         , WORM_FALL      (0.05f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.REVERSED) // TODO: setup a custom anim with frames from jump/idle
         , WORM_STICK     (0.1f, "creatures/worm/worm-attack/worm-attack", Animation.PlayMode.NORMAL)
