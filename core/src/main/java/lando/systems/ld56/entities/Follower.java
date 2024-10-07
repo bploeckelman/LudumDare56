@@ -138,12 +138,8 @@ public class Follower extends Entity {
     }
 
     public void launch() {
-        launch(true);
-    }
-
-    public void launch(boolean fromPlayer) {
-        var x = fromPlayer ? (int) player.position.x() : (int)position.x();
-        var y = fromPlayer ? (int) player.position.y() : (int)Math.max(position.y(), 64);
+        var x = (int) player.position.x();
+        var y = (int) player.position.y() + 5;
         var angle = MathUtils.random(50, 130);
         var speed = MathUtils.random(400, 1000);
         var speedX = (int) (MathUtils.cosDeg(angle) * speed);

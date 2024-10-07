@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
 import lando.systems.ld56.Main;
@@ -126,6 +127,9 @@ public class Player extends Entity {
     public void update(float dt, boolean gameEnding) {
         accum += dt;
         detachSoundCountdownTimer -= dt;
+        if (hitInvincibility > 0) {
+            hitInvincibility -= dt;
+        }
 //        Gdx.app.log("Detach timer", String.valueOf(detachSoundCountdownTimer));
         // collect input
         var inputMoveDirX = 0;
@@ -448,6 +452,54 @@ public class Player extends Entity {
             detachSoundCountdownTimer = 1f;
         }
 
+    }
+
+    private float hitInvincibility = 0;
+    public void hit(Vector2 speed, int power) {
+        if (!launchFollowers(power)) {
+            // knockout
+        } else {
+            mover.speed.set(200 * Calc.sign(speed.x), 200);
+        }
+        hitInvincibility = 5f;
+    }
+
+    public boolean isInvicible() {
+        return hitInvincibility > 0;
+    }
+
+    public boolean launchFollowers(int count) {
+        for (int i = followers.size - 1; i >= 0; i--) {
+            if (count-- == 0) { return true; }
+            var follower = followers.get(i);
+            detach(follower);
+            follower.launch();
+        }
+        return false;
+    }
+
+    private float hitInvincibility = 0;
+    public void hit(Vector2 speed, int power) {
+        if (!launchFollowers(power)) {
+            // knockout
+        } else {
+            mover.speed.set(200 * Calc.sign(speed.x), 200);
+        }
+        hitInvincibility = 5f;
+    }
+
+    public boolean isInvicible() {
+        return hitInvincibility > 0;
+    }
+
+    public boolean launchFollowers(int count) {
+        for (int i = followers.size - 1; i >= 0; i--) {
+            if (count-- == 0) { return true; }
+            var follower = followers.get(i);
+            detach(follower);
+            follower.launch();
+        }
+        return false;
     }
 
     public void explodeFollowers() {

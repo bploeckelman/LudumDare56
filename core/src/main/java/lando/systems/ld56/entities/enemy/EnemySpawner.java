@@ -49,8 +49,9 @@ public class EnemySpawner {
 
         switch (scene.type) {
             case MICROBIOME:
-                minSpawnTime = 0.4f;
-                maxSpawnTime = 3;
+                minSpawnTime = 5f;
+                maxSpawnTime = 10;
+                maxSpawn = 3;
                 break;
             case CITY:
                 minSpawnTime = 0.4f;
@@ -120,7 +121,7 @@ public class EnemySpawner {
         Utils.log("spawn", "tardigrade");
         var enemy = new SimpleWalker(scene, Anims.Type.TARDIGRADE);
         enemy.setPosition(64, 64);
-        enemy.moveX(MathUtils.random(100, 200) * MathUtils.randomSign());
+        enemy.moveX(MathUtils.random(100, 150) * MathUtils.randomSign());
         return enemy;
     }
 

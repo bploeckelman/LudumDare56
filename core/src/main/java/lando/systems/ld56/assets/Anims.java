@@ -92,7 +92,7 @@ public class Anims {
         , RAT_FALL       (0.1f, "creatures/rat/player-rat-idle", Animation.PlayMode.LOOP)
 
         // enemies
-        , TARDIGRADE     (0.1f, "pets/cat", Animation.PlayMode.LOOP)
+        , TARDIGRADE     (0.2f, "enemies/tard/tarde", Animation.PlayMode.LOOP)
         , BACTERIA       (0.1f, "pets/dog", Animation.PlayMode.LOOP)
         , BIRD           (0.1f, "pets/cat", Animation.PlayMode.LOOP)
         , ANIMAL         (0.1f, "pets/dog", Animation.PlayMode.LOOP)

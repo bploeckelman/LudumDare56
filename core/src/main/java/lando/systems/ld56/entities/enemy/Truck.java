@@ -41,15 +41,6 @@ public class Truck extends Enemy {
             }
         }
 
-        var followerCollider = collider.check(Collider.Type.follower);
-        if (followerCollider != null) {
-            if (followerCollider.entity instanceof Follower) {
-                var follower = (Follower) followerCollider.entity;
-                follower.detach();
-                follower.launch(false);
-            }
-        }
-
         if (mover.speed.x > 0) {
             if (position.x() > scene.backgroundRectangle.width + 100) {
                 remove = true;

@@ -42,17 +42,10 @@ public class SimpleWalker extends Enemy {
         var playerCollider = collider.check(Collider.Type.player);
         if (playerCollider != null) {
             if (playerCollider.entity instanceof Player) {
-                ((Player) playerCollider.entity).mover.speed.set(200, 200);
-                switchDirection();
-            }
-        }
-
-        var followerCollider = collider.check(Collider.Type.follower);
-        if (followerCollider != null) {
-            if (followerCollider.entity instanceof Follower) {
-                var follower = (Follower) followerCollider.entity;
-                follower.detach();
-                follower.launch(false);
+                if (!scene.player.isInvicible()) {
+                    scene.player.hit(mover.speed, 104);
+                    switchDirection();
+                }
             }
         }
 
@@ -66,6 +59,8 @@ public class SimpleWalker extends Enemy {
     }
 
     private boolean isMovingAwayFromPlayer() {
+        // don't track when invincible
+        if (scene.player.isInvicible()) { return false; }
         float xDif = position.x() - scene.player.position.x();
         return (mover.speed.x < 0) ? xDif < 0 : xDif > 0;
     }
