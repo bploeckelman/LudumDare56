@@ -199,7 +199,11 @@ public class Anims {
     public static Animation<TextureRegion> get(Anims.Type type) {
         var animation = animations.get(type);
         if (animation == null) {
-            Utils.log("Animations", Stringf.format("Animation type '%s', regions '%s' not found", type.name(), type.regionsName));
+            if (type == null) {
+                Utils.log("Animations", "null animation");
+            } else {
+                Utils.log("Animations", Stringf.format("Animation type '%s', regions '%s' not found", type.name(), type.regionsName));
+            }
         }
         return animation;
     }
@@ -207,7 +211,11 @@ public class Anims {
     public static Animation<TextureRegion> get(Anims.Handcrafted type) {
         var animation = handcraftedAnimations.get(type);
         if (animation == null) {
-            Utils.log("Animations", Stringf.format("Animation type '%s', animation not found", type.name()));
+            if (type == null) {
+                Utils.log("Animations", "null animation");
+            } else {
+                Utils.log("Animations", Stringf.format("Animation type '%s', animation not found", type.name()));
+            }
         }
         return animation;
     }

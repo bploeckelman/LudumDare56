@@ -538,12 +538,12 @@ public class Player extends Entity {
                 particleManager.effects.get(ParticleEffectType.DIRT).spawn(new DirtEffect.Params(targetX, targetY));
                 break;
             case RAT:
-               // particleManager.effects.get(ParticleEffectType.SCRATCH).spawn(new ScratchEffect.Params(targetX, targetY));
-               // particleManager.effects.get(ParticleEffectType.FLAME).spawn(new DirtEffect.Params(targetX, targetY));
+               particleManager.effects.get(ParticleEffectType.SCRATCH).spawn(new ScratchEffect.Params(targetX, targetY));
+                particleManager.effects.get(ParticleEffectType.DIRT).spawn(new DirtEffect.Params(targetX, targetY));
                 break;
             case SNAKE:
                 particleManager.effects.get(ParticleEffectType.BITE).spawn(new BiteEffect.Params(targetX, targetY));
-                particleManager.effects.get(ParticleEffectType.FLAME).spawn(new DirtEffect.Params(targetX, targetY));
+                particleManager.effects.get(ParticleEffectType.DIRT).spawn(new DirtEffect.Params(targetX, targetY));
                 break;
             case MARIO:
                 particleManager.effects.get(ParticleEffectType.ASUKA).spawn(new AsukaEffect.Params(targetX, targetY));
