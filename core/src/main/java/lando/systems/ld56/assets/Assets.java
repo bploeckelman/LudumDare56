@@ -190,6 +190,7 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.Phage1, Sound.class);
             mgr.load(SoundRes.Snake1, Sound.class);
             mgr.load(SoundRes.Earthworm1, Sound.class);
+            mgr.load(SoundRes.Thud1, Sound.class);
 
             for (Structures.Type type : Structures.Type.values()){
                 mgr.load(type.externalTextureName, Texture.class);
