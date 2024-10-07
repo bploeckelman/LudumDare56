@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld56.Main;
+import lando.systems.ld56.assets.StructureDef;
 import lando.systems.ld56.assets.Structures;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.components.StructureDamage;
@@ -33,6 +34,7 @@ public class Structure extends Entity implements XRayable {
     public StructureDamage structureDamage;
     public Rectangle bounds;
     public XRayRender xRayRender;
+    public Structures.Type structureType;
 
     private AudioManager.Sounds damageSound = AudioManager.Sounds.structureDamage;
 
@@ -42,46 +44,19 @@ public class Structure extends Entity implements XRayable {
     private float collapseTimer = 0;
     Color tintColor = new Color(Color.WHITE);
 
-    public Structure(Scene scene, RectangleI gridRect) {
-        this(scene, gridRect, 0.5f, 8, 3);
-    }
-
-    public Structure(Scene scene, RectangleI gridRect, int destructionRows, int destructionCols) {
-        this(scene, gridRect, 0.5f, destructionRows, destructionCols);
-    }
-
-    public Structure(Scene scene, RectangleI gridRect, float collapsePercent) {
-        this(scene, gridRect, collapsePercent, 8, 5);
-    }
-
-    public Structure(Scene scene, RectangleI gridRect, float collapsePercent, int destructionRows, int destructionCols) {
+    public Structure(Scene scene, RectangleI gridRect, Structures.Type type) {
+        this.structureType = type;
+        StructureDef def = Structures.get(type);
         this.scene = scene;
         this.particleManager = scene.particleManager;
-        switch (scene.type) {
-            case MICROBIOME: {
-                internals = Structures.get(Structures.Type.BACTERIA_BACK);
-                externals = Structures.get(Structures.Type.BACTERIA_FRONT);
-            } break;
-            case NEIGHBORHOOD: {
-                // TODO: create 'stick frame' house assets for this level
-                internals = Structures.get(Structures.Type.BRICK_BACK);
-                externals = Structures.get(Structures.Type.BRICK_FRONT);
-            } break;
-            case CITY: {
-                internals = Structures.get(Structures.Type.BRICK_BACK);
-                externals = Structures.get(Structures.Type.BRICK_FRONT);
-            } break;
-            case MUSHROOM_KINGDOM: {
-                // TODO: create structure images for this level
-                internals = Structures.get(Structures.Type.BRICK_BACK);
-                externals = Structures.get(Structures.Type.BRICK_FRONT);
-            } break;
-        }
+        this.internals = def.internalTexture;
+        this.externals = def.externalTexture;
+
         this.internals.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         this.externals.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        this.collapsePercent = collapsePercent;
+        this.collapsePercent = def.collapsePercent;
         this.bounds = new Rectangle(gridRect.x, gridRect.y, gridRect.width, gridRect.height);
-        this.structureDamage = new StructureDamage(this, destructionRows, destructionCols);
+        this.structureDamage = new StructureDamage(this, def.rows, def.cols);
         this.xRayRender = new XRayRender(this, externals, internals, this.bounds, scene.camera);
     }
 

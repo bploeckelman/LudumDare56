@@ -10,31 +10,49 @@ import java.util.Map;
 public class Structures {
 
     public enum Type {
-          BACTERIA_BACK  ("images/structures/building-bacteria-back_00.png")
-        , BACTERIA_FRONT ("images/structures/building-bacteria-front_00.png")
-        , BRICK_BACK     ("images/structures/building-brick-back_upscale_00.png")
-        , BRICK_FRONT    ("images/structures/building-brick-front_upscale_00.png")
+          BACTERIA  ("images/structures/building-bacteria-back_00.png",
+              "images/structures/building-bacteria-front_00.png",
+              6, 3, .5f)
+        , HOUSE_A  ("images/structures/building-bacteria-back_00.png",
+            "images/structures/building-bacteria-front_00.png",
+            8, 3, .5f)
         ;
-        public final String textureName;
-        Type(String textureName) {
-            this.textureName = textureName;
+        public final String internalTextureName;
+        public final String externalTextureName;
+        public final int rows;
+        public final int cols;
+        public final float destructionPercent;
+
+        Type(String internalTextureName,
+             String externalTextureName,
+             int rows,
+             int cols,
+             float destructionPercent) {
+            this.internalTextureName = internalTextureName;
+            this.externalTextureName = externalTextureName;
+            this.rows = rows;
+            this.cols = cols;
+            this.destructionPercent = destructionPercent;
         }
     }
 
-    private static final Map<Type, Texture> structures = new HashMap<>();
+    private static final Map<Type, StructureDef> structures = new HashMap<>();
 
     public static void init(Assets assets) {
         var mgr = assets.mgr;
         for (var type : Type.values()) {
-            structures.put(type, mgr.get(type.textureName, Texture.class));
+            StructureDef def = new StructureDef();
+            def.externalTexture = mgr.get(type.externalTextureName, Texture.class);
+            def.internalTexture = mgr.get(type.internalTextureName, Texture.class);
+            def.cols = type.cols;
+            def.rows = type.rows;
+            def.collapsePercent = type.destructionPercent;
+            structures.put(type, def);
         }
     }
 
-    public static Texture get(Type type) {
+    public static StructureDef get(Type type) {
         var structure = structures.get(type);
-        if (structure == null) {
-            Utils.log("Structures", Stringf.format("Structure texture '%s' not found for scene type '%s'", type.textureName, type));
-        }
         return structure;
     }
 }

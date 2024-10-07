@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Assets;
+import lando.systems.ld56.assets.Structures;
 import lando.systems.ld56.entities.*;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.particles.ParticleManager;
@@ -129,9 +130,9 @@ public class Scene {
         var gridRect2 = new RectangleI(middle, basePixelsY, widthNarrow, heightTall);
         var gridRect3 = new RectangleI(right, basePixelsY, widthNormal, heightNormal);
 
-        structures.add(new Structure(this, gridRect1));
-        structures.add(new Structure(this, gridRect2));
-        structures.add(new Structure(this, gridRect3));
+        structures.add(new Structure(this, gridRect1, Structures.Type.BACTERIA));
+        structures.add(new Structure(this, gridRect2, Structures.Type.BACTERIA));
+        structures.add(new Structure(this, gridRect3, Structures.Type.HOUSE_A));
 
 
 
