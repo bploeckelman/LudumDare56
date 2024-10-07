@@ -173,19 +173,20 @@ public class GameScreen extends BaseScreen {
 
             if (scene.gameOver()) {
                 if(!levelEndSoundHasPlayed) {
-                    audioManager.playSound(AudioManager.Sounds.levelComplete);
+                    audioManager.playSound(AudioManager.Sounds.levelComplete, .24f);
+                    audioManager.playSound(AudioManager.Sounds.levelCompleteNarration);
                     levelEndSoundHasPlayed = true;
                 }
-                String endText = "Level: Complete\n\nOnwards and Upwards!\n" +
+                String endText = "Level: Complete!\n\n" +
                     "(Click to continue)";
 
                 // Draw text twice for faux-shadow, to show up against different background
                 // colors
-                assets.layout.setText(assets.font, endText, Color.BLACK, windowCamera.viewportWidth/2f
+                assets.layout.setText(assets.font, endText, Color.FIREBRICK, windowCamera.viewportWidth/2f
                     , Align.center, true);
                 assets.font.draw(batch, assets.layout, windowCamera.viewportWidth/4f,
                     windowCamera.viewportHeight/1.5f);
-                assets.layout.setText(assets.font, endText, Color.WHITE, windowCamera.viewportWidth/2f
+                assets.layout.setText(assets.font, endText, Color.YELLOW, windowCamera.viewportWidth/2f
                     , Align.center, true);
                 assets.font.draw(batch, assets.layout, windowCamera.viewportWidth/4f - 4f,
                     windowCamera.viewportHeight/1.5f + 4f);

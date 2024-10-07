@@ -140,6 +140,7 @@ public class IntroScreen extends BaseScreen {
         if (!exitingScreen){
             exitingScreen = true;
             game.setScreen(new CharacterSelectScreen(Scene.Type.MICROBIOME), Transition.Type.DOOMDRIP, 2f);
+//            game.setScreen(new EndingScreen(), Transition.Type.DOOMDRIP, 2f);
         }
     }
 }

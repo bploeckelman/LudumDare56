@@ -68,7 +68,9 @@ public class Assets implements Disposable {
         public static final String Impact2 = "audio/sounds/impact2.ogg";
         public static final String Impact3 = "audio/sounds/impact3.ogg";
         public static final String Impact4 = "audio/sounds/impact4.ogg";
-        public static final String LevelComplete = "audio/sounds/levelcomplete.ogg";
+        public static final String LevelComplete1 = "audio/sounds/levelcomplete.ogg";
+        public static final String LevelCompleteNarration = "audio/sounds/levelcompletenarration" +
+            ".ogg";
         public static final String Swipe1 = "audio/sounds/swipe1.ogg";
         public static final String Squelch1 = "audio/sounds/squelch1.ogg";
         public static final String Squelch2 = "audio/sounds/squelch2.ogg";
@@ -87,6 +89,8 @@ public class Assets implements Disposable {
         public static final String Nematode1 = "audio/sounds/nematode1.ogg";
         public static final String Earthworm1 = "audio/sounds/earthworm1.ogg";
         public static final String Parasite1 = "audio/sounds/parasite1.ogg";
+        public static final String Mario1 = "audio/sounds/mario1.ogg";
+        public static final String Luigi1 = "audio/sounds/luigi1.ogg";
     }
 
     public Sound coin;
@@ -97,7 +101,8 @@ public class Assets implements Disposable {
     public Sound impact2;
     public Sound impact3;
     public Sound impact4;
-    public Sound levelComplete;
+    public Sound levelComplete1;
+    public Sound levelCompleteNarration;
     public Sound swipe1;
     public Sound squelch1;
     public Sound squelch2;
@@ -116,6 +121,8 @@ public class Assets implements Disposable {
     public Sound snake1;
     public Sound earthworm1;
     public Sound parasite1;
+    public Sound mario1;
+    public Sound luigi1;
 
     public Music mainMusic;
     public Music introMusic;
@@ -175,7 +182,8 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.Impact2, Sound.class);
             mgr.load(SoundRes.Impact3, Sound.class);
             mgr.load(SoundRes.Impact4, Sound.class);
-            mgr.load(SoundRes.LevelComplete, Sound.class);
+            mgr.load(SoundRes.LevelComplete1, Sound.class);
+            mgr.load(SoundRes.LevelCompleteNarration, Sound.class);
             mgr.load(SoundRes.Swipe1, Sound.class);
             mgr.load(SoundRes.Squelch1, Sound.class);
             mgr.load(SoundRes.Squelch2, Sound.class);
@@ -195,6 +203,8 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.Earthworm1, Sound.class);
             mgr.load(SoundRes.Thud1, Sound.class);
             mgr.load(SoundRes.Parasite1, Sound.class);
+            mgr.load(SoundRes.Mario1, Sound.class);
+            mgr.load(SoundRes.Luigi1, Sound.class);
 
             for (Structures.Type type : Structures.Type.values()){
                 mgr.load(type.externalTextureName, Texture.class);
@@ -259,7 +269,8 @@ public class Assets implements Disposable {
         impact2 = mgr.get(SoundRes.Impact2, Sound.class);
         impact3 = mgr.get(SoundRes.Impact3, Sound.class);
         impact4 = mgr.get(SoundRes.Impact4, Sound.class);
-        levelComplete = mgr.get(SoundRes.LevelComplete, Sound.class);
+        levelComplete1 = mgr.get(SoundRes.LevelComplete1, Sound.class);
+        levelCompleteNarration = mgr.get(SoundRes.LevelCompleteNarration, Sound.class);
         swipe1 = mgr.get(SoundRes.Swipe1, Sound.class);
         squelch1 = mgr.get(SoundRes.Squelch1, Sound.class);
         squelch2 = mgr.get(SoundRes.Squelch2, Sound.class);
@@ -278,6 +289,8 @@ public class Assets implements Disposable {
         snake1 = mgr.get(SoundRes.Snake1, Sound.class);
         earthworm1 = mgr.get(SoundRes.Earthworm1, Sound.class);
         parasite1 = mgr.get(SoundRes.Parasite1, Sound.class);
+        mario1 = mgr.get(SoundRes.Mario1, Sound.class);
+        luigi1 = mgr.get(SoundRes.Luigi1, Sound.class);
 
 
         // initialize static asset classes

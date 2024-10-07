@@ -28,6 +28,7 @@ public class AudioManager implements Disposable {
         , collapse
         , impact
         , levelComplete
+        , levelCompleteNarration
         , swipe
         , squelch
         , collectFollower
@@ -44,6 +45,8 @@ public class AudioManager implements Disposable {
         , tardigradeNarration
         , earthwormNarration
         , parasiteNarration
+        , marioNarration
+        , luigiNarration
     }
 
     public enum Musics {
@@ -77,7 +80,8 @@ public class AudioManager implements Disposable {
         putSound(Sounds.impact, assets.impact2);
         putSound(Sounds.impact, assets.impact3);
         putSound(Sounds.impact, assets.impact4);
-        putSound(Sounds.levelComplete, assets.levelComplete);
+        putSound(Sounds.levelComplete, assets.levelComplete1);
+        putSound(Sounds.levelCompleteNarration, assets.levelCompleteNarration);
         putSound(Sounds.swipe, assets.swipe1);
         putSound(Sounds.squelch, assets.squelch1);
         putSound(Sounds.squelch, assets.squelch2);
@@ -95,6 +99,8 @@ public class AudioManager implements Disposable {
         putSound(Sounds.antNarration, assets.ant1);
         putSound(Sounds.earthwormNarration, assets.earthworm1);
         putSound(Sounds.parasiteNarration, assets.parasite1);
+        putSound(Sounds.marioNarration, assets.mario1);
+        putSound(Sounds.luigiNarration, assets.luigi1);
 
         musicVolume = new MutableFloat(0.5f);
         soundVolume = new MutableFloat(0.7f);
