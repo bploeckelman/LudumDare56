@@ -59,7 +59,7 @@ public class Anims {
         , WORM_JUMP      (0.05f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.NORMAL)
         , WORM_FALL      (0.05f, "creatures/worm/worm-move/worm-move", Animation.PlayMode.REVERSED) // TODO: setup a custom anim with frames from jump/idle
         , WORM_STICK     (0.1f, "creatures/worm/worm-attack/worm-attack", Animation.PlayMode.NORMAL)
-        , WORM_HURT      (0.1f, "creatures/worm/worm-attack/worm-attack", Animation.PlayMode.NORMAL)
+        , WORM_HURT      (0.1f, "creatures/worm/worm-hurt/worm-hurt", Animation.PlayMode.NORMAL)
         , WORM_ATTACK    (0.25f, "creatures/worm/worm-attack/worm-attack", Animation.PlayMode.NORMAL)
         // snake character ----------------------------------------------------------------------------------------------
         // TODO: placeholder anims
