@@ -70,6 +70,9 @@ public class Assets implements Disposable {
         public static final String Impact4 = "audio/sounds/impact4.ogg";
         public static final String LevelComplete = "audio/sounds/levelcomplete.ogg";
         public static final String Swipe1 = "audio/sounds/swipe1.ogg";
+        public static final String Squelch1 = "audio/sounds/squelch1.ogg";
+        public static final String Squelch2 = "audio/sounds/squelch2.ogg";
+        public static final String Squelch3 = "audio/sounds/squelch3.ogg";
     }
 
     public Sound coin;
@@ -82,6 +85,9 @@ public class Assets implements Disposable {
     public Sound impact4;
     public Sound levelComplete;
     public Sound swipe1;
+    public Sound squelch1;
+    public Sound squelch2;
+    public Sound squelch3;
 
     public Music mainMusic;
     public Music introMusic;
@@ -143,6 +149,9 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.Impact4, Sound.class);
             mgr.load(SoundRes.LevelComplete, Sound.class);
             mgr.load(SoundRes.Swipe1, Sound.class);
+            mgr.load(SoundRes.Squelch1, Sound.class);
+            mgr.load(SoundRes.Squelch2, Sound.class);
+            mgr.load(SoundRes.Squelch3, Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -204,6 +213,9 @@ public class Assets implements Disposable {
         impact4 = mgr.get(SoundRes.Impact4, Sound.class);
         levelComplete = mgr.get(SoundRes.LevelComplete, Sound.class);
         swipe1 = mgr.get(SoundRes.Swipe1, Sound.class);
+        squelch1 = mgr.get(SoundRes.Squelch1, Sound.class);
+        squelch2 = mgr.get(SoundRes.Squelch2, Sound.class);
+        squelch3 = mgr.get(SoundRes.Squelch3, Sound.class);
 
         // initialize static asset classes
         Icons.init(this);

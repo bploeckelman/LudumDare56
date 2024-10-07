@@ -87,7 +87,24 @@ public class Structure extends Entity implements XRayable {
 
     public void damage(Player player, int x, int y) {
         if (!isCollapsing && structureDamage.applyDamage(player, x, y)) {
-            Main.game.audioManager.playSound(AudioManager.Sounds.impact);
+            switch (scene.type) { // TODO fix this when the structure type is in place
+                case MICROBIOME:
+                    Main.game.audioManager.playSound(AudioManager.Sounds.squelch);
+                    break;
+                case CITY:
+                    Main.game.audioManager.playSound(AudioManager.Sounds.impact);
+                    break;
+                case NEIGHBORHOOD:
+                    Main.game.audioManager.playSound(AudioManager.Sounds.impact);
+                    break;
+                case MUSHROOM_KINGDOM:
+                    Main.game.audioManager.playSound(AudioManager.Sounds.impact);
+                    break;
+                default:
+                    Main.game.audioManager.playSound(AudioManager.Sounds.squelch);
+                    break;
+                }
+
         }
     }
 

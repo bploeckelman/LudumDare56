@@ -71,6 +71,9 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
             scene.emitPlayerSegment_TEST();
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+            game.setScreen(new IntroScreen());
+        }
 
         // early out if we're in 'frame by frame' mode, so we can step a frame at a time via keypress
         // NOTE: the position of this block in this method is important!!!
