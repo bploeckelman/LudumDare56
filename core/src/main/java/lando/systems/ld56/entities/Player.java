@@ -2,9 +2,9 @@ package lando.systems.ld56.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.audio.AudioManager;
@@ -12,7 +12,6 @@ import lando.systems.ld56.entities.components.*;
 import lando.systems.ld56.particles.ParticleManager;
 import lando.systems.ld56.particles.effects.DirtEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
-import lando.systems.ld56.screens.GameScreen;
 import lando.systems.ld56.utils.Calc;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import text.formic.Stringf;
@@ -56,20 +55,18 @@ public class Player extends Entity {
     private boolean climbing = false;
     private float jumpHoldTimer = 0;
     private float attackTimer = 0;
+    private float attackStrength = 0.4f;
     private boolean attackSuccess = false;
     private Collider attackCollider;
 
     private final float jumpHoldDuration = 0.15f;
     private final GridPoint2 offset = new GridPoint2(0, 0);
-
-
-    // the amount of damage this player does
-    public float damage = 0.4f;
+    private final Array<PlayerSegment> segments = new Array<>();
 
     public Player(CreatureType creatureType, float x, float y, ParticleManager particleManager) {
         this.creatureType = creatureType;
         this.position = new Position(this, x, y);
-        this.animator = new Animator(this, position, Anims.get(Anims.Type.RAT_IDLE));
+        this.animator = new Animator(this, position, Anims.get(creatureType, Anims.State.IDLE));
         this.animator.defaultScale.scl(2);
         this.collider = Collider.makeRect(this, Collider.Type.player, -10, 0, 24, 20);
         this.mover = new Mover(this, position, collider);
@@ -83,13 +80,12 @@ public class Player extends Entity {
         if      (Gdx.input.isKeyPressed(Input.Keys.A)) inputMoveDirX = -1;
         else if (Gdx.input.isKeyPressed(Input.Keys.D)) inputMoveDirX =  1;
 
+        var attackJustPressed = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
         var jumpJustPressed = Gdx.input.isKeyJustPressed(Input.Keys.SPACE);
         var jumpHeld = Gdx.input.isKeyPressed(Input.Keys.SPACE);
         var climbHeld = Gdx.input.isKeyPressed(Input.Keys.W)
                      || Gdx.input.isKeyPressed(Input.Keys.UP)
                      || Gdx.input.isKeyPressed(Input.Keys.DPAD_UP);
-
-        var attackJustPressed = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
 
         if (gameEnding) {
             inputMoveDirX = 0;
@@ -205,9 +201,7 @@ public class Player extends Entity {
                         }
                      }
                 }
-
-                break;
-            }
+            } break;
         }
 
         // variable jump timing, based on how long the button is held
@@ -249,7 +243,7 @@ public class Player extends Entity {
 
     private void setState(State newState) {
         switch (newState) {
-            case ATTACK:
+            case ATTACK: {
                 if (this.state == State.NORMAL) {
                     this.state = newState;
                     attackTimer = animator.play(creatureType, Anims.State.ATTACK);
@@ -259,15 +253,15 @@ public class Player extends Entity {
                     attackCollider = Collider.makeRect(this, Collider.Type.player, attackX, 25, 20, 20);
                     attackSuccess = false;
                 }
-                break;
-            case NORMAL:
+            } break;
+            case NORMAL: {
                 this.state = newState;
                 animator.play(creatureType, Anims.State.IDLE);
                 if (attackCollider != null) {
                     Main.game.entityData.remove(attackCollider, Collider.class);
                     attackCollider = null;
                 }
-                break;
+            } break;
         }
     }
 
