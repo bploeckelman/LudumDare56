@@ -322,6 +322,7 @@ public class Player extends Entity {
     }
 
     public void successfulDestroyEffect(float targetX, float targetY) {
+        // TODO: differentiate effect per character (scene)
         particleManager.effects.get(ParticleEffectType.BLOOD_FOUNTAIN).spawn(new BloodFountainEffect.Params(targetX, targetY));
     }
     public String debugString() {
