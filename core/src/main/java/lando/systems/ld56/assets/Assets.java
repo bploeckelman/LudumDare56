@@ -61,15 +61,15 @@ public class Assets implements Disposable {
 
     public static class SoundRes {
         public static final String Coin = "audio/sounds/coin.ogg";
-        // todo pete sound when building takes damage
         public static final String StructureDamage = "audio/sounds/structureDamage.ogg";
-        // todo pete rat attack sound
         public static final String RatAttack = "audio/sounds/structureDamage.ogg";
         public static final String Collapse1 = "audio/sounds/collapse1.ogg";
         public static final String Impact1 = "audio/sounds/impact1.ogg";
         public static final String Impact2 = "audio/sounds/impact2.ogg";
         public static final String Impact3 = "audio/sounds/impact3.ogg";
         public static final String Impact4 = "audio/sounds/impact4.ogg";
+        public static final String LevelComplete = "audio/sounds/levelcomplete.ogg";
+        public static final String Swipe1 = "audio/sounds/swipe1.ogg";
     }
 
     public Sound coin;
@@ -80,6 +80,8 @@ public class Assets implements Disposable {
     public Sound impact2;
     public Sound impact3;
     public Sound impact4;
+    public Sound levelComplete;
+    public Sound swipe1;
 
     public Music mainMusic;
     public Music introMusic;
@@ -139,6 +141,8 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.Impact2, Sound.class);
             mgr.load(SoundRes.Impact3, Sound.class);
             mgr.load(SoundRes.Impact4, Sound.class);
+            mgr.load(SoundRes.LevelComplete, Sound.class);
+            mgr.load(SoundRes.Swipe1, Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -164,7 +168,8 @@ public class Assets implements Disposable {
         var ttfLg = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 80; }};
         var ttfMd = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 40; }};
         var ttfSm = new FreeTypeFontGenerator.FreeTypeFontParameter() {{ size = 20; }};
-        var ttf = new FreeTypeFontGenerator(Gdx.files.internal("fonts/airstrip.ttf"));
+//        var ttf = new FreeTypeFontGenerator(Gdx.files.internal("fonts/airstrip.ttf"));
+        var ttf = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Silvertones.ttf"));
         fontChrustyLg = ttf.generateFont(ttfLg);
         fontChrustyMd = ttf.generateFont(ttfMd);
         fontChrustySm = ttf.generateFont(ttfSm);
@@ -197,6 +202,8 @@ public class Assets implements Disposable {
         impact2 = mgr.get(SoundRes.Impact2, Sound.class);
         impact3 = mgr.get(SoundRes.Impact3, Sound.class);
         impact4 = mgr.get(SoundRes.Impact4, Sound.class);
+        levelComplete = mgr.get(SoundRes.LevelComplete, Sound.class);
+        swipe1 = mgr.get(SoundRes.Swipe1, Sound.class);
 
         // initialize static asset classes
         Icons.init(this);

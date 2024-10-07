@@ -23,6 +23,9 @@ public class IntroScreen extends BaseScreen {
     ParticleManager particles;
     String page1 =
         "{COLOR=white}" +
+            "Life comes in all shapes and sizes.\n\n" +
+            "From the smallest of creatures, to slightly larger ones that are still quite small by " +
+            "any objective measure,\n\n" +
             "Food additives, micro plastics, and pesticides have mutated the once innocuous creatures of the land\n\n"+
             "They now seek vengeance against their polluting oppressors \n\n";
 
