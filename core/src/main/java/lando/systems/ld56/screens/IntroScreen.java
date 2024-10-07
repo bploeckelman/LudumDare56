@@ -24,19 +24,29 @@ public class IntroScreen extends BaseScreen {
     String page1 =
         "{COLOR=white}" +
 //            "Life comes in all shapes and sizes.\n\n" +
-            "From the smallest of creatures, to those that are slightly larger (though " +
+            "From the smallest of creatures, to those slightly larger (though " +
             "still quite small by any reasonable measure), " +
-            "life is a constant struggle to survive.\n\n";
+            "life is a constant struggle to survive.\n\n" +
+            "For many of these diminutive animals, the best defense is a good offense. "+
+            "And the destruction is the main tool in their toolbox. \n\n" +
+            "Let us see what kind of tricks these {GRADIENT=black;gray}tiny " +
+            "creatures{ENDGRADIENT} have " +
+            "up" +
+            " their sleeves as they set out on their {GRADIENT=red;yellow}tiny " +
+            "rampage{ENDGRADIENT}.";
 
-    String page2 =
-        "{COLOR=white}" +
-            "For many of these tiny creatures, the best defense "+
-            "is a good offense." +
-            "And the destruction is the main tool in their toolbox. \n\n";
 
-    String page3 =
-        "{COLOR=white}" +
-            "Exact revenge! Raze their buildings, exter{GRADIENT=black;gray}mini{ENDGRADIENT}ate them!";
+//    String page2 =
+//        "{COLOR=white}" +
+//            "For many of these diminutive animals, the best defense "+
+//            "is a good offense." +
+//            "And the destruction is the main tool in their toolbox. \n\n" +
+//            "Let us see what kind of tricks these GRADIENT=black;gray}tiny creatures{ENDGRADIENT}" +
+//            " have up their sleeves as they set out on their tiny rampage!";
+//
+//    String page3 =
+//        "{COLOR=white}" +
+//            "Exact revenge! Raze their buildings, exter{GRADIENT=black;gray}mini{ENDGRADIENT}ate them!";
 
     int currentPage = 0;
     float elapsedTime = 0f;
@@ -56,6 +66,7 @@ public class IntroScreen extends BaseScreen {
             worldCamera.viewportHeight * .8f);
         typingLabel.setWidth(Config.Screen.window_width * .8f);
         typingLabel.setFontScale(.9f);
+        audioManager.playSound(AudioManager.Sounds.introNarration);
     }
 
     @Override
@@ -77,19 +88,21 @@ public class IntroScreen extends BaseScreen {
             } else if (!typingLabel.hasEnded()) {
                 typingLabel.skipToTheEnd();
             } else {
-                currentPage++;
-                if (currentPage == 1) {
-                    typingLabel.restart(page2);
-                } else if (currentPage == 2) {
-                    typingLabel.restart(page3);
+                audioManager.stopSound(AudioManager.Sounds.introNarration);
+                launchGame();
+//                currentPage++;
+//                if (currentPage == 1) {
+//                    typingLabel.restart(page2);
+//                } else if (currentPage == 2) {
+//                    typingLabel.restart(page3);
                 }
 //                else if (currentPage == 3) {
 //                    typingLabel.restart(page4);
 //                }
-                else {
-                    launchGame();
-                }
-            }
+//                else {
+//                    launchGame();
+//                }
+//            }
         }
         particles.update(dt);
         if (transitionAlpha < 1f) {

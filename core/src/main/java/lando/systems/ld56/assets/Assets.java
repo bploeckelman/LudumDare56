@@ -181,6 +181,7 @@ public class Assets implements Disposable {
             mgr.load(SoundRes.CollectFollower1, Sound.class);
             mgr.load(SoundRes.Boing1, Sound.class);
             mgr.load(SoundRes.Jump1, Sound.class);
+            mgr.load(SoundRes.Thud1, Sound.class);
             mgr.load(SoundRes.Intro1, Sound.class);
             mgr.load(SoundRes.Outro1, Sound.class);
             mgr.load(SoundRes.Tardigrade1, Sound.class);

@@ -68,6 +68,7 @@ public class Player extends Entity {
     private boolean attackSuccess = false;
     private Collider attackCollider;
     private float accum = 0f;
+    public float detachSoundCountdownTimer = 0f;
 
     private final float jumpHoldDuration = 0.1f;
     private final GridPoint2 offset = new GridPoint2(0, 0);
@@ -124,6 +125,8 @@ public class Player extends Entity {
 
     public void update(float dt, boolean gameEnding) {
         accum += dt;
+        detachSoundCountdownTimer -= dt;
+        Gdx.app.log("Detach timer", String.valueOf(detachSoundCountdownTimer));
         // collect input
         var inputMoveDirX = 0;
         if      (Gdx.input.isKeyPressed(Input.Keys.A)) inputMoveDirX = -1;
@@ -429,7 +432,7 @@ public class Player extends Entity {
 
         var effect = particleManager.effects.get(ParticleEffectType.HEART);
         effect.spawn(new HeartEffect.Params(false, position.x(), position.y()));
-        Main.game.audioManager.playSound(AudioManager.Sounds.collectFollower);
+        Main.game.audioManager.playSound(AudioManager.Sounds.collectFollower, .3f);
     }
 
     public void detach(Follower follower) {
@@ -440,7 +443,11 @@ public class Player extends Entity {
 
         var effect = particleManager.effects.get(ParticleEffectType.HEART);
         effect.spawn(new HeartEffect.Params(true, position.x(), position.y()));
-        Main.game.audioManager.playSound(AudioManager.Sounds.boing);
+        if(detachSoundCountdownTimer < 0) {
+            Main.game.audioManager.playSound(AudioManager.Sounds.boing);
+            detachSoundCountdownTimer = .5f;
+        }
+
     }
 
     public void explodeFollowers() {

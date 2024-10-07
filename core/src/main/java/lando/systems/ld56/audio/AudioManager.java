@@ -95,7 +95,7 @@ public class AudioManager implements Disposable {
         putSound(Sounds.earthwormNarration, assets.earthworm1);
 
         musicVolume = new MutableFloat(0.5f);
-        soundVolume = new MutableFloat(0.5f);
+        soundVolume = new MutableFloat(0.7f);
 
         isMusicMuted = false;
         isSoundMuted = false;

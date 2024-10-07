@@ -44,6 +44,25 @@ public class GameScreen extends BaseScreen {
         Gdx.input.setInputProcessor(inputMux);
 
         audioManager.playMusic(AudioManager.Musics.mainMusic);
+        switch(creatureType) {
+            case ANT:
+                audioManager.playSound(AudioManager.Sounds.antNarration);
+                break;
+            case PHAGE:
+                audioManager.playSound(AudioManager.Sounds.phageNarration);
+                break;
+            case RAT:
+                audioManager.playSound(AudioManager.Sounds.ratNarration);
+                break;
+            case SNAKE:
+                audioManager.playSound(AudioManager.Sounds.snakeNarration);
+                break;
+            case WORM:
+                audioManager.playSound(AudioManager.Sounds.earthwormNarration);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
