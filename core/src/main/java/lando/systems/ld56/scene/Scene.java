@@ -160,9 +160,9 @@ public class Scene {
     }
 
     private void initMicroBiomeStructures(int basePixelsY) {
-        structures.add(new Structure(this, new RectangleI(224, basePixelsY, 192, 256), Structures.Type.BACTERIA));
-        structures.add(new Structure(this, new RectangleI(592, basePixelsY, 96, 320), Structures.Type.BACTERIA));
-        structures.add(new Structure(this, new RectangleI(864, basePixelsY, 192, 256), Structures.Type.BACTERIA));
+        structures.add(new Structure(this, new RectangleI(224, basePixelsY, 192, 256), Structures.Type.BACTERIA_A));
+        structures.add(new Structure(this, new RectangleI(592, basePixelsY, 192, 320), Structures.Type.BACTERIA_B));
+        structures.add(new Structure(this, new RectangleI(864, basePixelsY, 192, 256), Structures.Type.BACTERIA_C));
 
 
     }

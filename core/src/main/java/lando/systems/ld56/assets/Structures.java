@@ -10,9 +10,15 @@ import java.util.Map;
 public class Structures {
 
     public enum Type {
-          BACTERIA  ("images/structures/building-bacteria-back_00.png",
-              "images/structures/building-bacteria-front_00.png",
+          BACTERIA_A  ("images/structures/building-bacteria-a-back_00.png",
+              "images/structures/building-bacteria-a-front_00.png",
               6, 3, .5f)
+        ,  BACTERIA_B ("images/structures/building-bacteria-b-back_00.png",
+            "images/structures/building-bacteria-b-front_00.png",
+            8, 4, .5f)
+        ,  BACTERIA_C  ("images/structures/building-bacteria-c-back_00.png",
+            "images/structures/building-bacteria-c-front_00.png",
+            6, 3, .5f)
         , HOUSE_A  ("images/structures/building-house-a-back_00.png",
             "images/structures/building-house-a-front_00.png",
             3, 3, .5f)

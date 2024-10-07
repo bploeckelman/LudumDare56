@@ -225,7 +225,7 @@ public class Player extends Entity {
                         if (collider.entity instanceof StructureDamage) {
                             ((StructureDamage)collider.entity).applyDamage(this, x, y);
                             switch (((StructureDamage)collider.entity).structure.structureType) {
-                                case BACTERIA:
+                                case BACTERIA_A:
                                     Main.game.audioManager.playSound(AudioManager.Sounds.squelch);
                                     break;
                                 case HOUSE_A:
