@@ -39,7 +39,7 @@ public class GameScreen extends BaseScreen {
         this.tardigradeHasSpawned = false;
         this.nematodeHasSpawned = false;
         this.tardigradeTimer = 30f;
-        this.nematodeTimer = 50f;
+        this.nematodeTimer = 60f;
         worldCamera.position.set(scene.getPlayerPosition(), 0);
         worldCamera.update();
         this.mouseGridPos = new GridPoint2();
