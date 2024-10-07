@@ -288,22 +288,22 @@ public class Scene {
     }
 
     public void paintGridAt(int x, int y) {
-        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-            var solid = true;
-            levelMap.solidCollider.setGridTileSolid(x, y, solid);
-        }
-
-        // temp
-        for (Structure structure : structures) {
-            structure.damage(player, Gdx.input.getX(), (int) camera.viewportHeight - Gdx.input.getY());
-        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+//            var solid = true;
+//            levelMap.solidCollider.setGridTileSolid(x, y, solid);
+//        }
+//
+//        // temp
+//        for (Structure structure : structures) {
+//            structure.damage(player, Gdx.input.getX(), (int) camera.viewportHeight - Gdx.input.getY());
+//        }
     }
 
     public void eraseGridAt(int x, int y) {
-        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-            var solid = false;
-            levelMap.solidCollider.setGridTileSolid(x, y, solid);
-        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+//            var solid = false;
+//            levelMap.solidCollider.setGridTileSolid(x, y, solid);
+//        }
     }
 
     public boolean gameOver() {

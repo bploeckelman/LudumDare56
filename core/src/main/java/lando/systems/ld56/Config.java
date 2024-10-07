@@ -2,7 +2,7 @@ package lando.systems.ld56;
 
 public class Config {
 
-    public static final String window_title = "LudumDare56";
+    public static final String window_title = "Tiny Rampage";
 
     public static class Debug {
         public static boolean general = false;

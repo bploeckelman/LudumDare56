@@ -87,33 +87,33 @@ public class GameScreen extends BaseScreen {
         var worldGridY = (int) Calc.floor(vec3.y) / scene.levelMap.solidCollider.grid.tileSize;
         mouseGridPos.set(worldGridX, worldGridY);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
-        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+//            Gdx.app.exit();
+//        }
         // debug toggles
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) { Config.Debug.frame_by_frame = !Config.Debug.frame_by_frame; }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) { Config.Debug.general = !Config.Debug.general; }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) { Config.Debug.render = !Config.Debug.render; }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) { Config.Debug.ui = !Config.Debug.ui; }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) { Config.Debug.free_attack_mode = !Config.Debug.free_attack_mode; }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) { Config.Debug.frame_by_frame = !Config.Debug.frame_by_frame; }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) { Config.Debug.general = !Config.Debug.general; }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) { Config.Debug.render = !Config.Debug.render; }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) { Config.Debug.ui = !Config.Debug.ui; }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) { Config.Debug.free_attack_mode = !Config.Debug.free_attack_mode; }
 
         // collapse structure
-        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
-            for (Structure structure : scene.structures ) {
-                structure.collapse();
-            }
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-            game.setScreen(new IntroScreen());
-        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+//            for (Structure structure : scene.structures ) {
+//                structure.collapse();
+//            }
+//        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+//            game.setScreen(new IntroScreen());
+//        }
 
         // early out if we're in 'frame by frame' mode, so we can step a frame at a time via keypress
         // NOTE: the position of this block in this method is important!!!
         //  ***don't move this*** (and most update code should go below it)
-        var stepFrame = Gdx.input.isKeyJustPressed(Input.Keys.NUM_9);
-        if (Config.Debug.frame_by_frame && !stepFrame) {
-            return;
-        }
+//        var stepFrame = Gdx.input.isKeyJustPressed(Input.Keys.NUM_9);
+//        if (Config.Debug.frame_by_frame && !stepFrame) {
+//            return;
+//        }
 
 //        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
 //            var particleEffect = particles.effects.get(ParticleEffectType.SCRATCH);
