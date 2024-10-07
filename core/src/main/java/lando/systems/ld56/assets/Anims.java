@@ -2,6 +2,7 @@ package lando.systems.ld56.assets;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.utils.RectangleI;
 import lando.systems.ld56.utils.Utils;
@@ -13,6 +14,28 @@ import java.util.Map;
 public class Anims {
 
     public enum State { IDLE, WALK, JUMP, FALL, STICK, HURT, ATTACK, SPECIAL_ATTACK }
+
+    public enum Handcrafted {
+        // icons -------------------------------------------------------------------------------------------------------
+        TIMER_CW(0.2f, Animation.PlayMode.NORMAL,
+              "icons/timer-0"
+            , "icons/timer-25"
+            , "icons/timer-50"
+            , "icons/timer-75"
+            , "icons/timer-100"
+        )
+        ;
+        public final float frameDuration;
+        public final Animation.PlayMode playMode;
+        public final String[] frameRegionNames;
+        public Array<TextureRegion> frames; // -_-
+        Handcrafted(float frameDuration, Animation.PlayMode playMode, String... frameRegionNames) {
+            this.frameDuration = frameDuration;
+            this.playMode = playMode;
+            this.frameRegionNames = frameRegionNames;
+            this.frames = new Array<>();
+        }
+    }
 
     public enum Type {
         // pets --------------------------------------------------------------------------------------------------------
@@ -122,6 +145,7 @@ public class Anims {
 
     public static final RectangleI defaultColliderRect = new RectangleI(-16, 0, 32, 32);
     private static final Map<Type, Animation<TextureRegion>> animations = new HashMap<>();
+    private static final Map<Handcrafted, Animation<TextureRegion>> handcraftedAnimations = new HashMap<>();
     private static final Map<Player.CreatureType, Map<State, Type>> creatureAnims = new HashMap<>();
 
     public static void init(Assets assets) {
@@ -135,6 +159,18 @@ public class Anims {
 
             var animation = new Animation<TextureRegion>(type.frameDuration, frames, type.playMode);
             animations.put(type, animation);
+        }
+
+        for (var type : Handcrafted.values()) {
+            for (var regionName : type.frameRegionNames) {
+                var frame = atlas.findRegion(regionName);
+                if (frame == null) {
+                    Utils.log("Anims", Stringf.format("No atlas region found for handcrafted type '%s' regionName '%s'", type, regionName));
+                }
+                type.frames.add(frame);
+            }
+            var animation = new Animation<>(type.frameDuration, type.frames, type.playMode);
+            handcraftedAnimations.put(type, animation);
         }
 
         for (var creatureType : Player.CreatureType.values()) {
@@ -157,6 +193,14 @@ public class Anims {
         var animation = animations.get(type);
         if (animation == null) {
             Utils.log("Animations", Stringf.format("Animation type '%s', regions '%s' not found", type.name(), type.regionsName));
+        }
+        return animation;
+    }
+
+    public static Animation<TextureRegion> get(Anims.Handcrafted type) {
+        var animation = handcraftedAnimations.get(type);
+        if (animation == null) {
+            Utils.log("Animations", Stringf.format("Animation type '%s', animation not found", type.name()));
         }
         return animation;
     }
