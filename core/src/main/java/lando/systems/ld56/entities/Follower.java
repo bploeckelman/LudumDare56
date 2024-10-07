@@ -47,7 +47,9 @@ public class Follower extends Entity {
                 if (creatureType == Player.CreatureType.SNAKE) {
                     animation = Anims.get(Anims.Type.BALL_IDLE);
                 } else if (creatureType == Player.CreatureType.ANT) {
-                    animation = Anims.get(Anims.Type.ANT_IDLE);
+                    animation = Anims.get(Anims.Type.ANT_IDLE); }
+                else if (creatureType == Player.CreatureType.PARASITE) {
+                    animation = Anims.get(Anims.Type.SEGMENT_IDLE);
                 } else {
                     animation = Anims.get(Anims.Type.KITTEN_IDLE);
                 }
