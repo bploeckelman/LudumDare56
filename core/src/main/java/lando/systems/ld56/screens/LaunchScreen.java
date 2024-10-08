@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import lando.systems.ld56.assets.Transition;
 
 public class LaunchScreen extends BaseScreen {
 
     @Override
     public void update(float dt) {
         if (!exitingScreen && Gdx.input.justTouched()){
-            exitingScreen = game.setScreen(new TitleScreen());
+            exitingScreen = game.setScreen(new TitleScreen(), Transition.Type.BLINDS, true);
         }
     }
 

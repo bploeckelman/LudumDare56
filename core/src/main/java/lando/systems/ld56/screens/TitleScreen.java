@@ -1,5 +1,7 @@
 package lando.systems.ld56.screens;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.equations.Bounce;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -7,12 +9,19 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.audio.AudioManager;
+import lando.systems.ld56.particles.ParticleManager;
+import lando.systems.ld56.particles.effects.ParticleEffectType;
+import lando.systems.ld56.particles.effects.SmokeEffect;
 import lando.systems.ld56.ui.TitleScreenUI;
 import lando.systems.ld56.utils.Calc;
+import lando.systems.ld56.utils.accessors.RectangleAccessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +33,7 @@ public class TitleScreen extends BaseScreen {
     private final TextureRegion backgroundDoorOpen;
     private final TextureRegion rampageText;
     private final TextureRegion tinySign;
+    private final ParticleManager particleMgr;
 
     // have to use 'String' vs 'Character' key because there are two A's, left and right
     enum Letter {
@@ -42,6 +52,7 @@ public class TitleScreen extends BaseScreen {
         }
     }
     static class LetterData {
+        public Vector2 pos;
         public float x;
         public float y;
         public float yStart;
@@ -50,6 +61,7 @@ public class TitleScreen extends BaseScreen {
         public boolean dropped;
         public boolean dropping;
         LetterData(float x, float yStart, float yEnd) {
+            this.pos = new Vector2(x, yStart);
             this.x = x;
             this.y = yStart;
             this.yStart = yStart;
@@ -83,12 +95,18 @@ public class TitleScreen extends BaseScreen {
     private final float doorOpenExplosionDuration = 1f;
     private final float signDropDuration = 2f;
 
+    private final Rectangle rampageTextRectStart = new Rectangle(640, 360, 0, 0);
+    private final Rectangle rampageTextRectEnd = new Rectangle(220, 360, 870, 312);
+    private final Rectangle rampageTextRect = new Rectangle(rampageTextRectStart);
+
     enum State { START, LETTER_DROP, DOOR_OPEN, SIGN_DROP, DONE }
     private State state = State.START;
 
     public TitleScreen() {
         super();
         titleScreenUI = new TitleScreenUI(100, 100, 200, 50, assets.font, TitleScreenUI.ButtonOrientation.HORIZONTAL);
+
+        particleMgr = new ParticleManager(assets);
 
         var atlas = assets.atlas;
         var backgroundDoorFrames = atlas.findRegions("title/title-screen-rampage-blank");
@@ -125,6 +143,8 @@ public class TitleScreen extends BaseScreen {
 
     @Override
     public void update(float delta) {
+        particleMgr.update(delta);
+
         var wasSkipButtonHeld = skipButtonHeld;
         skipButtonHeld = Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) || Gdx.input.isButtonPressed(Input.Buttons.LEFT);
 
@@ -144,6 +164,7 @@ public class TitleScreen extends BaseScreen {
                     // skip to 'done' state
                     showTinySign = true;
                     showRampageFullText = true;
+                    rampageTextRect.set(rampageTextRectEnd);
                     signPosY = windowCamera.viewportHeight - tinySign.getRegionHeight();
                     state = State.DONE;
                 }
@@ -195,13 +216,13 @@ public class TitleScreen extends BaseScreen {
                     letter.accum += delta;
                     var interp = Calc.clampf(letter.accum / letterDropDuration, 0f, 1f);
                     interp = Interpolation.bounceOut.apply(interp);
-                    letter.y = letter.yStart - interp * (letter.yStart - letter.yEnd);
-                    if (letter.y <= letter.yEnd) {
-                        letter.y = letter.yEnd;
+                    letter.pos.y = letter.yStart - interp * (letter.yStart - letter.yEnd);
+                    if (letter.pos.y <= letter.yEnd) {
+                        letter.pos.y = letter.yEnd;
                     }
 
                     // set letter done
-                    if (letter.y == letter.yEnd) {
+                    if (letter.pos.y == letter.yEnd) {
                         letter.dropped = true;
                         letter.dropping = false;
                     }
@@ -215,9 +236,16 @@ public class TitleScreen extends BaseScreen {
                 if (allLettersDropped) {
                     background = backgroundDoorOpen;
                     showRampageFullText = true;
-                    // NOTE: pv both effect/sound should last roughly 'doorOpenExplosionDuration' seconds
-                    // TODO: trigger an explosion particle effect here
-                    // TODO: pv - explosion sound
+
+                    Tween.to(rampageTextRect, RectangleAccessor.XYWH, doorOpenExplosionDuration)
+                        .target(rampageTextRectEnd.x, rampageTextRectEnd.y, rampageTextRectEnd.width, rampageTextRectEnd.height)
+                        .ease(Bounce.OUT)
+                        .start(tween);
+
+                    var smoke = particleMgr.effects.get(ParticleEffectType.SMOKE);
+                    smoke.spawn(new SmokeEffect.Params(640, 200, 10f, 200f, 2f, 200));
+                    Main.playSound(AudioManager.Sounds.collapse);
+
                     // TODO: if time for fancy, make 'rampage full text' 'expand' in to full size, in place, and send individual letters flying offscreen
                     state = State.DOOR_OPEN;
                 }
@@ -270,10 +298,10 @@ public class TitleScreen extends BaseScreen {
                     var texture = letterTextures.get(letterType);
 
                     // undropped letters stay offscreen, dropped letters stay in final position, dropping letter moves
-                    var letterX = letter.x;
+                    var letterX = letter.pos.x;
                     var letterY = letter.yStart;
                     if (letter.dropping) {
-                        letterY = letter.y;
+                        letterY = letter.pos.y;
                     } else if (letter.dropped) {
                         letterY = letter.yEnd;
                     }
@@ -283,12 +311,15 @@ public class TitleScreen extends BaseScreen {
             }
 
             if (showRampageFullText) {
-                batch.draw(rampageText, 220, 360);
+                batch.draw(rampageText, rampageTextRect.x, rampageTextRect.y, rampageTextRect.width, rampageTextRect.height);
             }
 
             if (showTinySign) {
                 batch.draw(tinySign, signPosX, signPosY);
             }
+
+            particleMgr.draw(batch, ParticleManager.Layer.BACKGROUND);
+            particleMgr.draw(batch, ParticleManager.Layer.FOREGROUND);
 
             if (state == State.DONE) {
                 titleScreenUI.draw(batch);

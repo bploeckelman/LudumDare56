@@ -47,6 +47,7 @@ public class Transition {
     private static ShaderProgram shader;
     private static BaseScreen next;
     private static float percent;
+    private static boolean instant;
 
     public static void init() {
         var prefix = "shaders/transitions/";
@@ -70,10 +71,11 @@ public class Transition {
         return percent < 1;
     }
 
-    public static void to(BaseScreen newScreen, Transition.Type type, float speed) {
+    public static void to(BaseScreen newScreen, Transition.Type type, boolean immediate) {
         if (inProgress()) return;
 
         percent = 0;
+        instant = immediate;
         next = newScreen;
         shader = (type == null) ? random() : get(type);
     }
@@ -81,7 +83,12 @@ public class Transition {
     public static void update(float dt) {
         if (!inProgress()) return;
 
-        percent += dt;
+        if (instant) {
+            percent = 1;
+        } else {
+            percent += dt;
+        }
+
         if (percent >= 1) {
             percent = 1;
 

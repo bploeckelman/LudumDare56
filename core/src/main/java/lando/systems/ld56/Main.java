@@ -4,9 +4,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -21,7 +19,6 @@ import lando.systems.ld56.assets.Assets;
 import lando.systems.ld56.assets.Transition;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.entities.EntityData;
-import lando.systems.ld56.entities.Player;
 import lando.systems.ld56.entities.components.Collider;
 import lando.systems.ld56.scene.Scene;
 import lando.systems.ld56.screens.*;
@@ -139,10 +136,14 @@ public class Main extends ApplicationAdapter {
     }
 
     public boolean setScreen(BaseScreen newScreen) {
-        return setScreen(newScreen, null, 0.5f);
+        return setScreen(newScreen, null, false);
     }
 
-    public boolean setScreen(BaseScreen newScreen, Transition.Type transitionType, float transitionSpeed) {
+    public boolean setScreen(BaseScreen newScreen, Transition.Type transitionType) {
+        return setScreen(newScreen, transitionType, false);
+    }
+
+    public boolean setScreen(BaseScreen newScreen, Transition.Type transitionType, boolean instant) {
         // nothing to transition from, just set the current screen
         if (currentScreen == null) {
             currentScreen = newScreen;
@@ -152,7 +153,7 @@ public class Main extends ApplicationAdapter {
         // only one transition allowed at a time
         if (Transition.inProgress()) return false;
 
-        Transition.to(newScreen, transitionType, transitionSpeed);
+        Transition.to(newScreen, transitionType, instant);
         return true;
     }
 

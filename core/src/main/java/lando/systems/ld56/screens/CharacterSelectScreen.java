@@ -201,7 +201,7 @@ public class CharacterSelectScreen extends BaseScreen {
     void launchGame(Scene.Type sceneType, Player.CreatureType creatureType) {
         if (!exitingScreen){
             exitingScreen = true;
-            game.setScreen(new GameScreen(sceneType, creatureType), Transition.Type.DOOMDRIP, 2f);
+            game.setScreen(new GameScreen(sceneType, creatureType), Transition.Type.DOOMDRIP);
 
         }
     }

@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld56.Config;
 import lando.systems.ld56.Main;
-import lando.systems.ld56.assets.Patches;
 import lando.systems.ld56.assets.Transition;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.particles.ParticleManager;
@@ -144,7 +143,7 @@ public class IntroScreen extends BaseScreen {
         if (!exitingScreen){
             audioManager.stopSound(AudioManager.Sounds.introNarration);
             exitingScreen = true;
-            game.setScreen(new CharacterSelectScreen(Scene.Type.MICROBIOME), Transition.Type.DOOMDRIP, 2f);
+            game.setScreen(new CharacterSelectScreen(Scene.Type.MICROBIOME), Transition.Type.DOOMDRIP);
 //            game.setScreen(new EndingScreen(), Transition.Type.DOOMDRIP, 2f);
         }
     }
