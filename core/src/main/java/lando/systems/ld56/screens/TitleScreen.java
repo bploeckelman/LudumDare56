@@ -17,6 +17,7 @@ import lando.systems.ld56.Main;
 import lando.systems.ld56.assets.Anims;
 import lando.systems.ld56.audio.AudioManager;
 import lando.systems.ld56.particles.ParticleManager;
+import lando.systems.ld56.particles.effects.CampfireFlameEffect;
 import lando.systems.ld56.particles.effects.ParticleEffectType;
 import lando.systems.ld56.particles.effects.SmokeEffect;
 import lando.systems.ld56.ui.TitleScreenUI;
@@ -244,6 +245,9 @@ public class TitleScreen extends BaseScreen {
 
                     var smoke = particleMgr.effects.get(ParticleEffectType.SMOKE);
                     smoke.spawn(new SmokeEffect.Params(640, 200, 10f, 200f, 2f, 200));
+
+                    var flame = particleMgr.effects.get(ParticleEffectType.CAMPFIRE_FLAME);
+                    flame.spawn(new CampfireFlameEffect.Params(640, 200));
                     Main.playSound(AudioManager.Sounds.collapse);
 
                     // TODO: if time for fancy, make 'rampage full text' 'expand' in to full size, in place, and send individual letters flying offscreen
